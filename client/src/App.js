@@ -1,25 +1,19 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Grid, Button } from 'semantic-ui-react';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <Grid>
+          <Grid.Row>
+            <Grid.Column width={10}>Column 10</Grid.Column>
+
+            <Grid.Column width={6}>
+              <Button primary>Button</Button>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
       </div>
     );
   }

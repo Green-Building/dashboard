@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Grid, Button } from 'semantic-ui-react';
 
 import Header from './component/Header';
+import MapWithASearchBox from './map';
+
 
 class App extends Component {
   render() {
@@ -17,6 +19,7 @@ class App extends Component {
             </Grid.Column>
           </Grid.Row>
         </Grid>
+        <MapWithASearchBox />
       </div>
     );
   }

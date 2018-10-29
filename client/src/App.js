@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import { Grid, Button } from 'semantic-ui-react';
 
 import Header from './component/Header';
@@ -6,6 +7,15 @@ import MapWithASearchBox from './map';
 
 
 class App extends Component {
+  componentDidMount() {
+    axios.get('/api/cars')
+    .then(response => {
+      console.log("response is >>>", response);
+    })
+    .catch(err => {
+      console.log("err is>>>", err);
+    })
+  }
   render() {
     return (
       <div className="App">

@@ -3,6 +3,7 @@ import Home from './pages/Home';
 import Building from './pages/Building';
 import Floor from './pages/Floor';
 import sensorStats from './pages/sensorStats';
+import sensorNetwork from './pages/SensorNetwork';
 
 const routes = {
   // base component (wrapper for the whole application).
@@ -23,7 +24,11 @@ const routes = {
     {
       path: '/sensor-data',
       component: sensorStats,
-    }
+    },
+    {
+      path: '/sensor-network',
+      component: sensorNetwork,
+    },
   ]
 };
 

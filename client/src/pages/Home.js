@@ -24,7 +24,7 @@ class Home extends Component {
         <Grid>
           <Grid.Row>
             <Grid.Column width={16}>
-            <MapWithASearchBox />
+              <MapWithASearchBox />
             </Grid.Column>
           </Grid.Row>
         </Grid>

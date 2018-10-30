@@ -19,12 +19,13 @@ class Home extends Component {
    console.log("hi>>>");
   }
   render() {
+    console.log("this.props>>>", this.props);
     return (
       <div>
         <Grid>
           <Grid.Row>
             <Grid.Column width={16}>
-              <MapWithASearchBox />
+              <MapWithASearchBox router={this.props.router}/>
             </Grid.Column>
           </Grid.Row>
         </Grid>

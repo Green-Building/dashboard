@@ -25,6 +25,10 @@ const floorOptions =[
 const SelectFloor = () => <Select placeholder='Select a floor' options={floorOptions} />
 
 class Building extends Component {
+
+  goToFloor = () => {
+    this.props.router.push('/floor');
+  }
   render() {
     return (
       <div>
@@ -49,6 +53,11 @@ class Building extends Component {
           <Grid.Row>
             <Grid.Column width={8}>
               <SelectFloor />
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+            <Grid.Column width={8}>
+              <Button onClick={this.goToFloor}>Goto Floor</Button>
             </Grid.Column>
           </Grid.Row>
         </Grid>

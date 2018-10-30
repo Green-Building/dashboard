@@ -1,5 +1,5 @@
 import React from 'react';
-const _ = require("lodash");
+import _ from 'lodash';
 const { compose, withProps, lifecycle } = require("recompose");
 const {
   withScriptjs,
@@ -23,7 +23,7 @@ const MapWithASearchBox = compose(
       this.setState({
         bounds: null,
         center: {
-          lat: 41.9, lng: -87.624
+          lat: 37.77, lng: -122.42
         },
         markers: [],
         onMapMounted: ref => {
@@ -35,6 +35,11 @@ const MapWithASearchBox = compose(
             center: refs.map.getCenter(),
           })
         },
+        onMarkerClick: (index) => {
+          console.log("this.props>>>", this.props);
+          console.log("clicked>>", this.state.markers[index]);
+          this.props.router.push('/building');
+        },
         onSearchBoxMounted: ref => {
           refs.searchBox = ref;
         },
@@ -43,20 +48,25 @@ const MapWithASearchBox = compose(
           const bounds = new window.google.maps.LatLngBounds();
 
           places.forEach(place => {
+            console.log("place viewport >>>>", place.geometry.viewport);
+            console.log("place location >>>>", place.geometry.location);
             if (place.geometry.viewport) {
-              bounds.union(place.geometry.viewport)
+              bounds.union(place.geometry.viewport);
             } else {
-              bounds.extend(place.geometry.location)
+              bounds.extend(place.geometry.location);
             }
           });
           const nextMarkers = places.map(place => ({
             position: place.geometry.location,
           }));
+
+          console.log("nextMarkers >>>", nextMarkers[0].position.lat(), nextMarkers[0].position.lng());
+
           const nextCenter = _.get(nextMarkers, '0.position', this.state.center);
 
           this.setState({
-            center: nextCenter,
-            markers: nextMarkers,
+            center: {lat: 37.3351874, lng: -121.88107150000002},
+            markers: [{position: {lat: 37.3351874, lng: -121.88107150000002}}],
           });
           // refs.map.fitBounds(bounds);
         },
@@ -96,9 +106,11 @@ const MapWithASearchBox = compose(
         }}
       />
     </SearchBox>
-    {props.markers.map((marker, index) =>
-      <Marker key={index} position={marker.position} />
-    )}
+    {_.map(props.markers,(marker, index) => {
+      console.log("marker is >>>", marker);
+      console.log("index is >>>", index);
+      return <Marker key={index} position={marker.position} onClick={()=>props.onMarkerClick(index)}/>;
+    })}
   </GoogleMap>
 );
 

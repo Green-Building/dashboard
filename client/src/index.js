@@ -1,7 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import { browserHistory, Router } from 'react-router';
 import 'semantic-ui-css/semantic.min.css';
-import App from './App';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import './index.css';
+import routes from './routes.js';
+
+ReactDOM.render((
+  <Router history={browserHistory} routes={routes} />
+), document.getElementById('root'));

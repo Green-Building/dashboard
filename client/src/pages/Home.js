@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Grid, Button } from 'semantic-ui-react';
 
-import Header from './component/Header';
-import MapWithASearchBox from './map';
+import MapWithASearchBox from '../component/Map';
 
 
-class App extends Component {
+class Home extends Component {
   componentDidMount() {
+    /*
     axios.get('/api/cars')
     .then(response => {
       console.log("response is >>>", response);
@@ -15,24 +15,22 @@ class App extends Component {
     .catch(err => {
       console.log("err is>>>", err);
     })
+    */
+   console.log("hi>>>");
   }
   render() {
     return (
-      <div className="App">
-        <Header />
+      <div>
         <Grid>
           <Grid.Row>
-            <Grid.Column width={10}>Column 10</Grid.Column>
-
-            <Grid.Column width={6}>
-              <Button primary>Button</Button>
+            <Grid.Column width={16}>
+            <MapWithASearchBox />
             </Grid.Column>
           </Grid.Row>
         </Grid>
-        <MapWithASearchBox />
       </div>
     );
   }
 }
 
-export default App;
+export default Home;

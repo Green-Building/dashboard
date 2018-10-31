@@ -7,16 +7,14 @@ import MapWithASearchBox from '../component/Map';
 
 class Home extends Component {
   componentDidMount() {
-    /*
-    axios.get('/api/cars')
+    axios.get('/clusters')
     .then(response => {
-      console.log("response is >>>", response);
+      console.log("response is >>>", response.data);
     })
     .catch(err => {
       console.log("err is>>>", err);
     })
-    */
-   console.log("hi>>>");
+    console.log("hi>>>");
   }
   render() {
     console.log("this.props>>>", this.props);

@@ -7,7 +7,7 @@ import MapWithASearchBox from '../component/Map';
 
 class Home extends Component {
   componentDidMount() {
-    axios.get('/clusters')
+    axios.get('http://localhost:8080/clusters')
     .then(response => {
       console.log("response is >>>", response.data);
     })

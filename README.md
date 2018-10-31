@@ -1,5 +1,8 @@
 DASHBOARD
 
+http://greenbuilding-cmpe281.s3-website-us-west-1.amazonaws.com
+
+
 Get front end running in Mac OSX
 
 * Install Homebrew

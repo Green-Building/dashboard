@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
 import { Form } from 'semantic-ui-react';
-import {
-  DateTimeInput,
-} from 'semantic-ui-calendar-react';
 
 export default class SelectTimeRange extends Component {
   state = {

@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+import axios from 'axios';
 const { compose, withProps, lifecycle } = require("recompose");
 const {
   withScriptjs,
@@ -48,27 +49,44 @@ const MapWithASearchBox = compose(
           const bounds = new window.google.maps.LatLngBounds();
 
           places.forEach(place => {
-            console.log("place viewport >>>>", place.geometry.viewport);
-            console.log("place location >>>>", place.geometry.location);
             if (place.geometry.viewport) {
               bounds.union(place.geometry.viewport);
             } else {
               bounds.extend(place.geometry.location);
             }
           });
-          const nextMarkers = places.map(place => ({
-            position: place.geometry.location,
-          }));
 
-          console.log("nextMarkers >>>", nextMarkers[0].position.lat(), nextMarkers[0].position.lng());
+          const place = places[0];
+          console.log("place is >>>", place.geometry.location.lng(), place.geometry.location.lat());
+          axios(`http://localhost:4001/buildings`, {
+            method: 'GET',
+            data: {
+              longitude: place.geometry.location.lng(),
+              lattitude:  place.geometry.location.lat(),
+            },
+          })
+          .then(response => {
 
-          const nextCenter = _.get(nextMarkers, '0.position', this.state.center);
+            const buildings = response.data.buildings;
+            /*
+            _.forEach(buildings, building => {
+              console.log("building.location>>", building.position);
+              bounds.extend(new window.google.maps.LatLng(building.position.lat, building.position.lng));
+            });
+            */
+            bounds.extend(new window.google.maps.LatLng(38, -123));
+            console.log("refs.map>>>", refs.map);
+            refs.map.fitBounds(bounds);
 
-          this.setState({
-            center: {lat: 37.3351874, lng: -121.88107150000002},
-            markers: [{position: {lat: 37.3351874, lng: -121.88107150000002}}],
+            this.setState({
+              center: {lat: place.geometry.location.lat(), lng:  place.geometry.location.lng()},
+              markers: buildings,
+            });
+          })
+          .catch(err => {
+            console.log("error getting adjacent buildings>>", err);
           });
-          // refs.map.fitBounds(bounds);
+
         },
       })
     },

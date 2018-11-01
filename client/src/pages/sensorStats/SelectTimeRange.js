@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Form } from 'semantic-ui-react';
+import axios from 'axios';
 
 export default class SelectTimeRange extends Component {
   state = {
@@ -20,6 +21,21 @@ export default class SelectTimeRange extends Component {
   onSubmit = (event) => {
     event.preventDefault();
     console.log("this.state is >>>", this.state);
+    axios(`http://localhost:8080/proj/DataTransferServlet`, {
+      method: 'GET',
+      params: {
+        idType:'sensor',
+        id: 123,
+        startTime: new Date('2018-10-04T11:11'),
+        endTime: new Date('2018-10-18T17:10')
+      },
+    })
+    .then(response => {
+      console.log("response is >>>", response.data);
+    })
+    .catch(err => {
+      console.log("err is>>>", err);
+    })
   }
 
   render() {

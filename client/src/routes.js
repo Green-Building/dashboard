@@ -14,11 +14,11 @@ const routes = {
       component: Home,
     },
     {
-      path: '/building',
+      path: '/building/:building_id',
       component: Building,
     },
     {
-      path: '/floor',
+      path: '/floor/:floor_id',
       component: Floor,
     },
     {

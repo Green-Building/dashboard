@@ -40,7 +40,7 @@ app.post("/buildings", (req, res) => {
  return Promise.resolve(SensorData.find({}))
   .then(docs => {
     console.log("docs is >>>", docs);
-    return db.sequelize.query("SELECT longitude, latitude, SQRT(POW(69.1 * (latitude - :startlat), 2) + POW(69.1 * (:startlng - longitude) * COS(latitude / 57.3), 2)) AS distance FROM building HAVING distance < 5 ORDER BY distance;",
+    return db.sequelize.query("SELECT building.*, SQRT(POW(69.1 * (latitude - :startlat), 2) + POW(69.1 * (:startlng - longitude) * COS(latitude / 57.3), 2)) AS distance FROM building HAVING distance < 5 ORDER BY distance;",
       { replacements: { startlat: latitude, startlng:  longitude }, type: db.sequelize.QueryTypes.SELECT }
     );
   })
@@ -48,6 +48,7 @@ app.post("/buildings", (req, res) => {
     console.log("building >>>", buildings);
     buildings = _.map(buildings, building => {
       return {
+        building: building,
         position: {
           lat: building.latitude,
           lng: building.longitude,
@@ -58,7 +59,22 @@ app.post("/buildings", (req, res) => {
     res.json({buildings});
   });
 
-})
+});
+
+app.get('/buildings/:building_id', (req, res) => {
+  const building_id = req.params.building_id;
+  return db.building.findOne({
+    where: {
+      id: building_id
+    },
+  })
+  .then(building => {
+    res.json(building);
+  })
+  .catch(err => {
+    console.log("err fetching building>>>", err);
+  })
+});
 
 mongoose.connect('mongodb://localhost/greenBuilding');
 db.sequelize.sync().then(() => {

@@ -1,33 +1,45 @@
 import React, { Component } from 'react';
-import { Grid, Button, Card, Icon, Image, Select } from 'semantic-ui-react';
+import { Grid, Button, Card, Icon, Image, Dropdown } from 'semantic-ui-react';
+import axios from 'axios';
 
-// [{ key: 'af', value: 'af', flag: 'af', text: 'Afghanistan' }, ...{}]
 const floorOptions =[
   {
     key: "First Floor",
     value: 1,
-    flag: 'us',
     text: 'First Floor',
   },
   {
     key: "Second Floor",
     value: 2,
-    flag: 'us',
-    text: "Second Floor"
+    text: 'Second Floor',
   },
   {
     key: "Third Floor",
     value: 3,
-    flag: 'us',
-    text: "Third Floor",
+    text: 'Third Floor',
   },
 ];
-const SelectFloor = () => <Select placeholder='Select a floor' options={floorOptions} />
 
 class Building extends Component {
+  state ={ building: {}, floor: null};
+  componentDidMount() {
+    const { building_id } = this.props.params;
+    return axios.get(`/buildings/${building_id}`)
+    .then(building => {
+      console.log("building is >>>", building);
+      this.setState({ building});
+    })
+    .catch()
+  }
+
+  handleFloorChange = (event, data) => {
+    console.log("event>>", event.target.value);
+    console.log('data is >>>', data);
+    this.setState({floor: data.value});
+  }
 
   goToFloor = () => {
-    this.props.router.push('/floor');
+    this.props.router.push(`/floor/${this.state.floor}`);
   }
   render() {
     return (
@@ -52,7 +64,11 @@ class Building extends Component {
           </Grid.Row>
           <Grid.Row>
             <Grid.Column width={8}>
-              <SelectFloor />
+              <Dropdown
+                placeholder='Select a floor'
+                value={this.state.floor}
+                options={floorOptions}
+                onChange={this.handleFloorChange} />
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>

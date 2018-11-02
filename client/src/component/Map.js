@@ -39,7 +39,8 @@ const MapWithASearchBox = compose(
         onMarkerClick: (index) => {
           console.log("this.props>>>", this.props);
           console.log("clicked>>", this.state.markers[index]);
-          this.props.router.push('/building');
+          const id =  this.state.markers[index].building.id;
+          this.props.router.push(`/building/${id}`);
         },
         onSearchBoxMounted: ref => {
           refs.searchBox = ref;

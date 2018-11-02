@@ -22,10 +22,6 @@ module.exports = function(sequelize, DataTypes) {
     tableName: 'building',
     classMethods: {
       associate: function(models) {
-        Building.hasMany(models.cluster, {
-          foreignKey: 'building_id',
-          allowNull: false,
-        });
       },
     },
   });

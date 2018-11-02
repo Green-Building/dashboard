@@ -90,7 +90,23 @@ app.get('/clusters/:cluster_id', (req, res) => {
   .catch(err => {
     console.log("err fetching building>>>", err);
   })
-})
+});
+
+app.get('/nodes/:node_id', (req, res) => {
+  const node_id= req.params.node_id;
+  return db.node.findOne({
+    where: {
+      id: node_id
+    },
+    include: [ {model: db.cluster, as: 'cluster'} ]
+  })
+  .then(node => {
+    res.json(node);
+  })
+  .catch(err => {
+    console.log("err fetching building>>>", err);
+  })
+});
 
 mongoose.connect('mongodb://localhost/greenBuilding');
 db.sequelize.sync().then(() => {

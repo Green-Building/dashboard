@@ -63,54 +63,6 @@ app.post("/buildings", (req, res) => {
     console.log('buildings>>>', buildings);
     res.json({buildings});
   });
-
-});
-
-app.get('/buildings/:building_id', (req, res) => {
-  const building_id = req.params.building_id;
-  return db.building.findOne({
-    where: {
-      id: building_id
-    },
-  })
-  .then(building => {
-    res.json(building);
-  })
-  .catch(err => {
-    console.log("err fetching building>>>", err);
-  })
-});
-
-app.get('/clusters/:cluster_id', (req, res) => {
-  const cluster_id= req.params.cluster_id;
-  return db.cluster.findOne({
-    where: {
-      id: cluster_id
-    },
-    include: [ {model: db.building, as: 'building'} ]
-  })
-  .then(cluster => {
-    res.json(cluster);
-  })
-  .catch(err => {
-    console.log("err fetching building>>>", err);
-  })
-});
-
-app.get('/nodes/:node_id', (req, res) => {
-  const node_id= req.params.node_id;
-  return db.node.findOne({
-    where: {
-      id: node_id
-    },
-    include: [ {model: db.cluster, as: 'cluster'} ]
-  })
-  .then(node => {
-    res.json(node);
-  })
-  .catch(err => {
-    console.log("err fetching building>>>", err);
-  })
 });
 
 mongoose.connect('mongodb://localhost/greenBuilding');

@@ -6,6 +6,7 @@ const Promise = require('bluebird');
 const _ = require('lodash');
 const cors = require('cors');
 mongoose.Promise = Promise;
+const apiRouter = require('./routes/api-routes');
 const SensorData = require('./mongoModels/SensorData');
 const { getSensor } = require('./controllers/sensorConfig.ctlr');
 
@@ -17,6 +18,9 @@ app.use(logger('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.text());
 app.use(bodyParser.json());
+
+app.use(apiRouter);
+
 app.set('port', (process.env.PORT || 4001));
 
 app.post("/buildings", (req, res) => {
@@ -108,8 +112,6 @@ app.get('/nodes/:node_id', (req, res) => {
     console.log("err fetching building>>>", err);
   })
 });
-
-app.get('/sensors/:sensor_id', getSensor);
 
 mongoose.connect('mongodb://localhost/greenBuilding');
 db.sequelize.sync().then(() => {

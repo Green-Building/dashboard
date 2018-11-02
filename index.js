@@ -7,6 +7,7 @@ const _ = require('lodash');
 const cors = require('cors');
 mongoose.Promise = Promise;
 const SensorData = require('./mongoModels/SensorData');
+const { getSensor } = require('./controllers/sensorConfig.ctlr');
 
 const db = require('./models');
 
@@ -108,21 +109,7 @@ app.get('/nodes/:node_id', (req, res) => {
   })
 });
 
-app.get('/sensors/:sensor_id', (req, res) => {
-  const sensor_id= req.params.sensor_id;
-  return db.sensor.findOne({
-    where: {
-      id: sensor_id
-    },
-    include: [ {model: db.node, as: 'node'} ]
-  })
-  .then(sensor => {
-    res.json(sensor);
-  })
-  .catch(err => {
-    console.log("err fetching building>>>", err);
-  })
-});
+app.get('/sensors/:sensor_id', getSensor);
 
 mongoose.connect('mongodb://localhost/greenBuilding');
 db.sequelize.sync().then(() => {

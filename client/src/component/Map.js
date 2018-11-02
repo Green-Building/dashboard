@@ -58,11 +58,10 @@ const MapWithASearchBox = compose(
 
           const place = places[0];
           console.log("place is >>>", place.geometry.location.lng(), place.geometry.location.lat());
-          axios(`http://localhost:4001/buildings`, {
-            method: 'GET',
+          axios.post('http://localhost:4001/buildings', {
             data: {
               longitude: place.geometry.location.lng(),
-              lattitude:  place.geometry.location.lat(),
+              latitude:  place.geometry.location.lat(),
             },
           })
           .then(response => {

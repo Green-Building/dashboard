@@ -21,6 +21,7 @@ export default class SelectTimeRange extends Component {
   onSubmit = (event) => {
     event.preventDefault();
     console.log("this.state is >>>", this.state);
+    /*
     axios(`http://localhost:8080/proj/DataTransferServlet`, {
       method: 'GET',
       params: {
@@ -36,6 +37,7 @@ export default class SelectTimeRange extends Component {
     .catch(err => {
       console.log("err is>>>", err);
     })
+    */
   }
 
   render() {

@@ -7,6 +7,7 @@ import MapWithASearchBox from '../component/Map';
 
 class Home extends Component {
   componentDidMount() {
+    /*
     axios.get('http://localhost:8080/clusters')
     .then(response => {
       console.log("response is >>>", response.data);
@@ -15,6 +16,7 @@ class Home extends Component {
       console.log("err is>>>", err);
     })
     console.log("hi>>>");
+    */
   }
   render() {
     console.log("this.props>>>", this.props);

@@ -1,5 +1,6 @@
 // Require dependencies
 const mongoose = require('mongoose');
+mongoose.Promise = Promise;
 const Schema = mongoose.Schema;
 
 // Define Article schema

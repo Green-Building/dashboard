@@ -11,6 +11,8 @@ router
   .get('/nodes/:node_id', nodeConfig.getNode)
 
   .get('/clusters/:cluster_id', clusterConfig.getCluster)
+  .post('/clusters/add', clusterConfig.addCluster)
+  .put('/clusters/:cluster_id', clusterConfig.updateCluster)
 
   .get('/buildings/:building_id', buildingConfig.getBuilding)
   .post('/buildings/add', buildingConfig.addBuilding)

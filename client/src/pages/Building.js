@@ -1,35 +1,36 @@
 import React, { Component } from 'react';
-import { Container, Grid, Button, Card, Icon, Image, Dropdown } from 'semantic-ui-react';
+import _ from 'lodash';
+import { Container, Grid, Button, Card, Icon, Image, Dropdown, Table, Label } from 'semantic-ui-react';
 import axios from 'axios';
 
-const floorOptions =[
-  {
-    key: "First Floor",
-    value: 1,
-    text: 'First Floor',
-  },
-  {
-    key: "Second Floor",
-    value: 2,
-    text: 'Second Floor',
-  },
-  {
-    key: "Third Floor",
-    value: 3,
-    text: 'Third Floor',
-  },
-];
+import ClusterModal from './configManager/clusterModal';
 
 class Building extends Component {
-  state ={ building: {}, floor: null};
+  state = {
+    building: {},
+    floor: null,
+    clusters: [],
+    availableFloors: [],
+    showModal: false,
+  };
   componentDidMount() {
     const { building_id } = this.props.params;
-    return axios.get(`/buildings/${building_id}`)
+    return axios.get(`/buildings/${building_id}?fetch_clusters=true`)
     .then(response => {
       console.log("building is >>>", response.data);
-      this.setState({ building: response.data });
+      console.log(_.range(1, response.data.num_of_floors+1))
+      let floors = _.range(1, response.data.num_of_floors+1);
+      let usedFloors = _.map(response.data.clusters, cluster=>{
+        return +cluster.floor;
+      })
+      let unusedFloors = _.difference(floors, usedFloors);
+      this.setState({ building: response.data, clusters: response.data.clusters, availableFloors: unusedFloors });
     })
     .catch()
+  }
+
+  showModal = () => {
+    this.setState({showModal: true})
   }
 
   handleFloorChange = (event, data) => {
@@ -42,6 +43,13 @@ class Building extends Component {
     this.props.router.push(`/floor/${this.state.floor}`);
   }
   render() {
+    const floorOptions = _.map(this.state.availableFloors, floor => {
+      return {
+        key: `Floor ${floor}`,
+        value: floor,
+        text: `Floor ${floor}`,
+      }
+    })
     return (
       <Container>
         <Grid>
@@ -56,10 +64,40 @@ class Building extends Component {
               <Card.Content extra>
                 <a>
                   <Icon name='user' />
-                  8 Floors
+                  {this.state.building.num_of_floors}
                 </a>
               </Card.Content>
             </Card>
+            </Grid.Column>
+            <Grid.Column width={8}>
+              <Table celled>
+                <Table.Header>
+                  <Table.Row>
+                    <Table.HeaderCell>Floor</Table.HeaderCell>
+                    <Table.HeaderCell>Cluster Name</Table.HeaderCell>
+                    <Table.HeaderCell>Status</Table.HeaderCell>
+                    <Table.HeaderCell>Update</Table.HeaderCell>
+                    <Table.HeaderCell>Delete</Table.HeaderCell>
+                  </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                  {_.map(this.state.building.clusters, (cluster, index)=>{
+                    return (
+                      <Table.Row>
+                        <Table.Cell>
+                          <Label ribbon={index===0}>{cluster.floor}</Label>
+                        </Table.Cell>
+                        <Table.Cell>{cluster.name}</Table.Cell>
+                        <Table.Cell>{cluster.status}</Table.Cell>
+                        <Table.Cell>
+                        <ClusterModal buildingId={this.props.params.building_id} cluster={cluster} />
+                        </Table.Cell>
+                        <Table.Cell>Delete</Table.Cell>
+                      </Table.Row>
+                    )
+                  })}
+                </Table.Body>
+              </Table>
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
@@ -73,6 +111,7 @@ class Building extends Component {
           </Grid.Row>
           <Grid.Row>
             <Grid.Column width={8}>
+              <ClusterModal isNew buildingId={this.props.params.building_id} cluster={{}} />
               <Button onClick={this.goToFloor}>Goto Floor</Button>
             </Grid.Column>
           </Grid.Row>

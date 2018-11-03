@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Grid, Button } from 'semantic-ui-react';
+import { Container, Grid, Button } from 'semantic-ui-react';
 
 import MapWithASearchBox from '../component/Map';
 
@@ -21,7 +21,7 @@ class Home extends Component {
   render() {
     console.log("this.props>>>", this.props);
     return (
-      <div>
+      <Container>
         <Grid>
           <Grid.Row>
             <Grid.Column width={16}>
@@ -29,7 +29,7 @@ class Home extends Component {
             </Grid.Column>
           </Grid.Row>
         </Grid>
-      </div>
+      </Container>
     );
   }
 }

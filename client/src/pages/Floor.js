@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import {scaleLinear} from 'd3-scale';
-import { Button } from 'semantic-ui-react';
+import { scaleLinear } from 'd3-scale';
+import { Container, Button } from 'semantic-ui-react';
 import {XYPlot, XAxis, YAxis, HeatmapSeries, LabelSeries} from 'react-vis';
 
 const alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
@@ -32,39 +32,41 @@ class Floor extends Component {
   }
   render() {
     return (
-      <XYPlot
-        xType="ordinal"
-        xDomain={alphabet.map(letter => `${letter}1`)}
-        yType="ordinal"
-        yDomain={alphabet.map(letter => `${letter}2`).reverse()}
-        margin={50}
-        width={500}
-        height={500}
-      >
-        <XAxis orientation="top" />
-        <YAxis />
-        <HeatmapSeries
-          colorType="literal"
-          getColor={d => exampleColorScale(d.color)}
-          style={{
-            stroke: 'white',
-            strokeWidth: '2px',
-            rectStyle: {
-              rx: 10,
-              ry: 10
-            }
-          }}
-          className="heatmap-series-example"
-          data={data}
-        />
-        <LabelSeries
-          data={data}
-          labelAnchorX="middle"
-          labelAnchorY="baseline"
-          getLabel={d => `${d.color}`}
-        />
-        <Button onClick={this.goToSensorStats}>Goto Sensor Stats</Button>
-      </XYPlot>
+      <Container>
+        <XYPlot
+          xType="ordinal"
+          xDomain={alphabet.map(letter => `${letter}1`)}
+          yType="ordinal"
+          yDomain={alphabet.map(letter => `${letter}2`).reverse()}
+          margin={50}
+          width={500}
+          height={500}
+        >
+          <XAxis orientation="top" />
+          <YAxis />
+          <HeatmapSeries
+            colorType="literal"
+            getColor={d => exampleColorScale(d.color)}
+            style={{
+              stroke: 'white',
+              strokeWidth: '2px',
+              rectStyle: {
+                rx: 10,
+                ry: 10
+              }
+            }}
+            className="heatmap-series-example"
+            data={data}
+          />
+          <LabelSeries
+            data={data}
+            labelAnchorX="middle"
+            labelAnchorY="baseline"
+            getLabel={d => `${d.color}`}
+          />
+          <Button onClick={this.goToSensorStats}>Goto Sensor Stats</Button>
+        </XYPlot>
+      </Container>
     );
   }
 }

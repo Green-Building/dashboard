@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid } from 'semantic-ui-react';
+import { Container, Grid } from 'semantic-ui-react';
 
 import SelectTimeRange from './SelectTimeRange';
 import BarChart from './BarChart';
@@ -10,7 +10,7 @@ import PieChart from './PieChart';
 class sensorStats extends Component {
   render() {
     return (
-      <div>
+      <Container>
         <Grid>
           <Grid.Row>
             <Grid.Column width={8}>
@@ -32,7 +32,7 @@ class sensorStats extends Component {
             </Grid.Column>
           </Grid.Row>
         </Grid>
-      </div>
+      </Container>
     );
   }
 }

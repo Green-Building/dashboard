@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Button, Card, Icon, Image, Dropdown } from 'semantic-ui-react';
+import { Container, Grid, Button, Card, Icon, Image, Dropdown } from 'semantic-ui-react';
 import axios from 'axios';
 
 const floorOptions =[
@@ -43,7 +43,7 @@ class Building extends Component {
   }
   render() {
     return (
-      <div>
+      <Container>
         <Grid>
           <Grid.Row>
             <Grid.Column width={8}>
@@ -77,7 +77,7 @@ class Building extends Component {
             </Grid.Column>
           </Grid.Row>
         </Grid>
-      </div>
+      </Container>
     );
   }
 }

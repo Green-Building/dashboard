@@ -17,5 +17,6 @@ router
   .post('/buildings', buildingConfig.searchBuildingByLatLng)
 
   .post('/sensor-data/add', sensorDataMgmt.insertSensorData)
+  .post('/sensor-data/bulk-add', sensorDataMgmt.bulkInsertSensorData)
 
 module.exports = router;

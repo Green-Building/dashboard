@@ -25,9 +25,9 @@ class Building extends Component {
   componentDidMount() {
     const { building_id } = this.props.params;
     return axios.get(`/buildings/${building_id}`)
-    .then(building => {
-      console.log("building is >>>", building);
-      this.setState({ building});
+    .then(response => {
+      console.log("building is >>>", response.data);
+      this.setState({ building: response.data });
     })
     .catch()
   }
@@ -51,7 +51,7 @@ class Building extends Component {
               <Image src='https://c2.staticflickr.com/4/3076/2849949216_dbf836dec1_z.jpg?zz=1' />
               <Card.Content>
                 <Card.Header>San Jose MLK Library</Card.Header>
-                <Card.Description>San Jose MLK Library is library next to SJSU.</Card.Description>
+                <Card.Description>{this.state.building.address}</Card.Description>
               </Card.Content>
               <Card.Content extra>
                 <a>

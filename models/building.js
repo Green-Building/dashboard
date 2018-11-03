@@ -14,7 +14,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INT,
       allowNull:false,
       defaultValue: 1,
-    }
+    },
     latitude: {
       type: DataTypes.DOUBLE,
     },

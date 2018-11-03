@@ -12,10 +12,10 @@ module.exports = {
         type: Sequelize.STRING
       },
       num_of_floors: {
-        type: Sequelize.INT,
+        type: Sequelize.INTEGER,
         allowNull:false,
-        defaultValue: 1,
-      }
+        defaultValue: 1
+      },
       latitude: {
         type: Sequelize.DOUBLE,
       },

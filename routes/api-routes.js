@@ -12,6 +12,7 @@ router
   .get('/clusters/:cluster_id', clusterConfig.getCluster)
 
   .get('/buildings/:building_id', buildingConfig.getBuilding)
+  .post('/buildings/add', buildingConfig.addBuilding)
   .post('/buildings', buildingConfig.searchBuildingByLatLng)
 
 module.exports = router;

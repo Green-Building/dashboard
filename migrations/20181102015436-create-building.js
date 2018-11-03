@@ -11,6 +11,11 @@ module.exports = {
       address: {
         type: Sequelize.STRING
       },
+      num_of_floors: {
+        type: Sequelize.INT,
+        allowNull:false,
+        defaultValue: 1,
+      }
       latitude: {
         type: Sequelize.DOUBLE,
       },

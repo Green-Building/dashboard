@@ -10,6 +10,11 @@ module.exports = function(sequelize, DataTypes) {
     address: {
       type: DataTypes.STRING,
     },
+    num_of_floors: {
+      type: DataTypes.INT,
+      allowNull:false,
+      defaultValue: 1,
+    }
     latitude: {
       type: DataTypes.DOUBLE,
     },

@@ -11,7 +11,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
     },
     num_of_floors: {
-      type: DataTypes.INT,
+      type: DataTypes.INTEGER,
       allowNull:false,
       defaultValue: 1,
     },

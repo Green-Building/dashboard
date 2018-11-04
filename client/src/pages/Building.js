@@ -8,11 +8,12 @@ import ClusterModal from './configManager/clusterModal';
 class Building extends Component {
   state = {
     building: {},
-    floor: null,
+    floor: {selected: null},
     clusters: [],
     availableFloors: [],
     showModal: false,
-  };
+  }
+
   componentDidMount() {
     const { building_id } = this.props.params;
     return axios.get(`/buildings/${building_id}?fetch_clusters=true`)
@@ -36,7 +37,7 @@ class Building extends Component {
   handleFloorChange = (event, data) => {
     console.log("event>>", event.target.value);
     console.log('data is >>>', data);
-    this.setState({floor: data.value});
+    this.setState({floor: {selected: data.value}});
   }
 
   goToFloor = () => {
@@ -90,7 +91,7 @@ class Building extends Component {
                         <Table.Cell>{cluster.name}</Table.Cell>
                         <Table.Cell>{cluster.status}</Table.Cell>
                         <Table.Cell>
-                        <ClusterModal buildingId={this.props.params.building_id} cluster={cluster} />
+                          <ClusterModal buildingId={this.props.params.building_id} floor={this.state.floor} cluster={cluster} />
                         </Table.Cell>
                         <Table.Cell>Delete</Table.Cell>
                       </Table.Row>
@@ -104,14 +105,14 @@ class Building extends Component {
             <Grid.Column width={8}>
               <Dropdown
                 placeholder='Select a floor'
-                value={this.state.floor}
+                value={this.state.floor.selected}
                 options={floorOptions}
                 onChange={this.handleFloorChange} />
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
             <Grid.Column width={8}>
-              <ClusterModal isNew buildingId={this.props.params.building_id} cluster={{}} />
+              <ClusterModal isNew buildingId={this.props.params.building_id} floor={this.state.floor} cluster={{}} />
               <Button onClick={this.goToFloor}>Goto Floor</Button>
             </Grid.Column>
           </Grid.Row>

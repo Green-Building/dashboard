@@ -7,6 +7,7 @@ const sensorDataMgmt = require('../controllers/sensorData.ctlr');
 
 router
   .get('/sensors/:sensor_id', sensorConfig.getSensor)
+  .post('/sensors/add', sensorConfig.addSensor)
 
   .get('/nodes/:node_id', nodeConfig.getNode)
   .post('/nodes/add', nodeConfig.addNode)

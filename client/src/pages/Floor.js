@@ -58,6 +58,10 @@ class Floor extends Component {
   handleValueClick(d, event) {
     console.log("d is>>>", d);
     console.log("event is>>>", event);
+    let node = _.find(this.state.nodes, {room: d.label});
+    console.log("node is >>>", node);
+    console.log("this.state.cluster is>>>", this.state.cluster);
+    this.props.router.push(`/building/${this.state.cluster.building_id}/cluster/${this.state.cluster.id}/node/${node.id}`);
   }
 
   handleChange = (event, data) => {

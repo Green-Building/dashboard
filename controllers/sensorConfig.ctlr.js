@@ -16,6 +16,20 @@ const getSensor = (req, res) => {
   })
 };
 
+const addSensor = (req, res) => {
+  console.log("req.body is>>>", req.body.data);
+  const newSensor = req.body.data;
+  return db.sensor.create(newSensor)
+  .then(response =>{
+    console.log("response creating a new sensor is >>>", response);
+    res.json(response);
+  })
+  .catch(err => {
+    console.log("error creating a new sensor>>", err);
+  })
+}
+
 module.exports = {
   getSensor,
+  addSensor,
 }

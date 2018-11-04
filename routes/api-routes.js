@@ -9,6 +9,7 @@ router
   .get('/sensors/:sensor_id', sensorConfig.getSensor)
 
   .get('/nodes/:node_id', nodeConfig.getNode)
+  .post('/nodes/add', nodeConfig.addNode)
 
   .get('/clusters/cluster_from_floor', clusterConfig.getClusterFromFloor)
   .get('/clusters/:cluster_id', clusterConfig.getCluster)

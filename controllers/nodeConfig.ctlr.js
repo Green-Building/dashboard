@@ -16,6 +16,20 @@ const getNode = (req, res) => {
   })
 };
 
+const addNode = (req, res) => {
+  console.log("req.body is>>>", req.body.data);
+  const newNode = req.body.data;
+  return db.node.create(newNode)
+  .then(response =>{
+    console.log("response creating a new Node is >>>", response);
+    res.json(response);
+  })
+  .catch(err => {
+    console.log("error creating a new node>>", err);
+  })
+}
+
 module.exports = {
   getNode,
+  addNode,
 }

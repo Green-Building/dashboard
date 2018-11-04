@@ -27,7 +27,9 @@ class Building extends Component {
       let unusedFloors = _.difference(floors, usedFloors);
       this.setState({ building: response.data, clusters: response.data.clusters, availableFloors: unusedFloors });
     })
-    .catch()
+    .catch(err => {
+      console.log("error is>>", err);
+    })
   }
 
   showModal = () => {

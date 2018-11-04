@@ -48,8 +48,13 @@ class Node extends Component {
     this.props.router.push('/sensor-data');
   }
 
-  handleNodeClick = () => {
-    console.log("node clicked!!!!");
+  handleNodeClick = (event, data) => {
+    console.log("node clicked!!!!", data);
+  }
+
+  handleSensorClick = (event, data) => {
+    console.log(event.target.getAttribute('name'))
+    this.props.router.push('/sensor-data');
   }
 
   render() {
@@ -61,9 +66,9 @@ class Node extends Component {
             {
               this.state.sensors.length > 0  ?
               <ForceGraph zoom simulationOptions={{ height: 300, width: 300 }}>
-                <ForceGraphNode node={{ id: this.state.node.id }} fill="cyan" r="10" cy="50" cx="50" onClick={this.handleNodeClick} />
+                <ForceGraphNode node={{ id: this.state.node.id }} fill="cyan" r="15" onClick={this.handleNodeClick} />
                 {_.map(this.state.sensors, sensor => {
-                  return <ForceGraphNode node={{ id: `${sensor.id}:${sensor.name}` }} fill="orange" cy="10" cx="10" />
+                  return <ForceGraphNode node={{ id: `${sensor.id}:${sensor.name}` }} name={sensor.id} fill="orange" r="10" onClick={this.handleSensorClick} />
                 })}
 
                 {_.map(this.state.sensors, sensor => {

@@ -44,17 +44,14 @@ class Node extends Component {
     })
   }
 
-  goToSensor = () => {
-    this.props.router.push('/sensor-data');
-  }
-
   handleNodeClick = (event, data) => {
     console.log("node clicked!!!!", data);
   }
 
   handleSensorClick = (event, data) => {
+    let id = event.target.getAttribute('name');
     console.log(event.target.getAttribute('name'))
-    this.props.router.push('/sensor-data');
+    this.props.router.push(`/sensor-data/${id}`);
   }
 
   render() {
@@ -99,7 +96,6 @@ class Node extends Component {
               <Form.Field control={Button}>Submit</Form.Field>
             </Form>
           </Grid.Column>
-          <Button onClick={this.goToSensor}>Go to Sensor</Button>
         </Grid.Row>
       </Container>
     )

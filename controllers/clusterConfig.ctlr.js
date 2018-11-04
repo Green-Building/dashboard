@@ -12,7 +12,27 @@ const getCluster = (req, res) => {
     res.json(cluster);
   })
   .catch(err => {
-    console.log("err fetching building>>>", err);
+    console.log("err fetching cluster>>>", err);
+  })
+}
+
+const getClusterFromFloor = (req, res) => {
+  console.log("req.query>>>", req.query);
+  const floor_num = req.query.floor;
+  const building_id = +req.query.building_id;
+  return db.cluster.findOne({
+    where: {
+      floor: String(floor_num),
+      building_id: building_id,
+    },
+    include : [ db.node ]
+  })
+  .then(cluster => {
+    console.log("cluster is>>>", cluster);
+    res.json(cluster);
+  })
+  .catch(err => {
+    console.log("err fetching cluster from floor>>>", err);
   })
 }
 
@@ -52,6 +72,7 @@ const updateCluster = (req, res) => {
 
 module.exports = {
   getCluster,
+  getClusterFromFloor,
   addCluster,
   updateCluster,
 }

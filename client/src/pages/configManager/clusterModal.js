@@ -72,7 +72,6 @@ class ClusterModal extends Component {
                     <Input name='status' placeholder='Status' value={this.props.cluster.status} onChange={this.handleChange} /> :
                     <Input name='status' placeholder='Status' value={this.state.cluster.status} onChange={this.handleChange} />
                   }
-
                 </Form.Field>
               </Form.Group>
               <Form.Field control={Button}>Submit</Form.Field>

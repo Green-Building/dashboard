@@ -41,7 +41,7 @@ class Building extends Component {
   }
 
   goToFloor = () => {
-    this.props.router.push(`/floor/${this.state.floor}`);
+    this.props.router.push(`/building/${this.props.params.building_id}/floor/${this.state.floor}`);
   }
   render() {
     const floorOptions = _.map(this.state.availableFloors, floor => {

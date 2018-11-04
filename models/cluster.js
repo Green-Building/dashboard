@@ -31,6 +31,9 @@ module.exports = (sequelize, DataTypes) => {
           foreignKey: 'building_id',
           allowNull: false,
         });
+        Cluster.hasMany(models.node, {
+          foreignKey: 'cluster_id',
+        });
       },
     },
   });

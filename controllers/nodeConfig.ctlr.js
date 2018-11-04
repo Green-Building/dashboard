@@ -6,7 +6,10 @@ const getNode = (req, res) => {
     where: {
       id: node_id
     },
-    include: [ {model: db.cluster, as: 'cluster'} ]
+    include: [
+      db.cluster,
+      db.sensor,
+    ]
   })
   .then(node => {
     res.json(node);

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import axios from 'axios';
+import {ForceGraph, ForceGraphNode, ForceGraphLink} from 'react-vis-force';
 import { Container, Button, Grid, Form, Input } from 'semantic-ui-react';
 
 class Node extends Component {
@@ -47,12 +48,32 @@ class Node extends Component {
     this.props.router.push('/sensor-data');
   }
 
+  handleNodeClick = () => {
+    console.log("node clicked!!!!");
+  }
+
   render() {
+    console.log("this.state.sensors>>>", this.state.sensors);
     return (
       <Container>
         <Grid.Row>
           <Grid.Column width={8} >
-            Placeholder for Node Force graph
+            {
+              this.state.sensors.length > 0  ?
+              <ForceGraph zoom simulationOptions={{ height: 300, width: 300 }}>
+                <ForceGraphNode node={{ id: this.state.node.id }} fill="cyan" r="10" cy="50" cx="50" onClick={this.handleNodeClick} />
+                {_.map(this.state.sensors, sensor => {
+                  return <ForceGraphNode node={{ id: `${sensor.id}:${sensor.name}` }} fill="orange" cy="10" cx="10" />
+                })}
+
+                {_.map(this.state.sensors, sensor => {
+                  return <ForceGraphLink link={{ source: this.state.node.id, target: `${sensor.id}:${sensor.name}` }} />
+                })}
+              </ForceGraph> :
+              null
+
+            }
+
           </Grid.Column>
           <Grid.Column width={8} >
             <Form onSubmit={this.handleSubmit}>

@@ -28,7 +28,27 @@ const bulkInsertSensorData = (req, res) => {
   });
 };
 
+const searchSensorData = (req, res) => {
+  const { idType, id, startTime, endTime } = req.query;
+  console.log("startTime>>>", startTime, endTime);
+  return SensorDataModel.find({
+    sensorID: id,
+    timeStamp: {
+      $gte: new Date(startTime),
+      $lte: new Date(endTime),
+    }
+  }).exec()
+  .then(sensorData => {
+    console.log("getting sensor data is>>>", sensorData);
+    res.json(sensorData);
+  })
+  .catch(err => {
+    console.log("err getting sensor data is>>>", err);
+  });
+}
+
 module.exports = {
   insertSensorData,
   bulkInsertSensorData,
+  searchSensorData,
 }

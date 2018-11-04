@@ -23,5 +23,6 @@ router
 
   .post('/sensor-data/add', sensorDataMgmt.insertSensorData)
   .post('/sensor-data/bulk-add', sensorDataMgmt.bulkInsertSensorData)
+  .get('/sensor-data/search-data', sensorDataMgmt.searchSensorData)
 
 module.exports = router;

@@ -20,8 +20,13 @@ export default class SelectTimeRange extends Component {
 
   onSubmit = (event) => {
     event.preventDefault();
+    const { updateTime } = this.props;
     console.log("this.state is >>>", this.state);
-
+    updateTime({
+      startTime: new Date(this.state.startTime),
+      endTime: new Date(this.state.endTime)
+    });
+    /*
     return axios(`http://localhost:4001/sensor-data/search-data`, {
       method: 'GET',
       params: {
@@ -37,6 +42,7 @@ export default class SelectTimeRange extends Component {
     .catch(err => {
       console.log("err is>>>", err);
     })
+    */
 
   }
 

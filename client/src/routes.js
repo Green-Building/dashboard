@@ -29,6 +29,10 @@ const routes = {
       component: Node,
     },
     {
+      path: 'sensor-data/add',
+      component: addSensorData,
+    },
+    {
       path: '/sensor-data/:sensor_id',
       component: sensorStats,
     },
@@ -39,10 +43,6 @@ const routes = {
     {
       path: 'buildings/add',
       component: addBuilding,
-    },
-    {
-      path: 'sensor-data/add',
-      component: addSensorData,
     },
   ]
 };

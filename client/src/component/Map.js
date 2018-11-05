@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import axios from 'axios';
+import { Form, Input, Button } from 'semantic-ui-react';
 const { compose, withProps, lifecycle } = require("recompose");
 const {
   withScriptjs,
@@ -22,11 +23,46 @@ const MapWithASearchBox = compose(
       const refs = {}
 
       this.setState({
+        refs: refs,
         bounds: null,
         center: {
           lat: 37.77, lng: -122.42
         },
         markers: [],
+        city: '',
+        state: '',
+        zipcode: '',
+        onFormUpdate:  (event, data) => {
+          console.log("data is >>", data);
+          this.setState({[data.name]: data.value})
+        },
+        onSubmitForm: event => {
+          event.preventDefault();
+          console.log("form submitted!!!");
+          console.log("this.state is>>", this.state);
+          return axios.get('http://localhost:4001/buildings/search', {
+            params: {
+              city: this.state.city
+            }
+          })
+          .then(response =>{
+            console.log("response is >>>", response);
+            let buildings = response.data.buildings;
+            if(buildings.length >= 1) {
+              let newCenter = {lat: buildings[0].position.lat, lng:  buildings[0].position.lng};
+              const bounds = new window.google.maps.LatLngBounds();
+              bounds.extend(new window.google.maps.LatLng(newCenter.lat, newCenter.lng));
+              _.forEach(buildings, building => {
+                bounds.extend(new window.google.maps.LatLng(building.position.lat, building.position.lng));
+              })
+              this.state.refs.map.fitBounds(bounds);
+              this.setState({center:newCenter,  markers: buildings});
+            }
+          })
+          .catch(err => {
+            console.log("err searching buildings by city>>", err);
+          })
+        },
         onMapMounted: ref => {
           refs.map = ref;
         },
@@ -68,14 +104,7 @@ const MapWithASearchBox = compose(
           .then(response => {
 
             const buildings = response.data.buildings;
-            /*
-            _.forEach(buildings, building => {
-              console.log("building.location>>", building.position);
-              bounds.extend(new window.google.maps.LatLng(building.position.lat, building.position.lng));
-            });
-            */
             bounds.extend(new window.google.maps.LatLng(38, -123));
-            console.log("refs.map>>>", refs.map);
             refs.map.fitBounds(bounds);
 
             this.setState({
@@ -86,7 +115,6 @@ const MapWithASearchBox = compose(
           .catch(err => {
             console.log("error getting adjacent buildings>>", err);
           });
-
         },
       })
     },
@@ -94,42 +122,60 @@ const MapWithASearchBox = compose(
   withScriptjs,
   withGoogleMap
 )(props =>
-  <GoogleMap
-    ref={props.onMapMounted}
-    defaultZoom={15}
-    center={props.center}
-    onBoundsChanged={props.onBoundsChanged}
-  >
-    <SearchBox
-      ref={props.onSearchBoxMounted}
-      bounds={props.bounds}
-      controlPosition={window.google.maps.ControlPosition.TOP_LEFT}
-      onPlacesChanged={props.onPlacesChanged}
+  <Form onSubmit={(e)=>props.onSubmitForm(e)}>
+    <Form.Group >
+      <Form.Field>
+        <label>City</label>
+        <Input name='city'  placeholder='City' onChange={props.onFormUpdate}/>
+      </Form.Field>
+      <Form.Field>
+        <label>State</label>
+        <Input name='state' placeholder='State'/>
+      </Form.Field>
+      <Form.Field>
+        <label>Zipcode</label>
+        <Input name='zipcode' placeholder='Zipcode' />
+      </Form.Field>
+    </Form.Group>
+    <Form.Field control={Button}>Submit</Form.Field>
+    <GoogleMap
+      ref={props.onMapMounted}
+      defaultZoom={15}
+      center={props.center}
+      onBoundsChanged={props.onBoundsChanged}
     >
-      <input
-        type="text"
-        placeholder="Customized your placeholder"
-        style={{
-          boxSizing: `border-box`,
-          border: `1px solid transparent`,
-          width: `240px`,
-          height: `32px`,
-          marginTop: `27px`,
-          padding: `0 12px`,
-          borderRadius: `3px`,
-          boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
-          fontSize: `14px`,
-          outline: `none`,
-          textOverflow: `ellipses`,
-        }}
-      />
-    </SearchBox>
-    {_.map(props.markers,(marker, index) => {
-      console.log("marker is >>>", marker);
-      console.log("index is >>>", index);
-      return <Marker key={index} position={marker.position} onClick={()=>props.onMarkerClick(index)}/>;
-    })}
-  </GoogleMap>
+      <SearchBox
+        ref={props.onSearchBoxMounted}
+        bounds={props.bounds}
+        controlPosition={window.google.maps.ControlPosition.TOP_LEFT}
+        onPlacesChanged={props.onPlacesChanged}
+      >
+        <input
+          type="text"
+          placeholder="Customized your placeholder"
+          style={{
+            boxSizing: `border-box`,
+            border: `1px solid transparent`,
+            width: `240px`,
+            height: `32px`,
+            marginTop: `27px`,
+            padding: `0 12px`,
+            borderRadius: `3px`,
+            boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
+            fontSize: `14px`,
+            outline: `none`,
+            textOverflow: `ellipses`,
+          }}
+        />
+      </SearchBox>
+      {_.map(props.markers,(marker, index) => {
+        console.log("marker is >>>", marker);
+        console.log("index is >>>", index);
+        return <Marker key={index} position={marker.position} onClick={()=>props.onMarkerClick(index)}/>;
+      })}
+    </GoogleMap>
+  </Form>
+
 );
 
 export default MapWithASearchBox;

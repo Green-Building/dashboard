@@ -17,6 +17,7 @@ router
   .post('/clusters/add', clusterConfig.addCluster)
   .put('/clusters/:cluster_id', clusterConfig.updateCluster)
 
+  .get('/buildings/search', buildingConfig.searchBuildingByCity)
   .get('/buildings/:building_id', buildingConfig.getBuilding)
   .post('/buildings/add', buildingConfig.addBuilding)
   .post('/buildings', buildingConfig.searchBuildingByLatLng)

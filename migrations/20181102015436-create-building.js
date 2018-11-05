@@ -11,6 +11,15 @@ module.exports = {
       address: {
         type: Sequelize.STRING
       },
+      city: {
+        type: Sequelize.STRING
+      },
+      state: {
+        type: Sequelize.STRING
+      },
+      zipcode: {
+        type: Sequelize.STRING
+      },
       num_of_floors: {
         type: Sequelize.INTEGER,
         allowNull:false,

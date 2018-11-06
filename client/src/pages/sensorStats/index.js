@@ -12,16 +12,16 @@ import PieChart from './PieChart';
 
 class sensorStats extends Component {
   render() {
-    const { updateTime } = this.props;
+    const { sensorData } = this.props;
     return (
       <Container>
         <Grid>
           <Grid.Row>
             <Grid.Column width={8}>
-              <SelectTimeRange updateTime={updateTime} />
+              <SelectTimeRange />
             </Grid.Column>
             <Grid.Column width={8}>
-              <LineChart />
+              <LineChart sensorData={sensorData} />
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
@@ -41,17 +41,15 @@ class sensorStats extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapStateToProps = state => {
   return {
-    updateTime: (newTime) => {
-      dispatch(updateTime(newTime));
-    }
-  }
-}
+    sensorData: state.sensorData
+  };
+};
 
 sensorStats = withRouter(connect(
-  null,
-  mapDispatchToProps
+  mapStateToProps,
+  null
 )(sensorStats));
 
 export default sensorStats;

@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import { Form } from 'semantic-ui-react';
-import axios from 'axios';
+import moment from 'moment';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
-export default class SelectTimeRange extends Component {
+import { fetchSensorData } from '../../reducers/sensorData';
+
+class SelectTimeRange extends Component {
   state = {
     sensorId: '',
-    startTime: '',
-    endTime: '',
+    startTime: moment().subtract(1, 'd').format("YYYY-MM-DDThh:mm:ss"),
+    endTime: moment().format("YYYY-MM-DDThh:mm:ss"),
   };
 
   handleChange = (event, {name, value, type}) => {
@@ -20,12 +24,9 @@ export default class SelectTimeRange extends Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    const { updateTime } = this.props;
+    const { fetchSensorData } = this.props;
     console.log("this.state is >>>", this.state);
-    updateTime({
-      startTime: new Date(this.state.startTime),
-      endTime: new Date(this.state.endTime)
-    });
+    return fetchSensorData(this.state.startTime,this.state.endTime);
     /*
     return axios(`http://localhost:4001/sensor-data/search-data`, {
       method: 'GET',
@@ -59,6 +60,7 @@ export default class SelectTimeRange extends Component {
         <Form.Input
           label='StartTime'
           type='datetime-local'
+          step="1"
           onChange={this.handleChange}
           name="startTime"
           value={this.state.startTime}
@@ -66,6 +68,7 @@ export default class SelectTimeRange extends Component {
         <Form.Input
           label='EndTime'
           type='datetime-local'
+          step="1"
           onChange={this.handleChange}
           name="endTime"
           value={this.state.endTime}
@@ -75,3 +78,18 @@ export default class SelectTimeRange extends Component {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    fetchSensorData: (startTime, endTime) => {
+      dispatch(fetchSensorData(startTime, endTime))
+    },
+  }
+}
+
+SelectTimeRange = withRouter(connect(
+  null,
+  mapDispatchToProps
+)(SelectTimeRange));
+
+export default SelectTimeRange;

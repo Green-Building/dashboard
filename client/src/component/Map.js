@@ -40,7 +40,7 @@ const MapWithASearchBox = compose(
           event.preventDefault();
           console.log("form submitted!!!");
           console.log("this.state is>>", this.state);
-          return axios.get('http://localhost:4001/buildings/search/city', {
+          return axios.get('http://localhost:4001/buildings/search/location', {
             params: {
               city: this.state.city
             }

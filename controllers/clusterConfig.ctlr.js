@@ -67,7 +67,20 @@ const updateCluster = (req, res) => {
   .catch(err => {
     console.log("err updating cluster is >>>", err);
   })
+}
 
+const deleteCluster = (req, res) => {
+  const { cluster_id } = req.params;
+  return db.cluster.destroy({
+    where: {id: cluster_id}
+  })
+  .then((response) => {
+    console.log("deleting cluster response is>>>", response);
+    res.json(response);
+  })
+  .catch(err => {
+    console.log("err deleting cluster is >>>", err);
+  })
 }
 
 module.exports = {
@@ -75,4 +88,5 @@ module.exports = {
   getClusterFromFloor,
   addCluster,
   updateCluster,
+  deleteCluster,
 }

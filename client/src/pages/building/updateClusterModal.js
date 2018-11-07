@@ -21,25 +21,6 @@ class UpdateClusterModal extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    /*
-    const { isNew } = this.props;
-
-    if (isNew) {
-      console.log("this.props is>>>", this.props);
-      let newClusterData = _.assign({}, this.props.cluster, {building_id: +this.props.buildingId}, {floor: +this.props.floor.selected});
-      console.log("newClusterData is>>>", newClusterData);
-      return axios.post('http://localhost:4001/clusters/add', {
-        data: newClusterData
-      })
-      .then(response => {
-        console.log("response adding a cluster>>>", response);
-      })
-      .catch(err => {
-        console.log("err adding a cluster>>>", err);
-      })
-
-    } else {
-    */
     console.log("this.props.cluster is>>>", this.props.cluster);
     return axios.put(`http://localhost:4001/clusters/${this.props.cluster.id}`, {
       data: _.omit(this.props.cluster, 'id'),

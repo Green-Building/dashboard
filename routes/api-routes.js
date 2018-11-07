@@ -16,6 +16,7 @@ router
   .get('/clusters/:cluster_id', clusterConfig.getCluster)
   .post('/clusters/add', clusterConfig.addCluster)
   .put('/clusters/:cluster_id', clusterConfig.updateCluster)
+  .delete('/clusters/:cluster_id', clusterConfig.deleteCluster)
 
   .get('/buildings/search', buildingConfig.searchBuildingByCity)
   .get('/buildings/:building_id', buildingConfig.getBuilding)

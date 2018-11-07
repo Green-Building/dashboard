@@ -10,7 +10,6 @@ class Building extends Component {
   state = {
     building: {},
     floor: {selected: null},
-    clusters: [],
     availableFloors: [],
     usedFloors: [],
     showModal: false,
@@ -41,6 +40,19 @@ class Building extends Component {
     console.log("event>>", event.target.value);
     console.log('data is >>>', data);
     this.setState({floor: {selected: data.value}});
+  }
+
+  handleDelete(cluster) {
+    console.log("cluster is>>>", cluster);
+    return axios.delete(`http://localhost:4001/clusters/${cluster.id}`)
+    .then(() => {
+      let clusters = this.state.building.clusters;
+      clusters = _.filter(clusters, c => c.id !== cluster.id);
+      console.log("clusters is >>>", clusters);
+      let building = this.state.building;
+      building.clusters = clusters;
+      this.setState({building});
+    })
   }
 
   goToFloor = () => {
@@ -96,7 +108,7 @@ class Building extends Component {
                         <Table.Cell>
                           <UpdateClusterModal buildingId={this.props.params.building_id} floor={this.state.floor} cluster={cluster} />
                         </Table.Cell>
-                        <Table.Cell>Delete</Table.Cell>
+                        <Table.Cell onClick={()=>this.handleDelete(cluster)}>Delete</Table.Cell>
                       </Table.Row>
                     )
                   })}

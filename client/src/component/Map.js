@@ -40,7 +40,7 @@ const MapWithASearchBox = compose(
           event.preventDefault();
           console.log("form submitted!!!");
           console.log("this.state is>>", this.state);
-          return axios.get('http://localhost:4001/buildings/search', {
+          return axios.get('http://localhost:4001/buildings/search/city', {
             params: {
               city: this.state.city
             }
@@ -92,8 +92,8 @@ const MapWithASearchBox = compose(
           });
 
           const place = places[0];
-          axios.post('http://localhost:4001/buildings', {
-            data: {
+          axios.get('http://localhost:4001/buildings/search/geocode', {
+            params: {
               longitude: place.geometry.location.lng(),
               latitude:  place.geometry.location.lat(),
             },

@@ -18,10 +18,11 @@ router
   .put('/clusters/:cluster_id', clusterConfig.updateCluster)
   .delete('/clusters/:cluster_id', clusterConfig.deleteCluster)
 
-  .get('/buildings/search', buildingConfig.searchBuildingByCity)
+  .get('/buildings/search/city', buildingConfig.searchBuildingByCity)
+  .get('/buildings/search/geocode', buildingConfig.searchBuildingByLatLng)
   .get('/buildings/:building_id', buildingConfig.getBuilding)
   .post('/buildings/add', buildingConfig.addBuilding)
-  .post('/buildings', buildingConfig.searchBuildingByLatLng)
+
 
   .post('/sensor-data/add', sensorDataMgmt.insertSensorData)
   .post('/sensor-data/bulk-add', sensorDataMgmt.bulkInsertSensorData)

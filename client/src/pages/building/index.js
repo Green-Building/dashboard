@@ -22,7 +22,7 @@ class Building extends Component {
       console.log(_.range(1, response.data.num_of_floors+1))
       let floors = _.range(1, response.data.num_of_floors+1);
       let usedFloors = _.map(response.data.clusters, cluster => {
-        return +cluster.floor;
+        return +cluster.floor.floor_number;
       })
       let unusedFloors = _.difference(floors, usedFloors);
       this.setState({ building: response.data, clusters: response.data.clusters, availableFloors: unusedFloors, usedFloors: usedFloors });

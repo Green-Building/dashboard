@@ -39,14 +39,38 @@ const getClusterFromFloor = (req, res) => {
 const addCluster = (req, res) => {
   console.log("req.body is>>>", req.body.data);
   const newCluster = req.body.data;
-  return db.cluster.create(newCluster)
-  .then(response =>{
+  console.log("newCluster is>>>", newCluster);
+  return db.floor.findOne({
+    where: {
+      building_id: newCluster.building_id,
+      floor_number: newCluster.floor_number,
+    }
+  })
+  .then(floor => {
+    if (!floor) {
+      return db.floor.create({
+        building_id: newCluster.building_id,
+        floor_number: newCluster.floor_number,
+      })
+      .then(floor => {
+        const floor_id = floor.get('id');
+        return floor_id;
+      });
+    } else {
+      return floor.get('id');
+    }
+  })
+  .then(floor_id => {
+    newCluster.floor_id = floor_id;
+    return db.cluster.create(newCluster)
+  })
+  .then(response => {
     console.log("response creating a new cluster is >>>", response);
     res.json(response);
   })
   .catch(err => {
     console.log("error creating a new cluster>>", err);
-  })
+  });
 }
 
 const updateCluster = (req, res) => {

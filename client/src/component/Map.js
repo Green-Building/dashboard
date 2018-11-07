@@ -73,8 +73,6 @@ const MapWithASearchBox = compose(
           })
         },
         onMarkerClick: (index) => {
-          console.log("this.props>>>", this.props);
-          console.log("clicked>>", this.state.markers[index]);
           const id =  this.state.markers[index].building.id;
           this.props.router.push(`/building/${id}`);
         },
@@ -94,7 +92,6 @@ const MapWithASearchBox = compose(
           });
 
           const place = places[0];
-          console.log("place is >>>", place.geometry.location.lng(), place.geometry.location.lat());
           axios.post('http://localhost:4001/buildings', {
             data: {
               longitude: place.geometry.location.lng(),
@@ -138,42 +135,44 @@ const MapWithASearchBox = compose(
       </Form.Field>
     </Form.Group>
     <Form.Field control={Button}>Submit</Form.Field>
-    <GoogleMap
-      ref={props.onMapMounted}
-      defaultZoom={15}
-      center={props.center}
-      onBoundsChanged={props.onBoundsChanged}
-    >
-      <SearchBox
-        ref={props.onSearchBoxMounted}
-        bounds={props.bounds}
-        controlPosition={window.google.maps.ControlPosition.TOP_LEFT}
-        onPlacesChanged={props.onPlacesChanged}
+    <Form.Group >
+      <GoogleMap
+        ref={props.onMapMounted}
+        defaultZoom={15}
+        center={props.center}
+        onBoundsChanged={props.onBoundsChanged}
       >
-        <input
-          type="text"
-          placeholder="Customized your placeholder"
-          style={{
-            boxSizing: `border-box`,
-            border: `1px solid transparent`,
-            width: `240px`,
-            height: `32px`,
-            marginTop: `27px`,
-            padding: `0 12px`,
-            borderRadius: `3px`,
-            boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
-            fontSize: `14px`,
-            outline: `none`,
-            textOverflow: `ellipses`,
-          }}
-        />
-      </SearchBox>
-      {_.map(props.markers,(marker, index) => {
-        console.log("marker is >>>", marker);
-        console.log("index is >>>", index);
-        return <Marker key={index} position={marker.position} onClick={()=>props.onMarkerClick(index)}/>;
-      })}
-    </GoogleMap>
+        <SearchBox
+          ref={props.onSearchBoxMounted}
+          bounds={props.bounds}
+          controlPosition={window.google.maps.ControlPosition.TOP_LEFT}
+          onPlacesChanged={props.onPlacesChanged}
+        >
+          <Input
+            type="text"
+            placeholder="Customized your placeholder"
+            style={{
+              boxSizing: `border-box`,
+              border: `1px solid transparent`,
+              width: `240px`,
+              height: `32px`,
+              marginTop: `27px`,
+              padding: `0 12px`,
+              borderRadius: `3px`,
+              boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
+              fontSize: `14px`,
+              outline: `none`,
+              textOverflow: `ellipses`,
+            }}
+          />
+        </SearchBox>
+        {_.map(props.markers,(marker, index) => {
+          console.log("marker is >>>", marker);
+          console.log("index is >>>", index);
+          return <Marker key={index} position={marker.position} onClick={()=>props.onMarkerClick(index)}/>;
+        })}
+      </GoogleMap>
+    </Form.Group>
   </Form>
 
 );

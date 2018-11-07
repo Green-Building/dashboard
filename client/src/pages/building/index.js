@@ -3,7 +3,8 @@ import _ from 'lodash';
 import { Container, Grid, Button, Card, Icon, Image, Dropdown, Table, Label } from 'semantic-ui-react';
 import axios from 'axios';
 
-import ClusterModal from './configManager/clusterModal';
+import UpdateClusterModal from './updateClusterModal';
+import AddClusterModal from './addClusterModal';
 
 class Building extends Component {
   state = {
@@ -11,6 +12,7 @@ class Building extends Component {
     floor: {selected: null},
     clusters: [],
     availableFloors: [],
+    usedFloors: [],
     showModal: false,
   }
 
@@ -18,14 +20,13 @@ class Building extends Component {
     const { building_id } = this.props.params;
     return axios.get(`/buildings/${building_id}?fetch_clusters=true`)
     .then(response => {
-      console.log("building is >>>", response.data);
       console.log(_.range(1, response.data.num_of_floors+1))
       let floors = _.range(1, response.data.num_of_floors+1);
-      let usedFloors = _.map(response.data.clusters, cluster=>{
+      let usedFloors = _.map(response.data.clusters, cluster => {
         return +cluster.floor;
       })
       let unusedFloors = _.difference(floors, usedFloors);
-      this.setState({ building: response.data, clusters: response.data.clusters, availableFloors: unusedFloors });
+      this.setState({ building: response.data, clusters: response.data.clusters, availableFloors: unusedFloors, usedFloors: usedFloors });
     })
     .catch(err => {
       console.log("error is>>", err);
@@ -43,10 +44,10 @@ class Building extends Component {
   }
 
   goToFloor = () => {
-    this.props.router.push(`/building/${this.props.params.building_id}/floor/${this.state.floor}`);
+    this.props.router.push(`/building/${this.props.params.building_id}/floor/${this.state.floor.selected}`);
   }
   render() {
-    const floorOptions = _.map(this.state.availableFloors, floor => {
+    const floorOptions = _.map(this.state.usedFloors, floor => {
       return {
         key: `Floor ${floor}`,
         value: floor,
@@ -93,7 +94,7 @@ class Building extends Component {
                         <Table.Cell>{cluster.name}</Table.Cell>
                         <Table.Cell>{cluster.status}</Table.Cell>
                         <Table.Cell>
-                          <ClusterModal buildingId={this.props.params.building_id} floor={this.state.floor} cluster={cluster} />
+                          <UpdateClusterModal buildingId={this.props.params.building_id} floor={this.state.floor} cluster={cluster} />
                         </Table.Cell>
                         <Table.Cell>Delete</Table.Cell>
                       </Table.Row>
@@ -101,6 +102,7 @@ class Building extends Component {
                   })}
                 </Table.Body>
               </Table>
+              <AddClusterModal params={this.props.params} availableFloors={this.state.availableFloors} />
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
@@ -114,7 +116,6 @@ class Building extends Component {
           </Grid.Row>
           <Grid.Row>
             <Grid.Column width={8}>
-              <ClusterModal isNew buildingId={this.props.params.building_id} floor={this.state.floor} cluster={{}} />
               <Button onClick={this.goToFloor}>Goto Floor</Button>
             </Grid.Column>
           </Grid.Row>

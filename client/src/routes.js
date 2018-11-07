@@ -1,6 +1,6 @@
 import Header from './component/Header';
 import Home from './pages/Home';
-import Building from './pages/Building';
+import Building from './pages/building';
 import Floor from './pages/Floor';
 import Node from './pages/Node';
 import sensorStats from './pages/sensorStats';

@@ -17,7 +17,7 @@ class Building extends Component {
 
   componentDidMount() {
     const { building_id } = this.props.params;
-    return axios.get(`/buildings/${building_id}?fetch_clusters=true`)
+    return axios.get(`/buildings/${building_id}?fetch_nested=true`)
     .then(response => {
       console.log(_.range(1, response.data.num_of_floors+1))
       let floors = _.range(1, response.data.num_of_floors+1);
@@ -101,7 +101,7 @@ class Building extends Component {
                     return (
                       <Table.Row>
                         <Table.Cell>
-                          <Label ribbon={index===0}>{cluster.floor}</Label>
+                          <Label ribbon={index===0}>{cluster.floor.floor_number}</Label>
                         </Table.Cell>
                         <Table.Cell>{cluster.name}</Table.Cell>
                         <Table.Cell>{cluster.status}</Table.Cell>

@@ -5,15 +5,18 @@ const SensorDataModel = require('../mongoModels/SensorData');
 
 const getBuilding = (req, res) => {
   const building_id = req.params.building_id;
-  const { fetch_clusters } = req.query;
+  const { fetch_nested } = req.query;
   console.log("req.query is>>>", req.query);
   let queryObj = {
     where: {
       id: building_id
     },
   };
-  if(fetch_clusters) {
-    queryObj.include = [ db.cluster ]
+  if(fetch_nested) {
+    queryObj.include = [{
+      model: db.cluster,
+      include: [db.floor]
+    }];
   }
   return db.building.findOne(queryObj)
   .then(building => {

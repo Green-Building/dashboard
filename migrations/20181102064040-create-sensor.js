@@ -12,11 +12,17 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      status: {
+      type: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      type: {
+      series_number: {
+        type: Sequelize.STRING,
+      },
+      install_time: {
+        type: Sequelize.DATE,
+      },
+      status: {
         type: Sequelize.STRING,
         allowNull: false,
       },
@@ -24,6 +30,15 @@ module.exports = {
         type: Sequelize.BIGINT,
         references: {
             model: 'node',
+            key: 'id'
+        },
+        onUpdate: 'cascade',
+        onDelete: 'cascade',
+      },
+      cluster_id: {
+        type: Sequelize.BIGINT,
+        references: {
+            model: 'cluster',
             key: 'id'
         },
         onUpdate: 'cascade',

@@ -8,6 +8,9 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true
       },
+      image_url: {
+        type: Sequelize.STRING,
+      },
       address: {
         type: Sequelize.STRING
       },

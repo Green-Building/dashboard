@@ -12,30 +12,26 @@ module.exports = {
         isBetaMember: false
       }], {});
     */
-    return queryInterface.bulkInsert('cluster', [
+    return queryInterface.bulkInsert('room', [
       {
+        room_number: '202',
+        building_id:1,
         floor_id: 1,
-        name: "cluster floor 2 SJSU",
-        status: "active",
-        building_id: 1,
       },
       {
-        floor_id: 2,
-        name: "cluster floor 3 SJSU",
-        status: "inactive",
-        building_id: 1,
+        room_number: '291',
+        building_id:1,
+        floor_id: 1,
       },
       {
+        room_number: '705',
+        building_id:1,
         floor_id: 3,
-        name: "cluster floor 7 SJSU",
-        status: "active",
-        building_id: 1,
       },
       {
+        room_number: '30A',
+        building_id:2,
         floor_id: 4,
-        name: "cluster floor 2 SCU",
-        status: "active",
-        building_id: 2,
       },
     ], {});
   },
@@ -48,6 +44,6 @@ module.exports = {
       Example:
       return queryInterface.bulkDelete('Person', null, {});
     */
-    return queryInterface.bulkDelete('cluster', null, {});
+    return queryInterface.bulkDelete('room', null, {});
   }
 };

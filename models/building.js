@@ -7,6 +7,9 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true,
       autoIncrement: true
     },
+    image_url: {
+      type: DataTypes.STRING,
+    },
     address: {
       type: DataTypes.STRING,
     },

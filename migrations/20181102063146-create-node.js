@@ -12,9 +12,14 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      room: {
+      type: {
         type: Sequelize.STRING,
-        allowNull: false,
+      },
+      series_number: {
+        type: Sequelize.STRING,
+      },
+      install_time: {
+        type: Sequelize.DATE,
       },
       status: {
         type: Sequelize.STRING,
@@ -24,6 +29,15 @@ module.exports = {
         type: Sequelize.BIGINT,
         references: {
             model: 'cluster',
+            key: 'id'
+        },
+        onUpdate: 'cascade',
+        onDelete: 'cascade',
+      },
+      room_id: {
+        type: Sequelize.BIGINT,
+        references: {
+            model: 'room',
             key: 'id'
         },
         onUpdate: 'cascade',

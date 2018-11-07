@@ -1,29 +1,15 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('cluster', {
+    return queryInterface.createTable('room', {
       id: {
         allowNull: false,
-        type: Sequelize.BIGINT,
+        autoIncrement: true,
         primaryKey: true,
-        autoIncrement: true
+        type: Sequelize.BIGINT
       },
-      name: {
+      room_number: {
         type: Sequelize.STRING,
-        allowNull: false,
-      },
-      type: {
-        type: Sequelize.STRING,
-      },
-      series_number: {
-        type: Sequelize.STRING,
-      },
-      install_time: {
-        type: Sequelize.DATE,
-      },
-      status: {
-        type: Sequelize.STRING,
-        allowNull: false,
       },
       building_id: {
         type: Sequelize.BIGINT,
@@ -42,10 +28,10 @@ module.exports = {
         },
         onUpdate: 'cascade',
         onDelete: 'cascade',
-      },
+      }
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('cluster');
+    return queryInterface.dropTable('room');
   }
 };

@@ -10,9 +10,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    room: {
+    type: {
       type: DataTypes.STRING,
-      allowNull: false,
+    },
+    series_number: {
+      type: DataTypes.STRING,
+    },
+    install_time: {
+      type: DataTypes.DATE,
     },
     status: {
       type: DataTypes.STRING,
@@ -29,6 +34,10 @@ module.exports = (sequelize, DataTypes) => {
       associate: function(models) {
         Node.belongsTo(models.cluster, {
           foreignKey: 'cluster_id',
+          allowNull: false,
+        });
+        Node.belongsTo(models.room, {
+          foreignKey: 'room_id',
           allowNull: false,
         });
         Node.hasMany(models.sensor, {

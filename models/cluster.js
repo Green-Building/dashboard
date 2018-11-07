@@ -6,13 +6,18 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true
     },
-    floor: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    type: {
+      type: DataTypes.STRING,
+    },
+    series_number: {
+      type: DataTypes.STRING,
+    },
+    install_time: {
+      type: DataTypes.DATE,
     },
     status: {
       type: DataTypes.STRING,
@@ -29,6 +34,10 @@ module.exports = (sequelize, DataTypes) => {
       associate: function(models) {
         Cluster.belongsTo(models.building, {
           foreignKey: 'building_id',
+          allowNull: false,
+        });
+        Cluster.belongsTo(models.floor, {
+          foreignKey: 'floor_id',
           allowNull: false,
         });
         Cluster.hasMany(models.node, {

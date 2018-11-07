@@ -14,6 +14,7 @@ module.exports = {
     */
     return queryInterface.bulkInsert('building', [
       {
+        image_url: 'http://d21gd0ap5v1ndt.cloudfront.net/web02/img.php?src=/images/members/SJSU-Campus-668x367.jpg&site=gccwater&width=920&height=518&crop',
         address: '1 Washington Sq', // SJSU
         city: 'San Jose',
         state: 'CA',
@@ -23,6 +24,7 @@ module.exports = {
         num_of_floors:7,
       },
       {
+        image_url: 'https://www.scu.edu/media/offices/financial-aid/rainbow-version-2-760x341.jpg',
         address: '500 El Camino Real', // SCU
         city: 'Santa Clara',
         state: 'CA',
@@ -32,6 +34,7 @@ module.exports = {
         num_of_floors:3,
       },
       {
+        image_url: 'https://248qms3nhmvl15d4ne1i4pxl-wpengine.netdna-ssl.com/wp-content/uploads/2018/06/stanford-university-blockchain-research-center-760x400.jpg',
         address: '450 Serra Mall', // Stanford
         city: 'Stanford',
         state: 'CA',

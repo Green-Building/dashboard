@@ -1,3 +1,4 @@
+'use strict';
 module.exports = function(sequelize, DataTypes) {
   var Floor = sequelize.define('floor', {
     id: {
@@ -18,7 +19,7 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
         Floor.hasMany(models.room, {
-          foreignKey: 'room_id',
+          foreignKey: 'floor_id',
         });
         Floor.belongsTo(models.building, {
           foreignKey: 'building_id',

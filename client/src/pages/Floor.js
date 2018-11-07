@@ -21,7 +21,7 @@ class Floor extends Component {
     return axios.get('http://localhost:4001/clusters/cluster_from_floor', {
       params: {
         building_id,
-        floor: floor_num
+        floor_number: floor_num
       }
     })
     .then(response => {
@@ -41,7 +41,7 @@ class Floor extends Component {
 
       _.forEach(cluster.nodes, (node, i) => {
         data[i].color = 1;
-        data[i].label = node.room;
+        data[i].label = node.room_name;
       })
 
       this.setState({cluster, nodes: cluster.nodes, data: data});

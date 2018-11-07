@@ -28,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
   {
     timestamps: false,
     freezeTableName: true,
+    underscored: true,
     tableName: 'sensor',
     // Creating a custom method for our User model. This will check if an unhashed password entered by
     // The user can be compared to the hashed password stored in our database

@@ -36,6 +36,7 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     timestamps: false,
     freezeTableName: true,
+    underscored: true,
     tableName: 'building',
     classMethods: {
       associate: function(models) {

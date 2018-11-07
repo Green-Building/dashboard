@@ -12,9 +12,14 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     timestamps: false,
     freezeTableName: true,
+    underscored: true,
     tableName: 'room',
     classMethods: {
       associate: function(models) {
+        Room.hasOne(models.node, {
+          foreignKey: 'room_id',
+          allowNull: false,
+        });
         Room.belongsTo(models.building, {
           foreignKey: 'building_id',
           allowNull: false,

@@ -49,3 +49,30 @@ Get front end running in Windows
   2. `cd client` `yarn install`
   3. `yarn start`
   4. application should start at port 3002
+
+Running back end
+
+* Install dependencies
+  1. cd into dashboard, and `yarn install`
+  2. `yarn global add sequelize-cli`
+  3. `yarn global add nodemon`
+
+* Setup MySQL Database
+  1. create a database called <simulator>
+  2. edit username and password in `./config/config.json` file. Environment will be `development`
+
+* Generate Table and Seed data
+  1. `sequelize db:migrate` to generate the table
+  2. `sequelize db:seed:all` to populate seeds data in table
+  3. visit http://docs.sequelizejs.com/manual/tutorial/migrations.html if you need more stuff
+
+* Install MongoDB
+  1. `brew install mongodb`
+  2. follow the step in https://treehouse.github.io/installation-guides/mac/mongo-mac.html
+  3. `mongod` to launch mongodb daemon
+  4. go to https://robomongo.org/download to download client for MongoDB
+
+* Spin up NodeJs Server
+  1. cd into dashboard, and `nodemon index`
+  2. the server will start at port 4001
+

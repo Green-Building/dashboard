@@ -47,17 +47,19 @@ const MapWithASearchBox = compose(
           console.log("this.state is>>", this.state);
           return axios.get(`${INFRA_MANAGER_HOST}/buildings/search/location`, {
             params: {
-              city: this.state.city
+              city: this.state.city,
+              state: this.state.state,
+              zipcode: this.state.zipcode,
             }
           })
           .then(response =>{
             console.log("response is >>>", response);
-            let buildings = response.data.buildings;
+            let buildings = response.data;
             if(buildings.length >= 1) {
               _.forEach(buildings, building => {
                 building.position = {
-                  lat: building.building.latitude,
-                  lng: building.building.longitude,
+                  lat: building.latitude,
+                  lng: building.longitude,
                 }
               });
               let newCenter = {lat: buildings[0].position.lat, lng:  buildings[0].position.lng};
@@ -141,15 +143,15 @@ const MapWithASearchBox = compose(
     <Form.Group >
       <Form.Field>
         <label>City</label>
-        <Input name='city'  placeholder='City' onChange={props.onFormUpdate}/>
+        <Input name='city'  placeholder='City' onChange={props.onFormUpdate} />
       </Form.Field>
       <Form.Field>
         <label>State</label>
-        <Input name='state' placeholder='State'/>
+        <Input name='state' placeholder='State'onChange={props.onFormUpdate} />
       </Form.Field>
       <Form.Field>
         <label>Zipcode</label>
-        <Input name='zipcode' placeholder='Zipcode' />
+        <Input name='zipcode' placeholder='Zipcode' onChange={props.onFormUpdate} />
       </Form.Field>
     </Form.Group>
     <Form.Field control={Button}>Submit</Form.Field>

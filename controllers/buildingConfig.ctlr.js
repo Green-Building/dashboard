@@ -64,26 +64,26 @@ const searchBuildingByLatLng = (req, res) => {
 };
 
 const searchBuildingByCity = (req, res) => {
-  const { city } = req.query;
+  const { city, state, zipcode } = req.query;
   console.log("city is>>", city);
-  return db.building.findAll({
-    state: 'CA',
-  })
+  const query  = { };
+  if(zipcode) {
+    query.zipcode = zipcode;
+  } else {
+    if (city) {
+      query.city = city;
+    }
+    if(state) {
+      query.state = state;
+    }
+  }
+  return db.building.findAll({where: query})
   .then(buildings => {
-    buildings = _.map(buildings, building => {
-      return {
-        building: building,
-        position: {
-          lat: building.latitude,
-          lng: building.longitude,
-        }
-      }
-    });
     console.log('buildings>>>', buildings);
-    res.json({buildings});
+    res.json(buildings);
   })
   .catch(err => {
-    console.log("err searching building by City>>>", err);
+    console.log("err searching building by city/state/zipcode>>>", err);
   })
 }
 

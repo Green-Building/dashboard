@@ -3,6 +3,10 @@ import _ from 'lodash';
 import axios from 'axios';
 import { Form, Button, Header, Image, Modal, Input } from 'semantic-ui-react';
 
+import {
+  INFRA_MANAGER_HOST
+} from '../../api-config';
+
 class UpdateClusterModal extends Component {
   state = {
     cluster: this.props.cluster,
@@ -22,7 +26,7 @@ class UpdateClusterModal extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     console.log("this.props.cluster is>>>", this.props.cluster);
-    return axios.put(`http://localhost:4001/clusters/${this.props.cluster.id}`, {
+    return axios.put(`${INFRA_MANAGER_HOST}/clusters/${this.props.cluster.id}`, {
       data: _.omit(this.props.cluster, 'id'),
     })
     .then(response => {

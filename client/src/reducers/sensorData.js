@@ -2,6 +2,10 @@ import _ from 'lodash';
 import moment from 'moment';
 import axios from 'axios';
 
+import {
+  DATA_MANAGER_HOST,
+} from '../api-config';
+
 //
 // INITIAL STATE
 //
@@ -24,7 +28,7 @@ export const fetchSensorData = (startTime, endTime) => (dispatch, getState) => {
     type: 'FETCH_SENSOR_DATA',
   });
 
-  return axios(`http://localhost:4001/sensor-data/search-data`, {
+  return axios(`${DATA_MANAGER_HOST}/sensor-data/search-data`, {
     method: 'GET',
     params: {
       idType:'sensor',

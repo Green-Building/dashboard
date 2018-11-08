@@ -3,6 +3,10 @@ import _ from 'lodash';
 import axios from 'axios';
 import { Form, Button, Header, Image, Modal, Input, Dropdown } from 'semantic-ui-react';
 
+import {
+  INFRA_MANAGER_HOST
+} from '../../api-config';
+
 class AddFloorModal extends Component {
   state = {
     floor_number: null,
@@ -22,7 +26,7 @@ class AddFloorModal extends Component {
     //console.log("newFloorData is>>>", ...newFloorData);
 
 
-    return axios.post('http://localhost:4001/floors/add', newFloorData)
+    return axios.post(`${INFRA_MANAGER_HOST}/floors/add`, newFloorData)
     .then(response => {
       console.log("response adding a floor>>>", response);
     })

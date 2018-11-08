@@ -2,6 +2,9 @@ import React from 'react';
 import _ from 'lodash';
 import axios from 'axios';
 import { Form, Input, Button } from 'semantic-ui-react';
+import {
+  INFRA_MANAGER_HOST
+} from '../api-config';
 const { compose, withProps, lifecycle } = require("recompose");
 const {
   withScriptjs,
@@ -10,6 +13,8 @@ const {
   Marker,
 } = require("react-google-maps");
 const { SearchBox } = require("react-google-maps/lib/components/places/SearchBox");
+
+
 
 const MapWithASearchBox = compose(
   withProps({
@@ -40,7 +45,7 @@ const MapWithASearchBox = compose(
           event.preventDefault();
           console.log("form submitted!!!");
           console.log("this.state is>>", this.state);
-          return axios.get('http://localhost:4001/buildings/search/location', {
+          return axios.get(`${INFRA_MANAGER_HOST}/buildings/search/location`, {
             params: {
               city: this.state.city
             }
@@ -98,7 +103,7 @@ const MapWithASearchBox = compose(
           });
 
           const place = places[0];
-          axios.get('http://localhost:4001/buildings/search/geocode', {
+          axios.get(`${INFRA_MANAGER_HOST}/buildings/search/geocode`, {
             params: {
               longitude: place.geometry.location.lng(),
               latitude:  place.geometry.location.lat(),

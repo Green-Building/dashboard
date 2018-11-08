@@ -3,6 +3,10 @@ import _ from 'lodash';
 import axios from 'axios';
 import { Form, Button, Header, Image, Modal, Input, Dropdown } from 'semantic-ui-react';
 
+import {
+  INFRA_MANAGER_HOST
+} from '../../api-config';
+
 class AddRoomModal extends Component {
   state = {
     room_number: null,
@@ -21,7 +25,7 @@ class AddRoomModal extends Component {
     const building_id = +params.building_id;
     let newRoomData = _.assign({}, this.state, { building_id });
     console.log("newRoomData is>>>", newRoomData);
-    return axios.post('http://localhost:4001/rooms/add', {
+    return axios.post(`${INFRA_MANAGER_HOST}/rooms/add`, {
       data: newRoomData
     })
     .then(response => {

@@ -5,6 +5,10 @@ import { scaleLinear } from 'd3-scale';
 import { Container, Button, Grid, Form, Input } from 'semantic-ui-react';
 import {XYPlot, XAxis, YAxis, HeatmapSeries, LabelSeries} from 'react-vis';
 
+import {
+  INFRA_MANAGER_HOST
+} from '../api-config';
+
 
 class Floor extends Component {
   state = {
@@ -18,7 +22,7 @@ class Floor extends Component {
   componentDidMount() {
     console.log("this.props>>>", this.props);
     const  { building_id, floor_num } = this.props.params;
-    return axios.get('http://localhost:4001/clusters/cluster_from_floor', {
+    return axios.get(`${INFRA_MANAGER_HOST}/clusters/cluster_from_floor`, {
       params: {
         building_id,
         floor_number: floor_num
@@ -72,7 +76,7 @@ class Floor extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    return axios.post('http://localhost:4001/nodes/add', {
+    return axios.post(`${INFRA_MANAGER_HOST}/nodes/add`, {
       data: _.assign({}, this.state.newNode, {cluster_id: this.state.cluster.id}),
     })
     .then(response => {

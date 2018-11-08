@@ -8,6 +8,10 @@ import AddClusterModal from './addClusterModal';
 import AddFloorModal from './addFloorModal';
 import AddRoomModal from './addRoomModal';
 
+import {
+  INFRA_MANAGER_HOST
+} from '../../api-config';
+
 class Building extends Component {
   state = {
     building: {},
@@ -19,7 +23,7 @@ class Building extends Component {
 
   componentDidMount() {
     const { building_id } = this.props.params;
-    return axios.get(`http://localhost:4001/buildings/${building_id}?fetch_nested=true`)
+    return axios.get(`${INFRA_MANAGER_HOST}/buildings/${building_id}?fetch_nested=true`)
     .then(response => {
       console.log(_.range(1, response.data.num_of_floors+1))
       let floors = _.range(1, response.data.num_of_floors+1);
@@ -46,7 +50,7 @@ class Building extends Component {
 
   handleDelete(cluster) {
     console.log("cluster is>>>", cluster);
-    return axios.delete(`http://localhost:4001/clusters/${cluster.id}`)
+    return axios.delete(`${INFRA_MANAGER_HOST}/clusters/${cluster.id}`)
     .then(() => {
       let clusters = this.state.building.clusters;
       clusters = _.filter(clusters, c => c.id !== cluster.id);

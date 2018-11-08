@@ -58,13 +58,8 @@ const searchBuildingByLatLng = (req, res) => {
     { replacements: { startlat: latitude, startlng:  longitude }, type: db.sequelize.QueryTypes.SELECT }
   )
   .then(buildings => {
-    buildings = _.map(buildings, building => {
-      return {
-        building: building,
-      }
-    });
     console.log('buildings>>>', buildings);
-    res.json({buildings});
+    res.json(buildings);
   });
 };
 

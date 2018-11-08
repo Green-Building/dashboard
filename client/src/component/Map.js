@@ -84,7 +84,7 @@ const MapWithASearchBox = compose(
           })
         },
         onMarkerClick: (index) => {
-          const id =  this.state.markers[index].building.id;
+          const id =  this.state.markers[index].id;
           this.props.router.push(`/building/${id}`);
         },
         onSearchBoxMounted: ref => {
@@ -111,16 +111,17 @@ const MapWithASearchBox = compose(
           })
           .then(response => {
 
-            const buildings = response.data.buildings;
+            const buildings = response.data;
+
             bounds.extend(new window.google.maps.LatLng(38, -123));
             refs.map.fitBounds(bounds);
             _.forEach(buildings, building => {
               building.position = {
-                lat: building.building.latitude,
-                lng: building.building.longitude,
+                lat: building.latitude,
+                lng: building.longitude,
               }
             });
-
+            console.log("buildings is >>>", buildings);
             this.setState({
               center: {lat: place.geometry.location.lat(), lng:  place.geometry.location.lng()},
               markers: buildings,

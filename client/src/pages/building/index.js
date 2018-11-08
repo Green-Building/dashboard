@@ -78,9 +78,9 @@ class Building extends Component {
           <Grid.Row>
             <Grid.Column width={8}>
             <Card>
-              <Image src='https://c2.staticflickr.com/4/3076/2849949216_dbf836dec1_z.jpg?zz=1' />
+              <Image src={this.state.building.image_url} />
               <Card.Content>
-                <Card.Header>San Jose MLK Library</Card.Header>
+                <Card.Header>{this.state.building.name}</Card.Header>
                 <Card.Description>{this.state.building.address}</Card.Description>
               </Card.Content>
               <Card.Content extra>

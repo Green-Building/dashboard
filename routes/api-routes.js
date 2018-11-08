@@ -15,14 +15,17 @@ router
   .get('/clusters/cluster_from_floor', clusterConfig.getClusterFromFloor)
   .get('/clusters/:cluster_id', clusterConfig.getCluster)
   .post('/clusters/add', clusterConfig.addCluster)
+
   .put('/clusters/:cluster_id', clusterConfig.updateCluster)
   .delete('/clusters/:cluster_id', clusterConfig.deleteCluster)
+
+  //.post('/floors/add', floorConfig.addFloor)
+  //.post('/rooms/add', roomConfig.addRoom)
 
   .get('/buildings/search/location', buildingConfig.searchBuildingByCity)
   .get('/buildings/search/geocode', buildingConfig.searchBuildingByLatLng)
   .get('/buildings/:building_id', buildingConfig.getBuilding)
   .post('/buildings/add', buildingConfig.addBuilding)
-
 
   .post('/sensor-data/add', sensorDataMgmt.insertSensorData)
   .post('/sensor-data/bulk-add', sensorDataMgmt.bulkInsertSensorData)

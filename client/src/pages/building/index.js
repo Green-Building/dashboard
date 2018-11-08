@@ -5,6 +5,8 @@ import axios from 'axios';
 
 import UpdateClusterModal from './updateClusterModal';
 import AddClusterModal from './addClusterModal';
+import AddFloorModal from './addFloorModal';
+import AddRoomModal from './addRoomModal';
 
 class Building extends Component {
   state = {
@@ -114,6 +116,8 @@ class Building extends Component {
                   })}
                 </Table.Body>
               </Table>
+              <AddFloorModal params={this.props.params} />
+              <AddRoomModal params={this.props.params} />
               <AddClusterModal params={this.props.params} availableFloors={this.state.availableFloors} />
             </Grid.Column>
           </Grid.Row>

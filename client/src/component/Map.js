@@ -49,6 +49,12 @@ const MapWithASearchBox = compose(
             console.log("response is >>>", response);
             let buildings = response.data.buildings;
             if(buildings.length >= 1) {
+              _.forEach(buildings, building => {
+                building.position = {
+                  lat: building.building.latitude,
+                  lng: building.building.longitude,
+                }
+              });
               let newCenter = {lat: buildings[0].position.lat, lng:  buildings[0].position.lng};
               const bounds = new window.google.maps.LatLngBounds();
               bounds.extend(new window.google.maps.LatLng(newCenter.lat, newCenter.lng));
@@ -103,6 +109,12 @@ const MapWithASearchBox = compose(
             const buildings = response.data.buildings;
             bounds.extend(new window.google.maps.LatLng(38, -123));
             refs.map.fitBounds(bounds);
+            _.forEach(buildings, building => {
+              building.position = {
+                lat: building.building.latitude,
+                lng: building.building.longitude,
+              }
+            });
 
             this.setState({
               center: {lat: place.geometry.location.lat(), lng:  place.geometry.location.lng()},

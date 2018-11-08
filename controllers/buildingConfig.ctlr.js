@@ -61,10 +61,6 @@ const searchBuildingByLatLng = (req, res) => {
     buildings = _.map(buildings, building => {
       return {
         building: building,
-        position: {
-          lat: building.latitude,
-          lng: building.longitude,
-        }
       }
     });
     console.log('buildings>>>', buildings);

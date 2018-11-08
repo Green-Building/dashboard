@@ -19,7 +19,7 @@ class Building extends Component {
 
   componentDidMount() {
     const { building_id } = this.props.params;
-    return axios.get(`/buildings/${building_id}?fetch_nested=true`)
+    return axios.get(`http://localhost:4001/buildings/${building_id}?fetch_nested=true`)
     .then(response => {
       console.log(_.range(1, response.data.num_of_floors+1))
       let floors = _.range(1, response.data.num_of_floors+1);

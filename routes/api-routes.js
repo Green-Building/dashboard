@@ -4,6 +4,7 @@ const nodeConfig = require('../controllers/nodeConfig.ctlr');
 const clusterConfig = require('../controllers/clusterConfig.ctlr');
 const buildingConfig = require('../controllers/buildingConfig.ctlr');
 const sensorDataMgmt = require('../controllers/sensorData.ctlr');
+const floorConfig = require('../controllers/floorConfig.ctlr');
 
 router
   .get('/sensors/:sensor_id', sensorConfig.getSensor)
@@ -19,7 +20,7 @@ router
   .put('/clusters/:cluster_id', clusterConfig.updateCluster)
   .delete('/clusters/:cluster_id', clusterConfig.deleteCluster)
 
-  //.post('/floors/add', floorConfig.addFloor)
+  .post('/floors/add', floorConfig.addFloor)
   //.post('/rooms/add', roomConfig.addRoom)
 
   .get('/buildings/search/location', buildingConfig.searchBuildingByCity)

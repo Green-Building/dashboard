@@ -16,20 +16,20 @@ class AddFloorModal extends Component {
 
   handleSubmit = (event) => {
   event.preventDefault();
-    console.log("this.props is>>>", this.props);
     const { params } = this.props;
     const building_id = +params.building_id;
     let newFloorData = _.assign({}, this.state, { building_id });
-    console.log("newFloorData is>>>", newFloorData);
-    return axios.post('http://localhost:4001/floors/add', {
-      data: newFloorData
-    })
+    //console.log("newFloorData is>>>", ...newFloorData);
+
+
+    return axios.post('http://localhost:4001/floors/add', newFloorData)
     .then(response => {
       console.log("response adding a floor>>>", response);
     })
     .catch(err => {
       console.log("err adding a floor>>>", err);
     })
+
   }
   render() {
     return (

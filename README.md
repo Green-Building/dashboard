@@ -46,9 +46,10 @@ Get front end running in Windows
 
 * Clone down the repo, and cd into `client` directory, and run the app
   1. `git clone https://github.com/Green-Building/dashboard.git`
-  2. `cd client` `yarn install`
-  3. `yarn start`
-  4. application should start at port 3002
+  2. `cd client`
+  3. `yarn install`
+  4. `yarn start`
+  5. application should start at port 3002
 
 Running back end
 

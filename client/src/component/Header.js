@@ -10,10 +10,10 @@ export default ({ children }) => {
           <IndexLink to="/">Home</IndexLink>
         </Menu.Item>
         <Menu.Item position="left">
-          <Link to="/buildings/add">Infra Manager</Link>
+          <Link to="/infra-manager">Infra Manager</Link>
         </Menu.Item>
         <Menu.Item position="left">
-          <Link to="/sensor-data/add">Data Manager</Link>
+          <Link to="/data-manager">Data Manager</Link>
         </Menu.Item>
         <Menu.Item position="right">
           <Button primary>Logout</Button>

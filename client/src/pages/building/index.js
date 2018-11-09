@@ -7,6 +7,7 @@ import UpdateClusterModal from './updateClusterModal';
 import AddClusterModal from './addClusterModal';
 import AddFloorModal from './addFloorModal';
 import AddRoomModal from './addRoomModal';
+import BuildinSummary from './buildingSummary';
 
 import {
   INFRA_MANAGER_HOST
@@ -80,19 +81,19 @@ class Building extends Component {
         <Grid>
           <Grid.Row>
             <Grid.Column width={8}>
-            <Card>
-              <Image src={this.state.building.image_url} />
-              <Card.Content>
-                <Card.Header>{this.state.building.name}</Card.Header>
-                <Card.Description>{this.state.building.address}</Card.Description>
-              </Card.Content>
-              <Card.Content extra>
-                <a>
-                  <Icon name='user' />
-                  {this.state.building.num_of_floors}
-                </a>
-              </Card.Content>
-            </Card>
+              <Card>
+                <Image src={this.state.building.image_url} />
+                <Card.Content>
+                  <Card.Header>{this.state.building.name}</Card.Header>
+                  <Card.Description>{this.state.building.address}</Card.Description>
+                </Card.Content>
+                <Card.Content extra>
+                  <a>
+                    <Icon name='user' />
+                    {this.state.building.num_of_floors}
+                  </a>
+                </Card.Content>
+              </Card>
             </Grid.Column>
             <Grid.Column width={8}>
               <Table celled>
@@ -135,11 +136,10 @@ class Building extends Component {
                 value={this.state.floor.selected}
                 options={floorOptions}
                 onChange={this.handleFloorChange} />
-            </Grid.Column>
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Column width={8}>
               <Button onClick={this.goToFloor}>Goto Floor</Button>
+            </Grid.Column>
+            <Grid.Column width={8}>
+              <BuildinSummary />
             </Grid.Column>
           </Grid.Row>
         </Grid>

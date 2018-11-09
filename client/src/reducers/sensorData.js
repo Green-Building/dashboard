@@ -30,7 +30,7 @@ const ERROR_SENSOR = 'ERROR_SENSOR';
 // ACTIONS
 //
 
-export const fetchSensorData = (startTime, endTime) => (dispatch, getState) => {
+export const fetchSensorData = (sensorId, startTime, endTime) => (dispatch, getState) => {
   dispatch({
     type: 'FETCH_SENSOR_DATA',
   });
@@ -39,7 +39,7 @@ export const fetchSensorData = (startTime, endTime) => (dispatch, getState) => {
     method: 'GET',
     params: {
       idType:'sensor',
-      id: 123,
+      id: sensorId,
       startTime: new Date(startTime),
       endTime: new Date(endTime)
     },

@@ -29,11 +29,11 @@ const routes = {
       component: Node,
     },
     {
-      path: 'sensor-data/add',
+      path: '/data-manager',
       component: addSensorData,
     },
     {
-      path: '/sensor-data/:sensor_id',
+      path: '/sensor/:sensor_id',
       component: sensorStats,
     },
     {
@@ -41,7 +41,7 @@ const routes = {
       component: sensorNetwork,
     },
     {
-      path: 'buildings/add',
+      path: 'infra-manager',
       component: addBuilding,
     },
   ]

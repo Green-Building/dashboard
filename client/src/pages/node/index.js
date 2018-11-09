@@ -59,7 +59,7 @@ class Node extends Component {
   handleSensorClick = (event, data) => {
     let id = event.target.getAttribute('name');
     console.log(event.target.getAttribute('name'))
-    this.props.router.push(`/sensor-data/${id}`);
+    this.props.router.push(`/sensor/${id}`);
   }
 
   render() {

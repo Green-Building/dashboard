@@ -8,7 +8,6 @@ import { fetchSensorData } from '../../reducers/sensorData';
 
 class SelectTimeRange extends Component {
   state = {
-    sensorId: '',
     startTime: moment().subtract(1, 'd').format("YYYY-MM-DDThh:mm:ss"),
     endTime: moment().format("YYYY-MM-DDThh:mm:ss"),
   };
@@ -24,21 +23,14 @@ class SelectTimeRange extends Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    const { fetchSensorData } = this.props;
+    const { fetchSensorData, params } = this.props;
     console.log("this.state is >>>", this.state);
-    return fetchSensorData(this.state.startTime,this.state.endTime);
+    return fetchSensorData(params.sensor_id, this.state.startTime,this.state.endTime);
   }
 
   render() {
     return (
       <Form onSubmit={this.onSubmit}>
-        <Form.Input
-          label='sensor id'
-          type='string'
-          onChange={this.handleChange}
-          name="sensorId"
-          value={this.state.sensorId}
-        />
         <Form.Input
           label='StartTime'
           type='datetime-local'
@@ -63,8 +55,8 @@ class SelectTimeRange extends Component {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    fetchSensorData: (startTime, endTime) => {
-      dispatch(fetchSensorData(startTime, endTime))
+    fetchSensorData: (sensorId, startTime, endTime) => {
+      dispatch(fetchSensorData(sensorId, startTime, endTime))
     },
   }
 }

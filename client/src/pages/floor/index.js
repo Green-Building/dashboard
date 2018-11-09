@@ -24,7 +24,7 @@ class Floor extends Component {
   componentDidMount() {
     console.log("this.props>>>", this.props);
     const  { building_id, floor_id } = this.props.params;
-    return axios.get(`${INFRA_MANAGER_HOST}/floors/${floor_id}`)
+    return axios.get(`${INFRA_MANAGER_HOST}/floors/${floor_id}?fetch_nested=floor,room,node`)
     .then(response => {
       console.log("response is >>>", response);
       let cluster = response.data;

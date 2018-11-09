@@ -1,5 +1,6 @@
 const db = require('../models');
 const _ = require('lodash');
+const { generateNest } = require('../utils');
 
 const addFloor = (req, res) => {
   console.log("request.body is>>>", req.body);
@@ -19,19 +20,18 @@ const addFloor = (req, res) => {
 const getClusterFromFloor = (req, res) => {
   console.log("req.params>>>", req.params);
   const floor_id = +req.params.floor_id;
-  return db.cluster.findOne({
+  const { fetch_nested } = req.query;
+  let queryObj = {
     where: {
       floor_id: floor_id,
     },
-    include : [{
-      model: db.node,
-    }, {
-      model: db.floor,
-      include: [{
-        model: db.room,
-      }]
-    }],
-  })
+  };
+  if(fetch_nested) {
+    queryObj.include = generateNest('cluster', fetch_nested, db);
+    console.log("nesting 0 is>>>", queryObj.include[0]);
+    console.log("nesting 1 is>>>", queryObj.include[1]);
+  }
+  return db.cluster.findOne(queryObj)
   .then(cluster => {
     console.log("cluster is >>>", cluster);
     res.json(cluster);

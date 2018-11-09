@@ -64,7 +64,7 @@ class Floor extends Component {
     let node = _.find(this.state.nodes, {room_number: d.label});
     console.log("node is >>>", node);
     console.log("this.state.cluster is>>>", this.state.cluster);
-    this.props.router.push(`/building/${this.state.cluster.building_id}/cluster/${this.state.cluster.id}/node/${node.id}`);
+    this.props.router.push(`/node/${node.id}`);
   }
 
   handleChange = (event, data) => {

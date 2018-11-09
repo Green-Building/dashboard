@@ -15,7 +15,9 @@ const getBuilding = (req, res) => {
   if(fetch_nested) {
     queryObj.include = [{
       model: db.cluster,
-      include: [db.floor]
+      include: [db.floor,]
+    },{
+      model: db.floor,
     }];
   }
   return db.building.findOne(queryObj)

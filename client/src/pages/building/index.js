@@ -25,7 +25,6 @@ class Building extends Component {
     const { building_id } = this.props.params;
     return axios.get(`${INFRA_MANAGER_HOST}/buildings/${building_id}?fetch_nested=true`)
     .then(response => {
-      console.log(_.range(1, response.data.num_of_floors+1))
       let floors = _.range(1, response.data.num_of_floors+1);
       let usedFloors = _.map(response.data.clusters, cluster => {
         return +cluster.floor.floor_number;
@@ -121,7 +120,7 @@ class Building extends Component {
                 </Table.Body>
               </Table>
               <AddFloorModal params={this.props.params} />
-              <AddRoomModal params={this.props.params} />
+              <AddRoomModal params={this.props.params} floors={this.state.building.floors}/>
               <AddClusterModal params={this.props.params} availableFloors={this.state.availableFloors} />
             </Grid.Column>
           </Grid.Row>

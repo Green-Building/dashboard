@@ -43,6 +43,9 @@ module.exports = function(sequelize, DataTypes) {
         Building.hasMany(models.cluster, {
           foreignKey: 'building_id',
         });
+        Building.hasMany(models.floor, {
+          foreignKey: 'building_id',
+        });
       },
     },
   });

@@ -31,6 +31,11 @@ class Floor extends Component {
     .then(response => {
       console.log("response is >>>", response);
       let cluster = response.data;
+      cluster.nodes = _.map(cluster.nodes, node => {
+        node.room_number = _.find(cluster.floor.rooms, {id: node.room_id}).room_number;
+        console.log("_.find(rooms, {id: node.room_id}).name>>>", node.room_number);
+        return node;
+      });
 
       const data = this.state.alphabet.reduce((acc, letter1, idx) => {
         return acc.concat(
@@ -45,7 +50,7 @@ class Floor extends Component {
 
       _.forEach(cluster.nodes, (node, i) => {
         data[i].color = 1;
-        data[i].label = node.room_name;
+        data[i].label = node.room_number;
       })
 
       this.setState({cluster, nodes: cluster.nodes, data: data});
@@ -55,14 +60,11 @@ class Floor extends Component {
     })
   }
 
-  goToSensorStats = () => {
-    this.props.router.push('/sensor-data');
-  }
-
   handleValueClick(d, event) {
     console.log("d is>>>", d);
     console.log("event is>>>", event);
-    let node = _.find(this.state.nodes, {room_name: d.label});
+    console.log(this.state.nodes);
+    let node = _.find(this.state.nodes, {room_number: d.label});
     console.log("node is >>>", node);
     console.log("this.state.cluster is>>>", this.state.cluster);
     this.props.router.push(`/building/${this.state.cluster.building_id}/cluster/${this.state.cluster.id}/node/${node.id}`);

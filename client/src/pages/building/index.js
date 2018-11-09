@@ -23,11 +23,15 @@ class Building extends Component {
 
   componentDidMount() {
     const { building_id } = this.props.params;
-    return axios.get(`${INFRA_MANAGER_HOST}/buildings/${building_id}?fetch_nested=true`)
+    return axios.get(`${INFRA_MANAGER_HOST}/buildings/${building_id}?fetch_nested=floor,cluster`)
     .then(response => {
-      let floors = _.range(1, response.data.num_of_floors+1);
-      let usedFloors = _.map(response.data.clusters, cluster => {
-        return +cluster.floor.floor_number;
+      let building = response.data;
+      _.forEach(building.clusters, cluster => {
+        cluster.floor_number = _.find(building.floors, {id: cluster.floor_id}).floor_number;
+      })
+      let floors = _.range(1, building.num_of_floors+1);
+      let usedFloors = _.map(building.floors, floor => {
+        return +floor.floor_number;
       })
       let unusedFloors = _.difference(floors, usedFloors);
       this.setState({ building: response.data, clusters: response.data.clusters, availableFloors: unusedFloors, usedFloors: usedFloors });
@@ -106,7 +110,7 @@ class Building extends Component {
                     return (
                       <Table.Row>
                         <Table.Cell>
-                          <Label ribbon={index===0}>{cluster.floor.floor_number}</Label>
+                          <Label ribbon={index===0}>{cluster.floor_number}</Label>
                         </Table.Cell>
                         <Table.Cell>{cluster.name}</Table.Cell>
                         <Table.Cell>{cluster.status}</Table.Cell>

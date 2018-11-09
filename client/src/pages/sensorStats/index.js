@@ -20,13 +20,13 @@ class sensorStats extends Component {
     this.props.fetchSensor(this.props.params.sensor_id);
   }
   render() {
-    const { sensorData } = this.props;
+    const { sensorData, params } = this.props;
     return (
       <Container>
         <Grid>
           <Grid.Row>
             <Grid.Column width={8}>
-              <SelectTimeRange />
+              <SelectTimeRange params={params} />
             </Grid.Column>
             <Grid.Column width={8}>
               <SensorSummary sensorData={sensorData} />

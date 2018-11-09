@@ -3,10 +3,27 @@ const _ = require('lodash');
 const db = require('../models');
 const SensorDataModel = require('../mongoModels/SensorData');
 
+function parseNesting(nestedStr, starting) {
+  const children = fetch_nested.split(',');
+  const nesting = {
+    floor: null,
+    cluster: null,
+    room: 'floor',
+    node: 'cluster',
+    sensor: 'node',
+  }
+  _.forEach(children, child => {
+    if(child === 'floor') {
+      map.floor = {
+        model: db.floor,
+      }
+    }
+  })
+}
+
 const getBuilding = (req, res) => {
   const building_id = req.params.building_id;
   const { fetch_nested } = req.query;
-  console.log("req.query is>>>", req.query);
   let queryObj = {
     where: {
       id: building_id
@@ -15,7 +32,6 @@ const getBuilding = (req, res) => {
   if(fetch_nested) {
     queryObj.include = [{
       model: db.cluster,
-      include: [db.floor,]
     },{
       model: db.floor,
     }];

@@ -2,12 +2,12 @@ const db = require('../models');
 const _ = require('lodash');
 
 const getCluster = (req, res) => {
-  const cluster_id= req.params.cluster_id;
+  const cluster_id = req.params.cluster_id;
   return db.cluster.findOne({
     where: {
       id: cluster_id
     },
-    include: [ {model: db.building, as: 'building'} ]
+    include: [ {model: db.building} ]
   })
   .then(cluster => {
     res.json(cluster);
@@ -38,35 +38,16 @@ const getClusterFromFloor = (req, res) => {
       },
       include : [{
         model: db.node,
+      }, {
+        model: db.floor,
+        include: [{
+          model: db.room,
+        }]
       }],
-    })
-    .then(cluster => {
-      let room_ids  = _.reduce(cluster.nodes, (result, node, key) => {
-        result.push(node.room_id);
-        return result;
-      }, []);
-      return db.room.findAll({
-        where: {
-          id: {
-            in: room_ids,
-          },
-        },
-        raw: true,
-      })
-      .then(rooms => {
-        console.log("rooms is>>>", rooms);
-        cluster = JSON.parse(JSON.stringify(cluster));
-        console.log('cluster is...', cluster);
-        _.forEach(cluster.nodes, node => {
-          node.room_name = _.find(rooms, {id: node.room_id}).room_number;
-          console.log("_.find(rooms, {id: node.room_id}).name>>>", _.find(rooms, {id: node.room_id}).room_number)
-        });
-        return cluster;
-      })
     })
   })
   .then(cluster => {
-    //console.log("cluster is>>>", cluster);
+    console.log("cluster is >>>", cluster);
     res.json(cluster);
   })
   .catch(err => {

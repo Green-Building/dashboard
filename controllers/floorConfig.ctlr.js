@@ -16,6 +16,32 @@ const addFloor = (req, res) => {
 
 }
 
+const getClusterFromFloor = (req, res) => {
+  console.log("req.params>>>", req.params);
+  const floor_id = +req.params.floor_id;
+  return db.cluster.findOne({
+    where: {
+      floor_id: floor_id,
+    },
+    include : [{
+      model: db.node,
+    }, {
+      model: db.floor,
+      include: [{
+        model: db.room,
+      }]
+    }],
+  })
+  .then(cluster => {
+    console.log("cluster is >>>", cluster);
+    res.json(cluster);
+  })
+  .catch(err => {
+    console.log("err fetching cluster from floor>>>", err);
+  })
+}
+
 module.exports = {
   addFloor,
+  getClusterFromFloor,
 }

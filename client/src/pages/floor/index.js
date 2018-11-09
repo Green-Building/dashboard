@@ -23,13 +23,8 @@ class Floor extends Component {
 
   componentDidMount() {
     console.log("this.props>>>", this.props);
-    const  { building_id, floor_num } = this.props.params;
-    return axios.get(`${INFRA_MANAGER_HOST}/clusters/cluster_from_floor`, {
-      params: {
-        building_id,
-        floor_number: floor_num
-      }
-    })
+    const  { building_id, floor_id } = this.props.params;
+    return axios.get(`${INFRA_MANAGER_HOST}/floors/${floor_id}`)
     .then(response => {
       console.log("response is >>>", response);
       let cluster = response.data;

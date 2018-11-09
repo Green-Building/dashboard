@@ -17,44 +17,6 @@ const getCluster = (req, res) => {
   })
 }
 
-const getClusterFromFloor = (req, res) => {
-  console.log("req.query>>>", req.query);
-  const floor_number = req.query.floor_number;
-  const building_id = +req.query.building_id;
-  return db.floor.findOne({
-    floor: floor_number,
-    building_id: building_id,
-  })
-  .then(floor => {
-    if (!floor) {
-      throw new Error(`floor not found`);
-    }
-    console.log("floor is >>>", floor);
-
-    return db.cluster.findOne({
-      where: {
-        floor_id: floor.get('id'),
-        building_id: building_id,
-      },
-      include : [{
-        model: db.node,
-      }, {
-        model: db.floor,
-        include: [{
-          model: db.room,
-        }]
-      }],
-    })
-  })
-  .then(cluster => {
-    console.log("cluster is >>>", cluster);
-    res.json(cluster);
-  })
-  .catch(err => {
-    console.log("err fetching cluster from floor>>>", err);
-  })
-}
-
 const addCluster = (req, res) => {
   console.log("req.body is>>>", req.body.data);
   const newCluster = req.body.data;
@@ -128,7 +90,6 @@ const deleteCluster = (req, res) => {
 
 module.exports = {
   getCluster,
-  getClusterFromFloor,
   addCluster,
   updateCluster,
   deleteCluster,

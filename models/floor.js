@@ -21,6 +21,7 @@ module.exports = function(sequelize, DataTypes) {
         Floor.hasMany(models.room, {
           foreignKey: 'floor_id',
         });
+
         Floor.belongsTo(models.building, {
           foreignKey: 'building_id',
           allowNull: false,

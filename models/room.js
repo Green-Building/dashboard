@@ -18,7 +18,6 @@ module.exports = function(sequelize, DataTypes) {
       associate: function(models) {
         Room.hasOne(models.node, {
           foreignKey: 'room_id',
-          allowNull: false,
         });
         Room.belongsTo(models.building, {
           foreignKey: 'building_id',

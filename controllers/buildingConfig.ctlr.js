@@ -2,24 +2,7 @@ const Promise = require('bluebird');
 const _ = require('lodash');
 const db = require('../models');
 const SensorDataModel = require('../mongoModels/SensorData');
-
-function parseNesting(nestedStr, starting) {
-  const children = fetch_nested.split(',');
-  const nesting = {
-    floor: null,
-    cluster: null,
-    room: 'floor',
-    node: 'cluster',
-    sensor: 'node',
-  }
-  _.forEach(children, child => {
-    if(child === 'floor') {
-      map.floor = {
-        model: db.floor,
-      }
-    }
-  })
-}
+const { generateNest } = require('../utils');
 
 const getBuilding = (req, res) => {
   const building_id = req.params.building_id;
@@ -30,11 +13,8 @@ const getBuilding = (req, res) => {
     },
   };
   if(fetch_nested) {
-    queryObj.include = [{
-      model: db.cluster,
-    },{
-      model: db.floor,
-    }];
+    queryObj.include = generateNest('building', fetch_nested, db);
+    console.log("nesting is>>>", queryObj.include);
   }
   return db.building.findOne(queryObj)
   .then(building => {

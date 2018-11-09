@@ -21,7 +21,7 @@ const routes = {
       component: Building,
     },
     {
-      path: '/building/:building_id/floor/:floor_num',
+      path: '/building/:building_id/floor/:floor_id',
       component: Floor,
     },
     {

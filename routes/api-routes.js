@@ -14,7 +14,7 @@ router
   .get('/nodes/:node_id', nodeConfig.getNode)
   .post('/nodes/add', nodeConfig.addNode)
 
-  .get('/clusters/cluster_from_floor', clusterConfig.getClusterFromFloor)
+  .get('/floors/:floor_id', floorConfig.getClusterFromFloor)
   .get('/clusters/:cluster_id', clusterConfig.getCluster)
   .post('/clusters/add', clusterConfig.addCluster)
 

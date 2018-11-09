@@ -1,0 +1,12 @@
+1.Map.js -line-108
+---------------------
+axios.get(`${INFRA_MANAGER_HOST}/buildings/search/geocode`, {
+            params: {
+              longitude: place.geometry.location.lng(),
+              latitude:  place.geometry.location.lat(),
+            },
+          })
+------------------------
+should be : ${infrastructure_manager_host}buildings/search/geocode?longitude=-121.89056920000002&latitude=37.3481338&radius=5
+
+

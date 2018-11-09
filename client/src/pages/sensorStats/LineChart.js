@@ -17,9 +17,10 @@ import {
 export default function LineChart (props) {
   const Line = LineSeries;
   const { sensorData } = props;
-  console.log("data is>>>", sensorData.length);
+  const data = sensorData.data;
+  console.log("data is>>>", data.length);
   let mdata = [];
-  _.forEach(sensorData, datum => {
+  _.forEach(data, datum => {
     console.log("datum is>>>", datum);
     mdata.push(
       {

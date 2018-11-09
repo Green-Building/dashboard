@@ -27,24 +27,6 @@ class SelectTimeRange extends Component {
     const { fetchSensorData } = this.props;
     console.log("this.state is >>>", this.state);
     return fetchSensorData(this.state.startTime,this.state.endTime);
-    /*
-    return axios(`http://localhost:4001/sensor-data/search-data`, {
-      method: 'GET',
-      params: {
-        idType:'sensor',
-        id: 123,
-        startTime: new Date(this.state.startTime),
-        endTime: new Date(this.state.endTime)
-      },
-    })
-    .then(response => {
-      console.log("response is >>>", response.data);
-    })
-    .catch(err => {
-      console.log("err is>>>", err);
-    })
-    */
-
   }
 
   render() {

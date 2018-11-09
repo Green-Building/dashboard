@@ -70,7 +70,7 @@ class Building extends Component {
     let floors = this.state.building.floors;
     let floor = _.find(floors, {floor_number: floorNumber});
 
-    this.props.router.push(`/building/${this.state.building.id}/floor/${floor.id}`);
+    this.props.router.push(`/floor/${floor.id}`);
   }
   render() {
     const floorOptions = _.map(this.state.usedFloors, floor => {

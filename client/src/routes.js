@@ -21,11 +21,11 @@ const routes = {
       component: Building,
     },
     {
-      path: '/building/:building_id/floor/:floor_id',
+      path: '/floor/:floor_id',
       component: Floor,
     },
     {
-      path: '/building/:building_id/cluster/:cluster_id/node/:node_id',
+      path: '/node/:node_id',
       component: Node,
     },
     {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import axios from 'axios';
+import client from '../../client';
 import { Card, Image, List, Icon } from 'semantic-ui-react';
 
 import {

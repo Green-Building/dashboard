@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import { Container, Grid, Button, Card, Icon, Image, Dropdown, Table, Label } from 'semantic-ui-react';
-import axios from 'axios';
+import client from '../../client';
 
 import UpdateClusterModal from './updateClusterModal';
 import AddClusterModal from './addClusterModal';
@@ -24,7 +24,7 @@ class Building extends Component {
 
   componentDidMount() {
     const { building_id } = this.props.params;
-    return axios.get(`${INFRA_MANAGER_HOST}/buildings/${building_id}?fetch_nested=floor,cluster`)
+    return client.get(`${INFRA_MANAGER_HOST}/api/buildings/${building_id}?fetch_nested=floor,cluster`)
     .then(response => {
       let building = response.data;
       _.forEach(building.clusters, cluster => {
@@ -54,7 +54,7 @@ class Building extends Component {
 
   handleDelete(cluster) {
     console.log("cluster is>>>", cluster);
-    return axios.delete(`${INFRA_MANAGER_HOST}/clusters/${cluster.id}`)
+    return client.delete(`${INFRA_MANAGER_HOST}/clusters/${cluster.id}`)
     .then(() => {
       let clusters = this.state.building.clusters;
       clusters = _.filter(clusters, c => c.id !== cluster.id);

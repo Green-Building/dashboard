@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import axios from 'axios';
 import { Card, Image, List, Icon } from 'semantic-ui-react';
 
 import {

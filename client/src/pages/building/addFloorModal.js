@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import axios from 'axios';
+import client from '../../client';
 import { Form, Button, Header, Image, Modal, Input, Dropdown } from 'semantic-ui-react';
 
 import {
@@ -26,7 +26,7 @@ class AddFloorModal extends Component {
     //console.log("newFloorData is>>>", ...newFloorData);
 
 
-    return axios.post(`${INFRA_MANAGER_HOST}/api/floors/add`, newFloorData)
+    return client.post(`${INFRA_MANAGER_HOST}/api/floors/add`, newFloorData)
     .then(response => {
       console.log("response adding a floor>>>", response);
     })

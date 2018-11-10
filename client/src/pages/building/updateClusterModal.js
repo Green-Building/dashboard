@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import axios from 'axios';
+import client from '../../client';
 import { Form, Button, Header, Image, Modal, Input } from 'semantic-ui-react';
 
 import {
@@ -26,7 +26,7 @@ class UpdateClusterModal extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     console.log("this.props.cluster is>>>", this.props.cluster);
-    return axios.put(`${INFRA_MANAGER_HOST}/api/clusters/${this.props.cluster.id}`, {
+    return client.put(`${INFRA_MANAGER_HOST}/api/clusters/${this.props.cluster.id}`, {
       data: _.omit(this.props.cluster, 'id'),
     })
     .then(response => {

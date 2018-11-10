@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import axios from 'axios';
+import client from '../../client';
 import { Form, Button, Header, Image, Modal, Input, Dropdown } from 'semantic-ui-react';
 
 import {
@@ -30,7 +30,7 @@ class AddClusterModal extends Component {
     const building_id = +params.building_id;
     let newClusterData = _.assign({}, this.state.cluster, { building_id }, {floor_number: +this.state.selectedFloor});
     console.log("newClusterData is>>>", newClusterData);
-    return axios.post(`${INFRA_MANAGER_HOST}/api/clusters/add`, {
+    return client.post(`${INFRA_MANAGER_HOST}/api/clusters/add`, {
       data: newClusterData
     })
     .then(response => {

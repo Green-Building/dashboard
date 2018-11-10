@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import axios from 'axios';
+import client from '../../client';
 import { Label } from 'semantic-ui-react';
 import Tree from 'react-d3-tree';
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import client from '../../client';
 import _ from 'lodash';
 import { scaleLinear } from 'd3-scale';
 import { Container, Button, Grid, Form, Input } from 'semantic-ui-react';
@@ -24,7 +24,7 @@ class Floor extends Component {
   componentDidMount() {
     console.log("this.props>>>", this.props);
     const  { building_id, floor_id } = this.props.params;
-    return axios.get(`${INFRA_MANAGER_HOST}/api/floors/${floor_id}?fetch_nested=floor,room,node`)
+    return client.get(`${INFRA_MANAGER_HOST}/api/floors/${floor_id}?fetch_nested=floor,room,node`)
     .then(response => {
       console.log("response is >>>", response);
       let cluster = response.data;
@@ -75,7 +75,7 @@ class Floor extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    return axios.post(`${INFRA_MANAGER_HOST}/api/nodes/add`, {
+    return client.post(`${INFRA_MANAGER_HOST}/api/nodes/add`, {
       data: _.assign({}, this.state.newNode, {cluster_id: this.state.cluster.id}),
     })
     .then(response => {

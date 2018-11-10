@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import client from '../../client';
 import { Container, Form, Input, Button, Dropdown } from 'semantic-ui-react';
 
 import {
@@ -76,7 +76,7 @@ class AddBuilding extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    return axios.post(`${INFRA_MANAGER_HOST}/api/buildings/add`, {
+    return client.post(`${INFRA_MANAGER_HOST}/api/buildings/add`, {
       data: {
         address: `${this.state.address}, ${this.state.city}, ${this.state.state} ${this.state.zipcode}`,
         latitude:  +this.state.latitude,

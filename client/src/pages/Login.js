@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Grid, Button, Form, Input } from 'semantic-ui-react';
-import axios from 'axios';
+import client from '../client';
 import qs from 'qs';
 
 import Auth from '../modules/Auth';
@@ -32,7 +32,7 @@ class Login extends Component {
         'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
       }
     }
-    return axios({
+    return client({
       method: 'post',
       url: `${INFRA_MANAGER_HOST}/auth/login`,
       data: qs.stringify(requestBody),

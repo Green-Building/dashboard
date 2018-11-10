@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import axios from 'axios';
-import { Form, Input, Button } from 'semantic-ui-react';
+import { Form, Input, Button, Grid } from 'semantic-ui-react';
 import {
   INFRA_MANAGER_HOST
 } from '../api-config';
@@ -37,22 +37,25 @@ const MapWithASearchBox = compose(
         city: '',
         state: '',
         zipcode: '',
+        radius: 5,
         onFormUpdate:  (event, data) => {
-          console.log("data is >>", data);
-          this.setState({[data.name]: data.value})
+          this.setState({[data.name]: data.value});
         },
         onSubmitForm: event => {
           event.preventDefault();
           console.log("form submitted!!!");
           console.log("this.state is>>", this.state);
+          let locationParams = {};
+          if(this.state.zipcode) {
+            locationParams.zipcode = this.state.zipcode;
+          } else {
+            locationParams.city = this.state.city;
+            locationParams.state = this.state.state;
+          }
           return axios.get(`${INFRA_MANAGER_HOST}/buildings/search/location`, {
-            params: {
-              city: this.state.city,
-              state: this.state.state,
-              zipcode: this.state.zipcode,
-            }
+            params: locationParams,
           })
-          .then(response =>{
+          .then(response => {
             console.log("response is >>>", response);
             let buildings = response.data;
             if(buildings.length >= 1) {
@@ -109,6 +112,7 @@ const MapWithASearchBox = compose(
             params: {
               longitude: place.geometry.location.lng(),
               latitude:  place.geometry.location.lat(),
+              radius: +this.state.radius,
             },
           })
           .then(response => {
@@ -139,23 +143,32 @@ const MapWithASearchBox = compose(
   withScriptjs,
   withGoogleMap
 )(props =>
-  <Form onSubmit={(e)=>props.onSubmitForm(e)}>
-    <Form.Group >
-      <Form.Field>
-        <label>City</label>
-        <Input name='city'  placeholder='City' onChange={props.onFormUpdate} />
-      </Form.Field>
-      <Form.Field>
-        <label>State</label>
-        <Input name='state' placeholder='State'onChange={props.onFormUpdate} />
-      </Form.Field>
-      <Form.Field>
-        <label>Zipcode</label>
-        <Input name='zipcode' placeholder='Zipcode' onChange={props.onFormUpdate} />
-      </Form.Field>
-    </Form.Group>
-    <Form.Field control={Button}>Submit</Form.Field>
-    <Form.Group >
+  <Grid>
+    <Grid.Row>
+      <Form onSubmit={(e)=>props.onSubmitForm(e)}>
+        <Form.Group >
+          <Form.Field>
+            <label>City</label>
+            <Input name='city' value={props.city} placeholder='City' onChange={props.onFormUpdate} />
+          </Form.Field>
+          <Form.Field>
+            <label>State</label>
+            <Input name='state' value={props.state} placeholder='State'onChange={props.onFormUpdate} />
+          </Form.Field>
+          <Form.Field>
+            <label>Zipcode</label>
+            <Input name='zipcode' value={props.zipcode} placeholder='Zipcode' onChange={props.onFormUpdate} />
+          </Form.Field>
+          <Form.Field>
+            <label>Default Radius</label>
+            <Input name='radius' value={props.radius} placeholder='Radius' onChange={props.onFormUpdate} />
+          </Form.Field>
+        </Form.Group>
+        <Form.Field control={Button}>Submit</Form.Field>
+      </Form>
+
+    </Grid.Row>
+    <Grid.Row>
       <GoogleMap
         ref={props.onMapMounted}
         defaultZoom={15}
@@ -187,14 +200,11 @@ const MapWithASearchBox = compose(
           />
         </SearchBox>
         {_.map(props.markers,(marker, index) => {
-          console.log("marker is >>>", marker);
-          console.log("index is >>>", index);
           return <Marker key={index} position={marker.position} onClick={()=>props.onMarkerClick(index)}/>;
         })}
       </GoogleMap>
-    </Form.Group>
-  </Form>
-
+    </Grid.Row>
+  </Grid>
 );
 
 export default MapWithASearchBox;

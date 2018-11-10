@@ -50,10 +50,10 @@ const addBuilding = (req, res) => {
 const searchBuildingByLatLng = (req, res) => {
   console.log("herereree>>>>");
   console.log(req.query);
-  const { latitude, longitude } = req.query;
+  const { latitude, longitude, radius } = req.query;
   //https://stackoverflow.com/questions/2234204/latitude-longitude-find-nearest-latitude-longitude-complex-sql-or-complex-calc
-  return db.sequelize.query("SELECT building.*, SQRT(POW(69.1 * (latitude - :startlat), 2) + POW(69.1 * (:startlng - longitude) * COS(latitude / 57.3), 2)) AS distance FROM building HAVING distance < 5 ORDER BY distance;",
-    { replacements: { startlat: latitude, startlng:  longitude }, type: db.sequelize.QueryTypes.SELECT }
+  return db.sequelize.query("SELECT building.*, SQRT(POW(69.1 * (latitude - :targetLat), 2) + POW(69.1 * (:targetLng - longitude) * COS(latitude / 57.3), 2)) AS distance FROM building HAVING distance < :targetRadius ORDER BY distance;",
+    { replacements: { targetLat: +latitude, targetLng:  +longitude, targetRadius: +radius || 5 }, type: db.sequelize.QueryTypes.SELECT }
   )
   .then(buildings => {
     console.log('buildings>>>', buildings);

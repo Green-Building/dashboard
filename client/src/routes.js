@@ -96,6 +96,15 @@ const routes = {
         }
       }
     },
+    {
+      path: '/logout',
+      onEnter: (nextState, replace) => {
+        Auth.deauthenticateUser();
+
+        // change the current URL to /
+        replace('/');
+      }
+    }
   ]
 };
 

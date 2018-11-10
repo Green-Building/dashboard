@@ -19,7 +19,7 @@ export default ({ children }) => {
             <Link to="/data-manager">Data Manager</Link>
           </Menu.Item>
           <Menu.Item position="right">
-            <Button primary>Logout</Button>
+            <Link to="/logout"><Button primary>Logout</Button></Link>
           </Menu.Item>
         </Menu>) : null
       }

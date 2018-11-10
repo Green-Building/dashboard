@@ -52,7 +52,7 @@ const MapWithASearchBox = compose(
             locationParams.city = this.state.city;
             locationParams.state = this.state.state;
           }
-          return axios.get(`${INFRA_MANAGER_HOST}/buildings/search/location`, {
+          return axios.get(`${INFRA_MANAGER_HOST}/api/buildings/search/location`, {
             params: locationParams,
           })
           .then(response => {
@@ -108,7 +108,7 @@ const MapWithASearchBox = compose(
           });
 
           const place = places[0];
-          axios.get(`${INFRA_MANAGER_HOST}/buildings/search/geocode`, {
+          axios.get(`${INFRA_MANAGER_HOST}/api/buildings/search/geocode`, {
             params: {
               longitude: place.geometry.location.lng(),
               latitude:  place.geometry.location.lat(),

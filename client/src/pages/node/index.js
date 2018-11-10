@@ -21,7 +21,7 @@ class Node extends Component {
 
   componentDidMount() {
     const  { node_id } = this.props.params;
-    return axios.get(`${INFRA_MANAGER_HOST}/nodes/${node_id}`)
+    return axios.get(`${INFRA_MANAGER_HOST}/api/nodes/${node_id}`)
     .then(response => {
       console.log("response getting node is>>>", response);
       let node = response.data;
@@ -41,7 +41,7 @@ class Node extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     let newSensor = _.assign({}, this.state.newSensor, {node_id: this.props.params.node_id});
-    return axios.post(`${INFRA_MANAGER_HOST}/sensors/add`, {
+    return axios.post(`${INFRA_MANAGER_HOST}/api/sensors/add`, {
       data: newSensor
     })
     .then(response => {

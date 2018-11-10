@@ -30,7 +30,7 @@ class AddClusterModal extends Component {
     const building_id = +params.building_id;
     let newClusterData = _.assign({}, this.state.cluster, { building_id }, {floor_number: +this.state.selectedFloor});
     console.log("newClusterData is>>>", newClusterData);
-    return axios.post(`${INFRA_MANAGER_HOST}/clusters/add`, {
+    return axios.post(`${INFRA_MANAGER_HOST}/api/clusters/add`, {
       data: newClusterData
     })
     .then(response => {

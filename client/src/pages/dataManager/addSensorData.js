@@ -33,7 +33,7 @@ class AddSensorData extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    return axios.post(`${DATA_MANAGER_HOST}/sensor-data/add`, {
+    return axios.post(`${DATA_MANAGER_HOST}/api/sensor-data/add`, {
       data: {
         sensorID: this.state.sensorID,
         unit: this.state.unit,
@@ -58,7 +58,7 @@ class AddSensorData extends Component {
   handleBulkSubmit = (event) => {
     event.preventDefault();
 
-    return axios.post(`${DATA_MANAGER_HOST}/sensor-data/bulk-add`, {
+    return axios.post(`${DATA_MANAGER_HOST}/api/sensor-data/bulk-add`, {
       data: this.state.sensorData,
     })
     .then(response => {

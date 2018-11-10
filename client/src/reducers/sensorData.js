@@ -35,7 +35,7 @@ export const fetchSensorData = (sensorId, startTime, endTime) => (dispatch, getS
     type: 'FETCH_SENSOR_DATA',
   });
 
-  return axios(`${DATA_MANAGER_HOST}/sensor-data/search-data`, {
+  return axios(`${DATA_MANAGER_HOST}/api/sensor-data/search-data`, {
     method: 'GET',
     params: {
       idType:'sensor',
@@ -66,7 +66,7 @@ export const fetchSensor = (sensorId) => (dispatch, getState) => {
     type: 'FETCH_SENSOR',
   });
 
-  return axios.get(`${INFRA_MANAGER_HOST}/sensors/${sensorId}`)
+  return axios.get(`${INFRA_MANAGER_HOST}/api/sensors/${sensorId}`)
   .then(
     response => {
       console.log("response is >>>", response)

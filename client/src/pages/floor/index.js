@@ -24,7 +24,7 @@ class Floor extends Component {
   componentDidMount() {
     console.log("this.props>>>", this.props);
     const  { building_id, floor_id } = this.props.params;
-    return axios.get(`${INFRA_MANAGER_HOST}/floors/${floor_id}?fetch_nested=floor,room,node`)
+    return axios.get(`${INFRA_MANAGER_HOST}/api/floors/${floor_id}?fetch_nested=floor,room,node`)
     .then(response => {
       console.log("response is >>>", response);
       let cluster = response.data;
@@ -75,7 +75,7 @@ class Floor extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    return axios.post(`${INFRA_MANAGER_HOST}/nodes/add`, {
+    return axios.post(`${INFRA_MANAGER_HOST}/api/nodes/add`, {
       data: _.assign({}, this.state.newNode, {cluster_id: this.state.cluster.id}),
     })
     .then(response => {

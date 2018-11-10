@@ -33,7 +33,7 @@ class AddRoomModal extends Component {
     let newRoomData = _.assign({}, this.state, { building_id });
     console.log("newRoomData is>>>", newRoomData);
 
-    return axios.post(`${INFRA_MANAGER_HOST}/rooms/add`, newRoomData)
+    return axios.post(`${INFRA_MANAGER_HOST}/api/rooms/add`, newRoomData)
     .then(response => {
       console.log("response adding a room>>>", response);
     })

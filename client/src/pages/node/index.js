@@ -63,26 +63,12 @@ class Node extends Component {
   }
 
   render() {
-    console.log("this.state.sensors>>>", this.state.sensors);
     return (
       <Container>
         <Grid>
           <Grid.Row>
             <Grid.Column width={8} >
-              {
-                this.state.sensors.length > 0  ?
-                <ForceGraph zoom simulationOptions={{ height: 300, width: 300 }}>
-                  <ForceGraphNode node={{ id: this.state.node.id }} fill="cyan" r="15" onClick={this.handleNodeClick} />
-                  {_.map(this.state.sensors, sensor => {
-                    return <ForceGraphNode node={{ id: `${sensor.id}:${sensor.name}` }} name={sensor.id} fill="orange" r="10" onClick={this.handleSensorClick} />
-                  })}
-
-                  {_.map(this.state.sensors, sensor => {
-                    return <ForceGraphLink link={{ source: this.state.node.id, target: `${sensor.id}:${sensor.name}` }} />
-                  })}
-                </ForceGraph> :
-                null
-              }
+              <NodeNetwork node={this.state.node} />
             </Grid.Column>
             <Grid.Column width={8} >
               <Form onSubmit={this.handleSubmit}>
@@ -105,14 +91,11 @@ class Node extends Component {
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
-            <Grid.Column width={5}>
-              <NodeSummary />
+            <Grid.Column width={6}>
+              <NodeSummary node={this.state.node} />
             </Grid.Column>
-            <Grid.Column width={5}>
-              <NodeNetwork />
-            </Grid.Column>
-            <Grid.Column width={5}>
-              <SensorTable />
+            <Grid.Column width={10}>
+              <SensorTable sensors={this.state.sensors} />
             </Grid.Column>
           </Grid.Row>
         </Grid>

@@ -9,26 +9,27 @@ import {
 
 export default class NodeSummary extends Component {
   render() {
+    const { node } = this.props;
     return (
       <Card>
         <Card.Content>
-          <Card.Header>Node Name</Card.Header>
+          <Card.Header>{node.name}</Card.Header>
         </Card.Content>
         <Card.Content extra>
           <a>
             <Icon name='user' />
-            X sensors
+            {_.get(node, 'sensors', []).length} sensors
           </a>
         </Card.Content>
         <Card.Content extra>
           <List>
             <List.Item>
               <List.Icon name='users' />
-              <List.Content>Location</List.Content>
+              <List.Content>{node.room_id}</List.Content>
             </List.Item>
             <List.Item>
               <List.Icon name='marker' />
-              <List.Content># of Sensors</List.Content>
+              <List.Content>{_.get(node, ['cluster', 'name'], '')}</List.Content>
             </List.Item>
           </List>
         </Card.Content>

@@ -11,9 +11,9 @@ const db = require('./models');
 const app = express();
 app.use(cors());
 app.use(logger('dev'));
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.text());
-app.use(bodyParser.json());
+app.use(bodyParser.json({ type: 'application/*+json' }));
 
 app.set('port', (process.env.PORT || 4001));
 app.use(passport.initialize());

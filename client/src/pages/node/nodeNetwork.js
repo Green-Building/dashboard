@@ -38,6 +38,10 @@ export default class NodeNetwork extends Component {
   handleClick = (nodeData, evt) => {
     console.log("nodeData>>", nodeData);
     console.log("evt>>>", evt);
+    const { router } = this.props;
+    if(nodeData.sensor_id) {
+      router.push(`/sensor/${nodeData.sensor_id}`);
+    }
   }
   render() {
     let treeDataWrapper = [];
@@ -45,6 +49,7 @@ export default class NodeNetwork extends Component {
     console.log("node is >>>", node);
     let treeData = {
       name: node.name,
+      node_id: node.id,
       nodeSvgShape: {
         shape: 'rect',
         shapeProps: {
@@ -59,6 +64,7 @@ export default class NodeNetwork extends Component {
     treeData.children = _.map(node.sensors, child => {
       return {
         name: child.name,
+        sensor_id: child.id,
         nodeSvgShape: {
           shape: 'circle',
           shapeProps: {

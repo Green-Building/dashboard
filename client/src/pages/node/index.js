@@ -68,7 +68,7 @@ class Node extends Component {
         <Grid>
           <Grid.Row>
             <Grid.Column width={8} >
-              <NodeNetwork node={this.state.node} />
+              <NodeNetwork node={this.state.node} router={this.props.router}/>
             </Grid.Column>
             <Grid.Column width={8} >
               <Form onSubmit={this.handleSubmit}>

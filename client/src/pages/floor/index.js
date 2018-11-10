@@ -123,7 +123,7 @@ class Floor extends Component {
               </Form>
             </Grid.Column>
             <Grid.Column width={8}>
-              <ClusterSummary />
+              <ClusterSummary cluster={this.state.cluster}/>
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
@@ -163,7 +163,7 @@ class Floor extends Component {
               </XYPlot>
             </Grid.Column>
             <Grid.Column width={8}>
-              <ClusterNetwork />
+              <ClusterNetwork cluster={this.state.cluster} router={this.props.router} />
             </Grid.Column>
           </Grid.Row>
         </Grid>

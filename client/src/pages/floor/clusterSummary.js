@@ -9,32 +9,27 @@ import {
 
 export default class ClusterSummary extends Component {
   render() {
+    const { cluster } = this.props;
     return (
       <Card>
         <Card.Content>
-          <Card.Header>Cluster Name</Card.Header>
+          <Card.Header>{cluster.name}</Card.Header>
         </Card.Content>
         <Card.Content extra>
           <a>
             <Icon name='user' />
-            X nodes
+            {_.get(cluster, 'nodes', []).length} nodes
           </a>
         </Card.Content>
         <Card.Content extra>
           <List>
             <List.Item>
               <List.Icon name='users' />
-              <List.Content>Location</List.Content>
+              <List.Content>Floor#: {_.get(cluster,'floor.floor_number')}</List.Content>
             </List.Item>
             <List.Item>
               <List.Icon name='marker' />
-              <List.Content># of Node</List.Content>
-            </List.Item>
-            <List.Item>
-              <List.Icon name='mail' />
-              <List.Content>
-                # of sensors
-              </List.Content>
+              <List.Content>Building: {cluster.building_id}</List.Content>
             </List.Item>
           </List>
         </Card.Content>

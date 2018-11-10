@@ -9,6 +9,7 @@ import addBuilding from './pages/configManager/addBuilding';
 import addSensorData from './pages/dataManager/addSensorData';
 
 import Login from './pages/Login';
+import Signup from './pages/Signup';
 
 import Auth from './modules/Auth';
 
@@ -25,6 +26,14 @@ const routes = {
           callback(null, Login);
         }
       }
+    },
+    {
+      path: '/login',
+      component: Login,
+    },
+    {
+      path: '/signup',
+      component: Signup,
     },
     {
       path: '/building/:building_id',
@@ -102,7 +111,7 @@ const routes = {
         Auth.deauthenticateUser();
 
         // change the current URL to /
-        replace('/');
+        replace('/login');
       }
     }
   ]

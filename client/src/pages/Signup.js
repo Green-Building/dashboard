@@ -9,10 +9,12 @@ import {
   INFRA_MANAGER_HOST
 } from '../api-config';
 
-class Login extends Component {
+class Signup extends Component {
   state = {
     email:'',
     password: '',
+    name: '',
+    user_type:'',
   }
 
   handleChange = (event, data) => {
@@ -24,12 +26,14 @@ class Login extends Component {
     console.log("this.state >>", this.state);
     const requestBody = {
       email: this.state.email,
-      password: this.state.password
+      password: this.state.password,
+      name: this.state.name,
+      user_type: this.state.user_type,
     }
 
     return client({
       method: 'post',
-      url: `${INFRA_MANAGER_HOST}/auth/login`,
+      url: `${INFRA_MANAGER_HOST}/auth/signup`,
       data: qs.stringify(requestBody),
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -58,6 +62,14 @@ class Login extends Component {
                     <label>Password</label>
                     <Input name='password' value={this.state.password} placeholder='Password' onChange={this.handleChange} />
                   </Form.Field>
+                  <Form.Field>
+                    <label>Name</label>
+                    <Input name='name' value={this.state.name} placeholder='Name' onChange={this.handleChange} />
+                  </Form.Field>
+                  <Form.Field>
+                    <label>User Type</label>
+                    <Input name='user_type' value={this.state.user_type} placeholder='User Type' onChange={this.handleChange} />
+                  </Form.Field>
                 </Form.Group>
                 <Form.Field control={Button}>Submit</Form.Field>
               </Form>
@@ -69,4 +81,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default Signup;

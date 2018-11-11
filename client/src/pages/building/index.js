@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 import _ from 'lodash';
 import { Container, Grid, Button, Card, Icon, Image, Dropdown, Table, Label } from 'semantic-ui-react';
 import client from '../../client';
@@ -7,11 +8,28 @@ import UpdateClusterModal from './updateClusterModal';
 import AddClusterModal from './addClusterModal';
 import AddFloorModal from './addFloorModal';
 import AddRoomModal from './addRoomModal';
-import BuildinSummary from './buildingSummary';
+import BuildingSummary from './buildingSummary';
 
 import {
   INFRA_MANAGER_HOST
 } from '../../api-config';
+
+const mapStatusToColor = status => {
+  switch(status) {
+    case 'active':
+      return 'blue';
+    case 'maintenance':
+      return 'grey';
+    case 'inactive':
+      return 'red';
+    case 'turn-on':
+      return 'green';
+    case 'turn-off':
+      return 'yellow';
+    default:
+      return 'white';
+  }
+}
 
 class Building extends Component {
   state = {
@@ -82,24 +100,12 @@ class Building extends Component {
     })
     return (
       <Container>
-        <Grid>
+        <Grid celled verticalAlign='middle' style={{'height': '80vh', 'backgroundColor': '#f7f7f7'}}>
           <Grid.Row>
-            <Grid.Column width={8}>
-              <Card>
-                <Image src={this.state.building.image_url} />
-                <Card.Content>
-                  <Card.Header>{this.state.building.name}</Card.Header>
-                  <Card.Description>{this.state.building.address}</Card.Description>
-                </Card.Content>
-                <Card.Content extra>
-                  <a>
-                    <Icon name='user' />
-                    {this.state.building.num_of_floors}
-                  </a>
-                </Card.Content>
-              </Card>
+            <Grid.Column width={4}>
+              <BuildingSummary building={this.state.building} />
             </Grid.Column>
-            <Grid.Column width={8}>
+            <Grid.Column width={12}>
               <Table celled>
                 <Table.Header>
                   <Table.Row>
@@ -107,7 +113,7 @@ class Building extends Component {
                     <Table.HeaderCell>Cluster Name</Table.HeaderCell>
                     <Table.HeaderCell>Status</Table.HeaderCell>
                     <Table.HeaderCell>Update</Table.HeaderCell>
-                    <Table.HeaderCell>Delete</Table.HeaderCell>
+                    <Table.HeaderCell colSpan='2'>Add/Delete</Table.HeaderCell>
                   </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -117,33 +123,26 @@ class Building extends Component {
                         <Table.Cell>
                           <Label ribbon={index===0}>{cluster.floor_number}</Label>
                         </Table.Cell>
-                        <Table.Cell>{cluster.name}</Table.Cell>
-                        <Table.Cell>{cluster.status}</Table.Cell>
+                        <Table.Cell><Link to={`/floor/${cluster.floor_id}`}>{cluster.name}</Link></Table.Cell>
+                        <Table.Cell>
+                          <Label color={mapStatusToColor(cluster.status)}>
+                            {cluster.status}
+                          </Label>
+                        </Table.Cell>
                         <Table.Cell>
                           <UpdateClusterModal buildingId={this.props.params.building_id} floor={this.state.floor} cluster={cluster} />
                         </Table.Cell>
-                        <Table.Cell onClick={()=>this.handleDelete(cluster)}>Delete</Table.Cell>
+                        <Table.Cell onClick={()=>this.handleDelete(cluster)}><Icon name="trash alternate"/></Table.Cell>
+                        <Table.Cell>
+                          <Label>
+                            <Icon name="chart area" />Sensor Data
+                          </Label>
+                        </Table.Cell>
                       </Table.Row>
                     )
                   })}
                 </Table.Body>
               </Table>
-              <AddFloorModal params={this.props.params} />
-              <AddRoomModal params={this.props.params} floors={this.state.building.floors}/>
-              <AddClusterModal params={this.props.params} availableFloors={this.state.availableFloors} />
-            </Grid.Column>
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Column width={8}>
-              <Dropdown
-                placeholder='Select a floor'
-                value={this.state.floor.selected}
-                options={floorOptions}
-                onChange={this.handleFloorChange} />
-              <Button onClick={this.goToFloor}>Goto Floor</Button>
-            </Grid.Column>
-            <Grid.Column width={8}>
-              <BuildinSummary />
             </Grid.Column>
           </Grid.Row>
         </Grid>

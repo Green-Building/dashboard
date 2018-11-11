@@ -6,7 +6,7 @@ import Auth from '../modules/Auth';
 
 export default ({ children }) => {
   return (
-    <div style={{'backgroundColor': '#f7f7f7'}}>
+    <div style={{'height': '100vh'}}>
       {Auth.isUserAuthenticated() ?
         (<Menu>
           <Menu.Item position="left">

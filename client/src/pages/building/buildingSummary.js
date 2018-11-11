@@ -6,32 +6,37 @@ import {
   INFRA_MANAGER_HOST
 } from '../../api-config';
 
-export default class BuildinSummary extends Component {
+export default class BuildingSummary extends Component {
   render() {
+    const { building } = this.props;
     return (
       <Card>
+        <Image src={building.image_url} />
         <Card.Content>
-          <Card.Header>Building Name</Card.Header>
-          <Card.Description>Building Address</Card.Description>
+          <Card.Header>{building.name}</Card.Header>
+          <Card.Description>{building.address}</Card.Description>
+          <Card.Meta>
+            <span className='date'>{building.city}, {building.state} {building.zipcode}</span>
+          </Card.Meta>
         </Card.Content>
         <Card.Content extra>
           <a>
-            <Icon name='user' />
-            X floors
+            <Icon name='building' />
+            {building.num_of_floors} floors
           </a>
         </Card.Content>
         <Card.Content extra>
           <List>
             <List.Item>
-              <List.Icon name='users' />
+              <List.Icon name='cogs' />
               <List.Content># of Clusters</List.Content>
             </List.Item>
             <List.Item>
-              <List.Icon name='marker' />
+              <List.Icon name='certificate' />
               <List.Content># of Node</List.Content>
             </List.Item>
             <List.Item>
-              <List.Icon name='mail' />
+              <List.Icon name='lightbulb' />
               <List.Content>
                 # of sensors
               </List.Content>

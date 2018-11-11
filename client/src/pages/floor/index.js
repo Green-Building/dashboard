@@ -7,6 +7,7 @@ import {XYPlot, XAxis, YAxis, HeatmapSeries, LabelSeries} from 'react-vis';
 
 import ClusterSummary from './clusterSummary';
 import ClusterNetwork from './clusterNetwork';
+import ClusterTable from './clusterTable';
 import {
   INFRA_MANAGER_HOST
 } from '../../api-config';
@@ -87,6 +88,7 @@ class Floor extends Component {
   }
 
   render() {
+    const { router } = this.props;
     const {min, max} = this.state.data.reduce(
       (acc, row) => ({
         min: Math.min(acc.min, row.color),
@@ -101,40 +103,17 @@ class Floor extends Component {
 
     return (
       <Container>
-        <Grid>
-          <Grid.Row>
-            <Grid.Column width={8}>
-              <Form onSubmit={this.handleSubmit}>
-                <Form.Group >
-                  <Form.Field>
-                    <label>Name</label>
-                    <Input name='name' value={this.state.newNode.name} placeholder='Name' onChange={this.handleChange} />
-                  </Form.Field>
-                  <Form.Field>
-                    <label>Room</label>
-                    <Input name='room' value={this.state.newNode.room} placeholder='Room' onChange={this.handleChange} />
-                  </Form.Field>
-                  <Form.Field>
-                    <label>Status</label>
-                    <Input name='status' value={this.state.newNode.status} placeholder='Status' onChange={this.handleChange} />
-                  </Form.Field>
-                </Form.Group>
-                <Form.Field control={Button}>Submit</Form.Field>
-              </Form>
-            </Grid.Column>
-            <Grid.Column width={8}>
+        <Grid columns={2} celled verticalAlign='middle' style={{'backgroundColor': '#f7f7f7'}}>
+          <Grid.Row stretched>
+            <Grid.Column width={6}>
               <ClusterSummary cluster={this.state.cluster}/>
-            </Grid.Column>
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Column width={8}>
               <XYPlot
                 xType="ordinal"
                 xDomain={this.state.alphabet.map(letter => `${letter}1`)}
                 yType="ordinal"
                 yDomain={this.state.alphabet.map(letter => `${letter}2`).reverse()}
-                width={500}
-                height={500}
+                width={400}
+                height={400}
                 style={{display: 'inline-block'}}
               >
                 <XAxis orientation="top" />
@@ -162,12 +141,11 @@ class Floor extends Component {
                 />
               </XYPlot>
             </Grid.Column>
-            <Grid.Column width={8}>
-              <ClusterNetwork cluster={this.state.cluster} router={this.props.router} />
+            <Grid.Column width={10}>
+              <ClusterTable cluster={this.state.cluster} router={router}/>
             </Grid.Column>
           </Grid.Row>
         </Grid>
-        {/*<Button onClick={this.goToSensorStats}>Goto Sensor Stats</Button>*/}
       </Container>
     );
   }

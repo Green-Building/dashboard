@@ -11,7 +11,7 @@ export default class ClusterSummary extends Component {
   render() {
     const { cluster } = this.props;
     return (
-      <Card>
+      <Card className="centered">
         <Card.Content>
           <Card.Header>{cluster.name}</Card.Header>
         </Card.Content>

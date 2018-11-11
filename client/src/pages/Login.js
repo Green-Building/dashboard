@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Container, Grid, Button, Form, Input } from 'semantic-ui-react';
+import { Link } from 'react-router';
+import { Container, Grid, Button, Form, Input, Segment, Header, Image, Message } from 'semantic-ui-react';
 import client from '../client';
 import qs from 'qs';
 
@@ -45,24 +46,41 @@ class Login extends Component {
   render() {
     return (
       <Container>
-        <Grid>
-          <Grid.Row>
-            <Grid.Column width={16}>
-              <Form onSubmit={this.handleSubmit}>
-                <Form.Group >
-                  <Form.Field>
-                    <label>Email</label>
-                    <Input name='email' value={this.state.email} placeholder='Email' onChange={this.handleChange} />
-                  </Form.Field>
-                  <Form.Field>
-                    <label>Password</label>
-                    <Input name='password' value={this.state.password} placeholder='Password' onChange={this.handleChange} />
-                  </Form.Field>
-                </Form.Group>
-                <Form.Field control={Button}>Submit</Form.Field>
-              </Form>
-            </Grid.Column>
-          </Grid.Row>
+        <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
+          <Grid.Column style={{ maxWidth: 450 }}>
+            <Header as='h2' color='teal' textAlign='center'>
+              Login with an existing account
+            </Header>
+            <Form size='large' onSubmit={this.handleSubmit}>
+              <Segment stacked>
+                <Form.Input
+                  fluid
+                  icon='mail'
+                  iconPosition='left'
+                  label='Email'
+                  name='email'
+                  value={this.state.email}
+                  placeholder='Email'
+                  onChange={this.handleChange}
+                />
+                <Form.Input
+                  fluid
+                  icon='lock'
+                  iconPosition='left'
+                  placeholder='Password'
+                  name='password'
+                  type='password'
+                  onChange={this.handleChange}
+                />
+                <Button type="submit" color='teal' fluid size='large'>
+                  Login
+                </Button>
+              </Segment>
+            </Form>
+            <Message>
+              Don't have an account Yet?  <Link to="/signup">Sign up</Link>
+            </Message>
+          </Grid.Column>
         </Grid>
       </Container>
     );

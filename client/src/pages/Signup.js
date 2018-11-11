@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Container, Grid, Button, Form, Input } from 'semantic-ui-react';
+import { Link } from 'react-router';
+import { Container, Grid, Button, Form, Input, Segment, Header, Image, Message } from 'semantic-ui-react';
 import client from '../client';
 import qs from 'qs';
 
@@ -49,32 +50,58 @@ class Signup extends Component {
   render() {
     return (
       <Container>
-        <Grid>
-          <Grid.Row>
-            <Grid.Column width={16}>
-              <Form onSubmit={this.handleSubmit}>
-                <Form.Group >
-                  <Form.Field>
-                    <label>Email</label>
-                    <Input name='email' value={this.state.email} placeholder='Email' onChange={this.handleChange} />
-                  </Form.Field>
-                  <Form.Field>
-                    <label>Password</label>
-                    <Input name='password' value={this.state.password} placeholder='Password' onChange={this.handleChange} />
-                  </Form.Field>
-                  <Form.Field>
-                    <label>Name</label>
-                    <Input name='name' value={this.state.name} placeholder='Name' onChange={this.handleChange} />
-                  </Form.Field>
-                  <Form.Field>
-                    <label>User Type</label>
-                    <Input name='user_type' value={this.state.user_type} placeholder='User Type' onChange={this.handleChange} />
-                  </Form.Field>
-                </Form.Group>
-                <Form.Field control={Button}>Submit</Form.Field>
-              </Form>
-            </Grid.Column>
-          </Grid.Row>
+        <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
+          <Grid.Column style={{ maxWidth: 450 }}>
+            <Header as='h2' color='teal' textAlign='center'>
+              Sign up with an account
+            </Header>
+            <Form size='large' onSubmit={this.handleSubmit}>
+              <Segment stacked>
+                <Form.Input
+                  fluid
+                  icon='mail'
+                  iconPosition='left'
+                  label='Email'
+                  name='email'
+                  value={this.state.email}
+                  placeholder='Email'
+                  onChange={this.handleChange}
+                />
+                <Form.Input
+                  fluid
+                  icon='lock'
+                  iconPosition='left'
+                  placeholder='Password'
+                  name='password'
+                  type='password'
+                  onChange={this.handleChange}
+                />
+                <Form.Input
+                  fluid
+                  icon='address card'
+                  iconPosition='left'
+                  name='name'
+                  placeholder='Name'
+                  onChange={this.handleChange}
+                />
+                <Form.Input
+                  fluid
+                  icon='user'
+                  name='user_type'
+                  iconPosition='left'
+                  placeholder='User Type'
+                  type='user_type'
+                  onChange={this.handleChange}
+                />
+                <Button type="submit" color='teal' fluid size='large'>
+                  Signup
+                </Button>
+              </Segment>
+            </Form>
+            <Message>
+              Already Have an Account?  <Link to="/login">Login</Link>
+            </Message>
+          </Grid.Column>
         </Grid>
       </Container>
     );

@@ -32,7 +32,7 @@ export default class NodeNetwork extends Component {
     }
     treeData.children = _.map(node.sensors, child => {
       return {
-        name: child.name,
+        name: 'a',
         sensor_id: child.id,
         nodeSvgShape: {
           shape: 'circle',
@@ -45,14 +45,15 @@ export default class NodeNetwork extends Component {
     });
     treeDataWrapper.push(treeData);
     return (
-      <div id="treeWrapper" style={{width: '50em', height: '20em'}}>
+      <div id="treeWrapper" style={{width: '60em', height: '30em'}}>
         <Tree
           data={treeDataWrapper}
           nodeSvgShape={{shape: 'circle', shapeProps: {r: 10}}}
-          translate={{x: 50, y: 100}}
+          translate={{x: 50, y: 180}}
           pathFunc="straight"
           onClick={this.handleClick}
           collapsible={false}
+          zoom={1}
         />
       </div>
     );

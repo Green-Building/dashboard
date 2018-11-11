@@ -65,36 +65,19 @@ class Node extends Component {
   render() {
     return (
       <Container>
-        <Grid>
-          <Grid.Row>
-            <Grid.Column width={8} >
-              <NodeNetwork node={this.state.node} router={this.props.router}/>
+        <Grid columns={2} celled verticalAlign='middle' style={{'backgroundColor': '#f7f7f7'}}>
+          <Grid.Row stretched>
+            <Grid.Column width={6} >
+              <Grid>
+                <Grid.Row>
+                  <NodeSummary node={this.state.node} />
+                </Grid.Row>
+                <Grid.Row>
+                  <NodeNetwork node={this.state.node} router={this.props.router}/>
+                </Grid.Row>
+              </Grid>
             </Grid.Column>
-            <Grid.Column width={8} >
-              <Form onSubmit={this.handleSubmit}>
-                <Form.Group >
-                  <Form.Field>
-                    <label>Name</label>
-                    <Input name='name' value={this.state.newSensor.name} placeholder='Name' onChange={this.handleChange} />
-                  </Form.Field>
-                  <Form.Field>
-                    <label>Type</label>
-                    <Input name='type' value={this.state.newSensor.type} placeholder='Type' onChange={this.handleChange} />
-                  </Form.Field>
-                  <Form.Field>
-                    <label>Status</label>
-                    <Input name='status' value={this.state.newSensor.status} placeholder='Status' onChange={this.handleChange} />
-                  </Form.Field>
-                </Form.Group>
-                <Form.Field control={Button}>Submit</Form.Field>
-              </Form>
-            </Grid.Column>
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Column width={6}>
-              <NodeSummary node={this.state.node} />
-            </Grid.Column>
-            <Grid.Column width={10}>
+            <Grid.Column width={10} >
               <SensorTable sensors={this.state.sensors} />
             </Grid.Column>
           </Grid.Row>

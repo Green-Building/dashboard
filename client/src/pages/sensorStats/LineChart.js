@@ -40,10 +40,10 @@ export default function LineChart (props) {
   console.log("mdata is>>>", mData);
   return (
     <div>
-      <XYPlot width={400} height={400} margin={{left: 80, right: 10, top: 10, bottom: 60}}>
+      <XYPlot width={400} height={400} margin={{left: 50, right: 10, top: 10, bottom: 60}} style={{'backgroundColor': 'white', 'boxShadow': '0 1px 2px 0 rgba(34,36,38,.15)'}}>
         <HorizontalGridLines />
         <VerticalGridLines />
-        <XAxis title="Time" height={100} postition='start' tickFormat={v => moment(v).format('YY-MM-DD hh:ss')} tickLabelAngle={-30} />
+        <XAxis title="Time" height={100} postition='start' tickFormat={v => moment(v).format('YY-MM-DD hh:ss')} tickLabelAngle={-35} style={{'fontSize': '8'}} />
         <YAxis title="Data Value" />
         {_.map(mData, (data, key) => {
           console.log("linegraph data is >>>", data);
@@ -56,7 +56,6 @@ export default function LineChart (props) {
             />
           )
         })}
-
         <Line className="second-series" data={null} />
       </XYPlot>
     </div>

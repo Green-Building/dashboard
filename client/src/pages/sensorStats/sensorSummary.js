@@ -7,7 +7,7 @@ export default class SensorSummary extends Component {
     const device = sensorData.device;
     console.log("device is>>>", device);
     return (
-      <Card>
+      <Card className="centered">
         <Card.Content>
           <Card.Header>{device.name}</Card.Header>
           <Card.Meta>

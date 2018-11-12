@@ -10,7 +10,7 @@ export default class NodeSummary extends Component {
   render() {
     const { node } = this.props;
     return (
-      <Card>
+      <Card className="centered">
         <Card.Content>
           <Card.Header>{node.name}</Card.Header>
         </Card.Content>

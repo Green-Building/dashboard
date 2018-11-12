@@ -65,7 +65,7 @@ class Node extends Component {
   render() {
     return (
       <Container>
-        <Grid columns={2} celled verticalAlign='middle' style={{'backgroundColor': '#f7f7f7'}}>
+        <Grid columns={2} celled style={{'backgroundColor': '#f7f7f7'}}>
           <Grid.Row stretched>
             <Grid.Column width={6} >
               <Grid>

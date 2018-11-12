@@ -1,12 +1,9 @@
-1.Map.js -line-108
-axios.get(`${INFRA_MANAGER_HOST}/buildings/search/geocode`, {
-            params: {
-              longitude: place.geometry.location.lng(),
-              latitude:  place.geometry.location.lat(),
-            },
-          })
-------------------------three or two
-should be : ${infrastructure_manager_host}buildings/search/geocode?longitude=-121.89056920000002&latitude=37.3481338&radius=5
+1.addClusterModal.js : 33 
+    return axios.post(`${INFRA_MANAGER_HOST}/clusters/add`
+    API "/clusters/";
+
+
+
 
 2. Map.js line 48
 return axios.get(`${INFRA_MANAGER_HOST}/buildings/search/location`, {

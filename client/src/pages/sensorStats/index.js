@@ -16,7 +16,6 @@ import { fetchSensor } from '../../reducers/sensorData';
 
 class sensorStats extends Component {
   componentDidMount() {
-    console.log("this.props>>>", this.props);
     this.props.fetchSensor(this.props.params.sensor_id);
   }
   render() {

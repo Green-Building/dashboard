@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import client from '../../client';
 import _ from 'lodash';
-import { scaleLinear } from 'd3-scale';
 import { Container, Button, Grid, Form, Input } from 'semantic-ui-react';
-import {XYPlot, XAxis, YAxis, HeatmapSeries, LabelSeries} from 'react-vis';
 
 import ClusterSummary from './clusterSummary';
+import FloorRoomMap from './floorRoomMap';
 import ClusterNetwork from './clusterNetwork';
 import ClusterTable from './clusterTable';
 import {
@@ -58,16 +57,6 @@ class Floor extends Component {
     })
   }
 
-  handleValueClick(d, event) {
-    console.log("d is>>>", d);
-    console.log("event is>>>", event);
-    console.log(this.state.nodes);
-    let node = _.find(this.state.nodes, {room_number: d.label});
-    console.log("node is >>>", node);
-    console.log("this.state.cluster is>>>", this.state.cluster);
-    this.props.router.push(`/node/${node.id}`);
-  }
-
   handleChange = (event, data) => {
     let newNode = this.state.newNode;
     newNode[data.name] = data.value;
@@ -89,17 +78,6 @@ class Floor extends Component {
 
   render() {
     const { router } = this.props;
-    const {min, max} = this.state.data.reduce(
-      (acc, row) => ({
-        min: Math.min(acc.min, row.color),
-        max: Math.max(acc.max, row.color)
-      }),
-      {min: Infinity, max: -Infinity}
-    );
-
-    const exampleColorScale = scaleLinear()
-        .domain([min, (min + max) / 2, max])
-        .range(['orange', 'yellow', 'cyan']);
 
     return (
       <Container>
@@ -107,39 +85,7 @@ class Floor extends Component {
           <Grid.Row stretched>
             <Grid.Column width={6}>
               <ClusterSummary cluster={this.state.cluster}/>
-              <XYPlot
-                xType="ordinal"
-                xDomain={this.state.alphabet.map(letter => `${letter}1`)}
-                yType="ordinal"
-                yDomain={this.state.alphabet.map(letter => `${letter}2`).reverse()}
-                width={400}
-                height={400}
-                style={{display: 'inline-block'}}
-              >
-                <XAxis orientation="top" />
-                <YAxis />
-                <HeatmapSeries
-                  colorType="literal"
-                  getColor={d => exampleColorScale(d.color)}
-                  style={{
-                    stroke: 'white',
-                    strokeWidth: '2px',
-                    rectStyle: {
-                      rx: 10,
-                      ry: 10
-                    }
-                  }}
-                  className="heatmap-series-example"
-                  data={this.state.data}
-                  onValueClick={(d, {event})=>this.handleValueClick(d, event)}
-                />
-                <LabelSeries
-                  data={this.state.data}
-                  labelAnchorX="middle"
-                  labelAnchorY="baseline"
-                  getLabel={d => `${d.label}`}
-                />
-              </XYPlot>
+              <FloorRoomMap data={this.state.data} alphabet={this.state.alphabet} nodes={this.state.nodes} router={router}/>
             </Grid.Column>
             <Grid.Column width={10}>
               <ClusterTable cluster={this.state.cluster} router={router}/>

@@ -15,9 +15,8 @@ export default class NodeNetwork extends Component {
   render() {
     let treeDataWrapper = [];
     const { node } = this.props;
-    console.log("node is >>>", node);
     let treeData = {
-      name: node.name,
+      name: `${node.id}:${node.type}`,
       node_id: node.id,
       nodeSvgShape: {
         shape: 'rect',

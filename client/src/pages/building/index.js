@@ -6,8 +6,6 @@ import client from '../../client';
 
 import UpdateClusterModal from './updateClusterModal';
 import AddClusterModal from './addClusterModal';
-import AddFloorModal from './addFloorModal';
-import AddRoomModal from './addRoomModal';
 import BuildingSummary from './buildingSummary';
 
 import {
@@ -35,8 +33,7 @@ class Building extends Component {
   state = {
     building: {},
     floor: {selected: null},
-    availableFloors: [],
-    usedFloors: [],
+    floors: [],
     showModal: false,
   }
 
@@ -45,15 +42,13 @@ class Building extends Component {
     return client.get(`${INFRA_MANAGER_HOST}/api/buildings/${building_id}?fetch_nested=floor,cluster`)
     .then(response => {
       let building = response.data;
-      _.forEach(building.clusters, cluster => {
-        cluster.floor_number = _.find(building.floors, {id: cluster.floor_id}).floor_number;
-      })
-      let floors = _.range(1, building.num_of_floors+1);
-      let usedFloors = _.map(building.floors, floor => {
-        return +floor.floor_number;
-      })
-      let unusedFloors = _.difference(floors, usedFloors);
-      this.setState({ building: response.data, clusters: response.data.clusters, availableFloors: unusedFloors, usedFloors: usedFloors });
+      console.log("building is>>>", building);
+      _.forEach(building.floors, floor => {
+        floor.cluster = _.find(building.clusters, {floor_id: floor.id}) || null;
+      });
+      let floors = building.floors;
+      console.log("floors >>>", floors);
+      this.setState({ building: response.data, clusters: response.data.clusters, floors: floors  });
     })
     .catch(err => {
       console.log("error is>>", err);
@@ -72,7 +67,7 @@ class Building extends Component {
 
   handleDelete(cluster) {
     console.log("cluster is>>>", cluster);
-    return client.delete(`${INFRA_MANAGER_HOST}/clusters/${cluster.id}`)
+    return client.delete(`${INFRA_MANAGER_HOST}/api/clusters/${cluster.id}`)
     .then(() => {
       let clusters = this.state.building.clusters;
       clusters = _.filter(clusters, c => c.id !== cluster.id);
@@ -87,17 +82,9 @@ class Building extends Component {
     const floorNumber = this.state.floor.selected;
     let floors = this.state.building.floors;
     let floor = _.find(floors, {floor_number: floorNumber});
-
     this.props.router.push(`/floor/${floor.id}`);
   }
   render() {
-    const floorOptions = _.map(this.state.usedFloors, floor => {
-      return {
-        key: `Floor ${floor}`,
-        value: floor,
-        text: `Floor ${floor}`,
-      }
-    })
     return (
       <Container>
         <Grid celled verticalAlign='middle' style={{'height': '80vh', 'backgroundColor': '#f7f7f7'}}>
@@ -117,22 +104,36 @@ class Building extends Component {
                   </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                  {_.map(this.state.building.clusters, (cluster, index)=>{
+                  {_.map(this.state.floors, (floor, index)=>{
                     return (
                       <Table.Row>
                         <Table.Cell>
-                          <Label ribbon={index===0}>{cluster.floor_number}</Label>
-                        </Table.Cell>
-                        <Table.Cell><Link to={`/floor/${cluster.floor_id}`}>{cluster.name}</Link></Table.Cell>
-                        <Table.Cell>
-                          <Label color={mapStatusToColor(cluster.status)}>
-                            {cluster.status}
-                          </Label>
+                          <Label ribbon={index===0}>{floor.floor_number}</Label>
                         </Table.Cell>
                         <Table.Cell>
-                          <UpdateClusterModal buildingId={this.props.params.building_id} floor={this.state.floor} cluster={cluster} />
+                        { floor.cluster ?
+                          <Link to={`/floor/${floor.id}`}>{floor.cluster.name}</Link> :
+                          null
+                        }
                         </Table.Cell>
-                        <Table.Cell onClick={()=>this.handleDelete(cluster)}><Icon name="trash alternate"/></Table.Cell>
+                        <Table.Cell>
+                        { floor.cluster ?
+                          (<Label color={mapStatusToColor(floor.cluster.status)}>
+                            {floor.cluster.status}
+                          </Label>) : null
+                        }
+                        </Table.Cell>
+                        <Table.Cell>
+                        { floor.cluster ?
+                          <UpdateClusterModal buildingId={this.props.params.building_id} floor={this.state.floor} cluster={floor.cluster} /> : null
+                        }
+                        </Table.Cell>
+                        <Table.Cell >
+                        { floor.cluster ?
+                          <Icon onClick={()=>this.handleDelete(floor.cluster)} name="trash alternate"/> :
+                          <AddClusterModal params={this.props.params} floor={floor}/>
+                        }
+                        </Table.Cell>
                         <Table.Cell>
                           <Label>
                             <Icon name="chart area" />Sensor Data

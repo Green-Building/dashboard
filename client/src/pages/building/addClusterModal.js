@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import client from '../../client';
-import { Form, Button, Header, Image, Modal, Input, Dropdown } from 'semantic-ui-react';
+import { Form, Button, Header, Image, Modal, Input, Dropdown, Icon } from 'semantic-ui-react';
 
 import {
   INFRA_MANAGER_HOST
@@ -9,7 +9,6 @@ import {
 
 class AddClusterModal extends Component {
   state = {
-    selectedFloor: null,
     cluster: {},
   }
 
@@ -25,11 +24,11 @@ class AddClusterModal extends Component {
 
   handleSubmit = (event) => {
   event.preventDefault();
-    console.log("this.props is>>>", this.props);
-    const { params } = this.props;
+    const { params, floor } = this.props;
     const building_id = +params.building_id;
-    let newClusterData = _.assign({}, this.state.cluster, { building_id }, {floor_number: +this.state.selectedFloor});
+    let newClusterData = _.assign({}, this.state.cluster, { building_id, floor_id: floor.id });
     console.log("newClusterData is>>>", newClusterData);
+
     return client.post(`${INFRA_MANAGER_HOST}/api/clusters/add`, {
       data: newClusterData
     })
@@ -41,27 +40,13 @@ class AddClusterModal extends Component {
     })
   }
   render() {
-    const { cluster, availableFloors } = this.props;
-    const floorOptions = _.map(availableFloors, floor => {
-      return {
-        key: `Floor ${floor}`,
-        value: floor,
-        text: `Floor ${floor}`,
-      }
-    });
+    const { floor } = this.props;
     return (
-      <Modal trigger={<Button>Add Cluster</Button>}>
+      <Modal trigger={<Icon name="add" />}>
         <Modal.Header>Add a Cluster Config</Modal.Header>
         <Modal.Content>
           <Modal.Description>
           <Form onSubmit={this.handleSubmit}>
-              <Form.Group>
-                <Dropdown
-                  placeholder='Select a floor'
-                  value={this.state.selectedFloor}
-                  options={floorOptions}
-                  onChange={this.handleFloorChange} />
-              </Form.Group>
               <Form.Group>
                 <Form.Field>
                   <label>Cluster Name</label>

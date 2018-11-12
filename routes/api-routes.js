@@ -17,7 +17,6 @@ router
   .get('/floors/:floor_id', floorConfig.getClusterFromFloor)
   .get('/clusters/:cluster_id', clusterConfig.getCluster)
   .post('/clusters/add', clusterConfig.addCluster)
-
   .put('/clusters/:cluster_id', clusterConfig.updateCluster)
   .delete('/clusters/:cluster_id', clusterConfig.deleteCluster)
 

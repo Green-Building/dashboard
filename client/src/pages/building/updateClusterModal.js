@@ -26,9 +26,7 @@ class UpdateClusterModal extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     console.log("this.props.cluster is>>>", this.props.cluster);
-    return client.put(`${INFRA_MANAGER_HOST}/api/clusters/${this.props.cluster.id}`, {
-      data: _.omit(this.props.cluster, 'id'),
-    })
+    return client.put(`${INFRA_MANAGER_HOST}/api/clusters/${this.props.cluster.id}`, _.omit(this.props.cluster, 'id'))
     .then(response => {
       console.log("response adding a cluster>>>", response);
     })

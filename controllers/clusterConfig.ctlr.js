@@ -24,7 +24,7 @@ const addCluster = (req, res) => {
   return db.floor.findOne({
     where: {
       building_id: newCluster.building_id,
-      floor_number: newCluster.floor_number,
+      id: newCluster.floor_id,
     }
   })
   .then(floor => {
@@ -56,7 +56,7 @@ const addCluster = (req, res) => {
 
 const updateCluster = (req, res) => {
   const { cluster_id } = req.params;
-  const updatedCluster = req.body.data;
+  const updatedCluster = req.body;
   console.log("cluster_id>>>", cluster_id);
   console.log("updatedCluster>>>", updatedCluster);
 

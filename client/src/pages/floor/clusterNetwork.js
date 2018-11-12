@@ -21,9 +21,8 @@ export default class ClusterNetwork extends Component {
   render() {
     let treeDataWrapper = [];
     const { cluster } = this.props;
-    console.log("cluster is >>>", cluster);
     let treeData = {
-      name: cluster.name,
+      name: `${cluster.id}:${cluster.type}`,
       cluster_id: cluster.id,
       nodeSvgShape: {
         shape: 'rect',

@@ -16,27 +16,11 @@ import {
 } from '../../api-config';
 
 class Building extends Component {
-  state = {
-    building: {},
-    floors: [],
-    loading: true,
-  }
 
   componentDidMount() {
     const { fetchBuildingConfig } = this.props;
     const { building_id } = this.props.params;
     return fetchBuildingConfig(building_id);
-  }
-
-  handleDelete(cluster) {
-    return client.delete(`${INFRA_MANAGER_HOST}/api/clusters/${cluster.id}`)
-    .then(() => {
-      let clusters = this.state.building.clusters;
-      clusters = _.filter(clusters, c => c.id !== cluster.id);
-      let building = this.state.building;
-      building.clusters = clusters;
-      this.setState({building});
-    })
   }
 
   render() {

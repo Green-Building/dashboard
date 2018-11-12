@@ -5,6 +5,8 @@ import {curveCatmullRom} from 'd3-shape';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
+import { getRandomStrokeStyle, getRandomColor } from '../../utils';
+
 import {
   XYPlot,
   XAxis,
@@ -38,18 +40,19 @@ export default function LineChart (props) {
   console.log("mdata is>>>", mData);
   return (
     <div>
-      <XYPlot width={300} height={300}>
+      <XYPlot width={400} height={400} margin={{left: 80, right: 10, top: 10, bottom: 60}}>
         <HorizontalGridLines />
         <VerticalGridLines />
-        <XAxis title="X Axis" position="start" />
-        <YAxis title="Y Axis" />
+        <XAxis title="Time" height={100} postition='start' tickFormat={v => moment(v).format('YY-MM-DD hh:ss')} tickLabelAngle={-30} />
+        <YAxis title="Data Value" />
         {_.map(mData, (data, key) => {
           console.log("linegraph data is >>>", data);
           return (
-            <Line
+            <LineSeries
               key={key}
-              className="first-series"
-              data={data.length>0 ? data: [{x:1, y:2}, {x:2, y:1}]}
+              color={getRandomColor()}
+              data={data}
+              strokeDasharray={getRandomStrokeStyle()}
             />
           )
         })}

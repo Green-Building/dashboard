@@ -5,7 +5,7 @@ import { withRouter } from 'react-router';
 import _ from 'lodash';
 import { Container, Grid, Button, Card, Icon, Image, Dropdown, Table, Label } from 'semantic-ui-react';
 import client from '../../client';
-import { fetchBuildingConfig } from '../../reducers/buildingConfig';
+import { fetchBuildingConfig, addClusterConfig, updateClusterConfig, deleteClusterConfig } from '../../reducers/buildingConfig';
 
 import Loading from '../../component/Loading';
 import ClusterTable from './clusterTable';
@@ -22,7 +22,7 @@ class Building extends Component {
     loading: true,
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     const { fetchBuildingConfig } = this.props;
     const { building_id } = this.props.params;
     return fetchBuildingConfig(building_id);
@@ -50,7 +50,13 @@ class Building extends Component {
                 <BuildingSummary building={building} />
               </Grid.Column>
               <Grid.Column width={12}>
-                <ClusterTable params={this.props.params} handleDelete={this.handleDelete} floors={floors}/>
+                <ClusterTable
+                  params={this.props.params}
+                  addClusterConfig={this.props.addClusterConfig}
+                  updateClusterConfig={this.props.updateClusterConfig}
+                  deleteClusterConfig={this.props.deleteClusterConfig}
+                  floors={floors}
+                />
               </Grid.Column>
             </Grid.Row>
           </Grid>
@@ -68,8 +74,17 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     fetchBuildingConfig: (buildingId) => {
-      dispatch(fetchBuildingConfig(buildingId))
+      dispatch(fetchBuildingConfig(buildingId));
     },
+    addClusterConfig: (newClusterData) => {
+      dispatch(addClusterConfig(newClusterData));
+    },
+    updateClusterConfig: (clusterId, updatedClusterData) => {
+      dispatch(updateClusterConfig(clusterId, updatedClusterData));
+    },
+    deleteClusterConfig: (clusterId, floorId) => {
+      dispatch(deleteClusterConfig(clusterId, floorId));
+    }
   }
 }
 

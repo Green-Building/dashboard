@@ -18,8 +18,8 @@ const getCluster = (req, res) => {
 }
 
 const addCluster = (req, res) => {
-  console.log("req.body is>>>", req.body.data);
-  const newCluster = req.body.data;
+  console.log("req.body is>>>", req.body);
+  const newCluster = req.body;
   console.log("newCluster is>>>", newCluster);
   return db.floor.findOne({
     where: {

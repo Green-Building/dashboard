@@ -24,20 +24,12 @@ class AddClusterModal extends Component {
 
   handleSubmit = (event) => {
   event.preventDefault();
-    const { params, floor } = this.props;
+    const { params, floor, addClusterConfig } = this.props;
     const building_id = +params.building_id;
     let newClusterData = _.assign({}, this.state.cluster, { building_id, floor_id: floor.id });
     console.log("newClusterData is>>>", newClusterData);
 
-    return client.post(`${INFRA_MANAGER_HOST}/api/clusters/add`, {
-      data: newClusterData
-    })
-    .then(response => {
-      console.log("response adding a cluster>>>", response);
-    })
-    .catch(err => {
-      console.log("err adding a cluster>>>", err);
-    })
+    return addClusterConfig(newClusterData);
   }
   render() {
     const { floor } = this.props;

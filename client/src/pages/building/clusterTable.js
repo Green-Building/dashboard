@@ -7,7 +7,7 @@ import AddClusterModal from './addClusterModal';
 import UpdateClusterModal from './updateClusterModal';
 import { mapStatusToColor } from '../../utils';
 
-export default function({ floors, params, handleDelete }) {
+export default function({ floors, params, addClusterConfig, updateClusterConfig, deleteClusterConfig }) {
   return (
     <Table celled>
       <Table.Header>
@@ -20,7 +20,7 @@ export default function({ floors, params, handleDelete }) {
         </Table.Row>
       </Table.Header>
       <Table.Body>
-        {_.map(floors, (floor, index)=>{
+        {_.map(floors, (floor, index) => {
           return (
             <Table.Row key={floor.id}>
               <Table.Cell>
@@ -41,13 +41,18 @@ export default function({ floors, params, handleDelete }) {
               </Table.Cell>
               <Table.Cell>
               { floor.cluster ?
-                <UpdateClusterModal buildingId={params.building_id} floor={floor} cluster={floor.cluster} /> : null
+                <UpdateClusterModal
+                  buildingId={params.building_id}
+                  floor={floor}
+                  cluster={floor.cluster}
+                  updateClusterConfig={updateClusterConfig}
+                /> : null
               }
               </Table.Cell>
               <Table.Cell >
               { floor.cluster ?
-                <Icon onClick={() => handleDelete(floor.cluster)} name="trash alternate"/> :
-                <AddClusterModal params={params} floor={floor}/>
+                <Icon onClick={() => deleteClusterConfig(floor.cluster.id, floor.id)} name="trash alternate"/> :
+                <AddClusterModal params={params} floor={floor} addClusterConfig={addClusterConfig} />
               }
               </Table.Cell>
               <Table.Cell>

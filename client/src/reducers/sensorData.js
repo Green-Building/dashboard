@@ -13,7 +13,8 @@ import {
 const INITIAL_STATE = {
   device: {},
   device_type: null,
-  data: [],
+  data: {},
+  isLoading: true,
 };
 
 //
@@ -92,10 +93,15 @@ export const fetchDevice = (type, id) => (dispatch, getState) => {
   );
 };
 
+function groupSensorData(sensorData) {
+  return _.groupBy(sensorData, 'sensorID');
+}
+
 const sensorData = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case SUCCESS_SENSOR_DATA:
-      return _.assign({}, state, { data: action.result });
+      let groupedSensorData = groupSensorData(action.result);
+      return _.assign({}, state, { data: groupedSensorData, isLoading: false });
     case ERROR_SENSOR_DATA:
       return INITIAL_STATE;
     case SUCCESS_DEVICE:

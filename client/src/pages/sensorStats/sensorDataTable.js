@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { Table, Label } from 'semantic-ui-react';;
+import { Table, Label, Tab } from 'semantic-ui-react';
 
 export default class SensorDataTable extends Component {
   render() {
-    const { sensorData } = this.props;
-    const data = sensorData.data;
+    const { data } = this.props;
     return (
       <Table celled>
         <Table.Header>
@@ -19,7 +18,7 @@ export default class SensorDataTable extends Component {
         <Table.Body>
         {_.map(data, (datum, index) => {
           return (
-            <Table.Row>
+            <Table.Row key={index}>
               <Table.Cell>
                 <Label ribbon={index===0}>{index}</Label>
               </Table.Cell>

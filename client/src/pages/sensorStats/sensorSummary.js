@@ -5,10 +5,9 @@ export default class SensorSummary extends Component {
   render() {
     const { sensorData } = this.props;
     const device = sensorData.device;
-    console.log("senosr is>>>", device);
+    console.log("device is>>>", device);
     return (
       <Card>
-        <Image src="https://via.placeholder.com/150"/>
         <Card.Content>
           <Card.Header>{device.name}</Card.Header>
           <Card.Meta>

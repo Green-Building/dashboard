@@ -12,11 +12,12 @@ import PieChart from './PieChart';
 import SensorDataTable from './sensorDataTable';
 import SensorSummary from './sensorSummary';
 
-import { fetchSensor } from '../../reducers/sensorData';
+import { fetchDevice } from '../../reducers/sensorData';
 
 class sensorStats extends Component {
   componentDidMount() {
-    this.props.fetchSensor(this.props.params.sensor_id);
+    const { type, id } = this.props.location.query;
+    this.props.fetchDevice(type, id);
   }
   render() {
     const { sensorData, params } = this.props;
@@ -56,8 +57,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    fetchSensor: (sensorId) => {
-      dispatch(fetchSensor(sensorId))
+    fetchDevice: (type, id) => {
+      dispatch(fetchDevice(type, id))
     },
   }
 }

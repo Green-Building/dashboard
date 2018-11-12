@@ -34,16 +34,23 @@ const bulkInsertSensorData = (req, res) => {
 };
 
 const searchSensorData = (req, res) => {
-  const { idType, id, startTime, endTime } = req.query;
+  let { type, id, startTime, endTime } = req.query;
   console.log("startTime>>>", startTime, endTime);
-  console.log("id is>>>", id, startTime, endTime);
-  return SensorDataModel.find({
-    sensorID: String(id),
+  id = String(id);
+  let query = {
     timeStamp: {
       $gte: new Date(startTime),
       $lte: new Date(endTime),
     }
-  }).exec()
+  };
+  if(type === 'cluster') {
+    query.clusterID = id;
+  } else if (type === 'node'){
+    query.nodeID = id;
+  } else {
+    query.sensorID = id;
+  }
+  return SensorDataModel.find(query).exec()
   .then(sensorData => {
     console.log("getting sensor data is>>>", sensorData);
     res.json(sensorData);

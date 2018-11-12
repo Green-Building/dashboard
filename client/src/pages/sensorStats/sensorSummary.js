@@ -4,18 +4,18 @@ import { List, Card, Image } from 'semantic-ui-react';;
 export default class SensorSummary extends Component {
   render() {
     const { sensorData } = this.props;
-    const sensor = sensorData.sensor;
-    console.log("senosr is>>>", sensor);
+    const device = sensorData.device;
+    console.log("senosr is>>>", device);
     return (
       <Card>
         <Image src="https://via.placeholder.com/150"/>
         <Card.Content>
-          <Card.Header>{sensor.name}</Card.Header>
+          <Card.Header>{device.name}</Card.Header>
           <Card.Meta>
-            {sensor.type}
+            {device.type}
           </Card.Meta>
           <Card.Description>
-            Install Time: <span className='date'>{sensor.install_time}</span>
+            Install Time: <span className='date'>{device.install_time}</span>
           </Card.Description>
         </Card.Content>
         <Card.Content extra>

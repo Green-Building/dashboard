@@ -11,7 +11,8 @@ import {
 // INITIAL STATE
 //
 const INITIAL_STATE = {
-  sensor: {},
+  device: {},
+  device_type: null,
   data: [],
 };
 
@@ -22,15 +23,15 @@ const UPDATE_TIME = 'UPDATE_TIME';
 const FETCH_SENSOR_DATA = 'FETCH_SENSOR_DATA';
 const SUCCESS_SENSOR_DATA = 'SUCCESS_SENOSR_DATA';
 const ERROR_SENSOR_DATA = 'ERROR_SENSOR_DATA';
-const FETCH_SENSOR = 'FETCH_SENSOR';
-const SUCCESS_SENSOR = 'SUCCESS_SENOSR';
-const ERROR_SENSOR = 'ERROR_SENSOR';
+const FETCH_DEVICE = 'FETCH_DEVICE';
+const SUCCESS_DEVICE  = 'SUCCESS_DEVICE';
+const ERROR_DEVICE  = 'ERROR_DEVICE';
 
 //
 // ACTIONS
 //
 
-export const fetchSensorData = (sensorId, startTime, endTime) => (dispatch, getState) => {
+export const fetchSensorData = (type, id, startTime, endTime) => (dispatch, getState) => {
   dispatch({
     type: 'FETCH_SENSOR_DATA',
   });
@@ -38,8 +39,8 @@ export const fetchSensorData = (sensorId, startTime, endTime) => (dispatch, getS
   return client(`${DATA_MANAGER_HOST}/api/sensor-data/search-data`, {
     method: 'GET',
     params: {
-      idType:'sensor',
-      id: sensorId,
+      idType:type,
+      id: id,
       startTime: new Date(startTime),
       endTime: new Date(endTime)
     },
@@ -61,23 +62,30 @@ export const fetchSensorData = (sensorId, startTime, endTime) => (dispatch, getS
   );
 };
 
-export const fetchSensor = (sensorId) => (dispatch, getState) => {
+export const fetchDevice = (type, id) => (dispatch, getState) => {
   dispatch({
-    type: 'FETCH_SENSOR',
+    type: 'FETCH_DEVICE',
   });
-
-  return client.get(`${INFRA_MANAGER_HOST}/api/sensors/${sensorId}`)
+  let fetchDeviceUrl;
+  if(type === "cluster") {
+    fetchDeviceUrl = `${INFRA_MANAGER_HOST}/api/clusters/${id}?fetch_nested=node,sensor`;
+  } else if (type === "node") {
+    fetchDeviceUrl = `${INFRA_MANAGER_HOST}/api/nodes/${id}?fetch_nested=sensor`;
+  } else {
+    fetchDeviceUrl = `${INFRA_MANAGER_HOST}/api/sensors/${id}`;
+  }
+  return client.get(fetchDeviceUrl)
   .then(
     response => {
-      console.log("response is >>>", response)
       dispatch({
-        type: 'SUCCESS_SENOSR',
-        result: response.data,
+        type: 'SUCCESS_DEVICE',
+        device_type: type,
+        device: response.data,
       });
     },
     error => {
       dispatch({
-        type: 'ERROR_SENSOR',
+        type: 'ERROR_DEVICE',
         message: error.message || 'Something went wrong.',
       });
     }
@@ -87,12 +95,12 @@ export const fetchSensor = (sensorId) => (dispatch, getState) => {
 const sensorData = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case SUCCESS_SENSOR_DATA:
-      return _.assign({}, state, {data: action.result});
+      return _.assign({}, state, { data: action.result });
     case ERROR_SENSOR_DATA:
       return INITIAL_STATE;
-    case SUCCESS_SENSOR:
-      return _.assign({}, state, {sensor: action.result});
-    case ERROR_SENSOR:
+    case SUCCESS_DEVICE:
+      return _.assign({}, state, { device: action.device, device_type: action.device_type });
+    case ERROR_DEVICE:
       return INITIAL_STATE;
     default:
       return state;

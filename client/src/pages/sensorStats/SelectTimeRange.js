@@ -23,9 +23,9 @@ class SelectTimeRange extends Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    const { fetchSensorData, params } = this.props;
+    const { fetchSensorData, router, location } = this.props;
     console.log("this.state is >>>", this.state);
-    return fetchSensorData(params.sensor_id, this.state.startTime,this.state.endTime);
+    return fetchSensorData(location.query.type, location.query.id, this.state.startTime,this.state.endTime);
   }
 
   render() {
@@ -55,8 +55,8 @@ class SelectTimeRange extends Component {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    fetchSensorData: (sensorId, startTime, endTime) => {
-      dispatch(fetchSensorData(sensorId, startTime, endTime))
+    fetchSensorData: (type, id, startTime, endTime) => {
+      dispatch(fetchSensorData(type, id, startTime, endTime))
     },
   }
 }

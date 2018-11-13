@@ -10,6 +10,8 @@ const roomConfig = require('../controllers/roomConfig.ctlr');
 router
   .get('/sensors/:sensor_id', sensorConfig.getSensor)
   .post('/sensors/add', sensorConfig.addSensor)
+  .put('/sensors/:sensor_id', sensorConfig.updateSensor)
+  .delete('/sensors/:sensor_id', sensorConfig.deleteSensor)
 
   .get('/nodes/:node_id', nodeConfig.getNode)
   .post('/nodes/add', nodeConfig.addNode)

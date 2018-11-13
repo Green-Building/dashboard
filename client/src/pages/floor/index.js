@@ -9,7 +9,7 @@ import ClusterSummary from './clusterSummary';
 import FloorRoomMap from './floorRoomMap';
 import ClusterNetwork from './clusterNetwork';
 import NodeTable from './nodeTable';
-import AddNodeModal from './addNodeModal';
+
 import {
   INFRA_MANAGER_HOST
 } from '../../api-config';
@@ -38,13 +38,14 @@ class Floor extends Component {
             <Grid.Column width={10}>
               <NodeTable
                 cluster={cluster}
+                params={params}
+                rooms={rooms}
                 nodes={nodes}
                 router={router}
                 addNodeConfig={addNodeConfig}
                 updateNodeConfig={updateNodeConfig}
                 deleteNodeConfig={deleteNodeConfig}
               />
-              <AddNodeModal params={params} cluster={cluster} rooms={rooms} addNodeConfig={addNodeConfig} />
             </Grid.Column>
           </Grid.Row>
         </Grid>

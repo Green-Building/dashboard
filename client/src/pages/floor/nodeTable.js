@@ -5,10 +5,11 @@ import { Container, Grid, Button, Card, Icon, Image, Dropdown, Table, Label } fr
 
 import { mapStatusToColor } from '../../utils';
 import UpdateNodeModal from './updateNodeModal';
+import AddNodeModal from './addNodeModal';
 
 class NodeTable extends Component {
   render() {
-    const { nodes, updateNodeConfig, deleteNodeConfig } = this.props;
+    const { cluster, params, rooms, nodes, addNodeConfig, updateNodeConfig, deleteNodeConfig } = this.props;
     console.log("here>>>", updateNodeConfig)
     return (
       <Table celled>
@@ -50,6 +51,11 @@ class NodeTable extends Component {
               </Table.Row>
             )
           })}
+          <Table.Row>
+            <Table.Cell colSpan='6'>
+            <AddNodeModal params={params} cluster={cluster} rooms={rooms} addNodeConfig={addNodeConfig} />
+            </Table.Cell>
+          </Table.Row>
         </Table.Body>
       </Table>
     )

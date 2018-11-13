@@ -41,7 +41,7 @@ class AddNodeModal extends Component {
       }
     })
     return (
-      <Modal trigger={<Button>Add</Button>}>
+      <Modal trigger={<Button>Add Node</Button>}>
         <Modal.Header>Add a Node Config</Modal.Header>
         <Modal.Content>
           <Modal.Description>

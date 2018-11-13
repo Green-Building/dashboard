@@ -5,10 +5,11 @@ import { Table, Label, Icon } from 'semantic-ui-react';
 import { mapStatusToColor } from '../../utils';
 
 import UpdateSensorModal from './updateSensorModal';
+import AddSensorModal from './addSensorModal';
 
 export default class SensorTable extends Component {
   render() {
-    const { sensors, updateSensorConfig, deleteSensorConfig } = this.props;
+    const { node, sensors, addSensorConfig, updateSensorConfig, deleteSensorConfig } = this.props;
     console.log("sensors>>>", sensors);
     return (
       <Table celled>
@@ -55,7 +56,11 @@ export default class SensorTable extends Component {
               </Table.Row>
             )
           })}
-
+          <Table.Row>
+            <Table.Cell colSpan='8'>
+              <AddSensorModal node={node} addSensorConfig={addSensorConfig} />
+            </Table.Cell>
+          </Table.Row>
         </Table.Body>
       </Table>
     )

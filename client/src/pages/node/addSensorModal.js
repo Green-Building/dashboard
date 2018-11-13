@@ -29,7 +29,7 @@ class AddSensorModal extends Component {
   render() {
     const{ node } = this.props;
     return (
-      <Modal trigger={<Button>Add</Button>}>
+      <Modal trigger={<Button>Add Sensor</Button>}>
         <Modal.Header>Add a Sensor Config</Modal.Header>
         <Modal.Content>
           <Modal.Description>

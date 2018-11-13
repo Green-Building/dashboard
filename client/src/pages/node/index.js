@@ -9,7 +9,6 @@ import { Container, Button, Grid, Form, Input } from 'semantic-ui-react';
 import NodeNetwork from './nodeNetwork';
 import NodeSummary from './nodeSummary';
 import SensorTable from './sensorTable';
-import AddSensorModal from './addSensorModal';
 
 import { fetchNodeConfig, addSensorConfig, updateSensorConfig, deleteSensorConfig } from '../../reducers/nodeConfig';
 
@@ -31,7 +30,7 @@ class Node extends Component {
       <Container>
         <Grid columns={2} celled style={{'backgroundColor': '#f7f7f7'}}>
           <Grid.Row stretched>
-            <Grid.Column width={6} >
+            <Grid.Column width={5} >
               <Grid>
                 <Grid.Row>
                   <NodeSummary node={node} />
@@ -41,14 +40,14 @@ class Node extends Component {
                 </Grid.Row>
               </Grid>
             </Grid.Column>
-            <Grid.Column width={10} >
+            <Grid.Column width={11} >
               <SensorTable
                 sensors={sensors}
                 addSensorConfig={addSensorConfig}
                 updateSensorConfig={updateSensorConfig}
                 deleteSensorConfig={deleteSensorConfig}
+                node={node}
               />
-              <AddSensorModal node={node} addSensorConfig={addSensorConfig} />
             </Grid.Column>
           </Grid.Row>
         </Grid>

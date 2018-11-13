@@ -56,13 +56,13 @@ export default function({ floors, params, addClusterConfig, updateClusterConfig,
               }
               </Table.Cell>
               <Table.Cell>
-                <Label>
-                { floor.cluster ?
-                  (<Link to={`/sensor?type=cluster&id=${floor.cluster.id}`}>
+              { floor.cluster ?
+                (<Label>
+                  <Link to={`/sensor?type=cluster&id=${floor.cluster.id}`}>
                     <Icon name="chart area" />Sensor Data
-                  </Link>) : null
-                }
-                </Label>
+                  </Link>
+                </Label>) : null
+              }
               </Table.Cell>
             </Table.Row>
           )

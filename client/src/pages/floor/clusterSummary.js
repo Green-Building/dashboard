@@ -9,7 +9,7 @@ import {
 
 export default class ClusterSummary extends Component {
   render() {
-    const { cluster } = this.props;
+    const { cluster, nodes, rooms } = this.props;
     return (
       <Card className="centered">
         <Card.Content>
@@ -18,7 +18,9 @@ export default class ClusterSummary extends Component {
         <Card.Content extra>
           <a>
             <Icon name='user' />
-            {_.get(cluster, 'nodes', []).length} nodes
+            {nodes.length} nodes
+            <Icon name='user' />
+            {rooms.length} rooms
           </a>
         </Card.Content>
         <Card.Content extra>

@@ -3,26 +3,13 @@ import { Link } from 'react-router';
 import _ from 'lodash';
 import { Container, Grid, Button, Card, Icon, Image, Dropdown, Table, Label } from 'semantic-ui-react';
 
-const mapStatusToColor = status => {
-  switch(status) {
-    case 'active':
-      return 'blue';
-    case 'maintenance':
-      return 'grey';
-    case 'inactive':
-      return 'red';
-    case 'turn-on':
-      return 'green';
-    case 'turn-off':
-      return 'yellow';
-    default:
-      return 'white';
-  }
-}
+import { mapStatusToColor } from '../../utils';
+import UpdateNodeModal from './updateNodeModal';
 
-class ClusterTable extends Component {
+class NodeTable extends Component {
   render() {
-    const { cluster } = this.props;
+    const { nodes, updateNodeConfig, deleteNodeConfig } = this.props;
+    console.log("here>>>", updateNodeConfig)
     return (
       <Table celled>
         <Table.Header>
@@ -35,11 +22,11 @@ class ClusterTable extends Component {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {_.map(cluster.nodes, (node, index)=>{
+          {_.map(nodes, (node, index)=>{
             return (
               <Table.Row>
                 <Table.Cell>
-                  <Label ribbon={index===0}>{node.room_number}</Label>
+                  <Label ribbon={index===0}>{node.id}</Label>
                 </Table.Cell>
                 <Table.Cell><Link to={`/node/${node.id}`}>{node.name}</Link></Table.Cell>
                 <Table.Cell>
@@ -48,12 +35,16 @@ class ClusterTable extends Component {
                   </Label>
                 </Table.Cell>
                 <Table.Cell>
-                  Update
+                 <UpdateNodeModal node={node} updateNodeConfig={updateNodeConfig}/>
                 </Table.Cell>
-                <Table.Cell ><Icon name="trash alternate"/></Table.Cell>
+                <Table.Cell>
+                  <Icon name="trash alternate" onClick={() => deleteNodeConfig(node.id)}/>
+                </Table.Cell>
                 <Table.Cell>
                   <Label>
-                    <Icon name="chart area" />Sensor Data
+                    <Link to={`/sensor?type=node&id=${node.id}`}>
+                      <Icon name="chart area" />Sensor Data
+                    </Link>
                   </Label>
                 </Table.Cell>
               </Table.Row>
@@ -65,4 +56,4 @@ class ClusterTable extends Component {
   }
 }
 
-export default ClusterTable;
+export default NodeTable;

@@ -21,7 +21,7 @@ const getNode = (req, res) => {
 
 const addNode = (req, res) => {
   console.log("req.body is>>>", req.body.data);
-  const newNode = req.body.data;
+  const newNode = req.body;
   return db.node.create(newNode)
   .then(response =>{
     console.log("response creating a new Node is >>>", response);
@@ -32,7 +32,41 @@ const addNode = (req, res) => {
   })
 }
 
+const updateNode = (req, res) => {
+  const { node_id } = req.params;
+  const updatedNode = req.body;
+
+  return db.node.update(updatedNode,{
+    returning: true,
+    plain: true,
+    where: {id: node_id}
+  })
+  .then((response) => {
+    console.log("updating node response is>>>", response);
+    res.json(response[1]);
+  })
+  .catch(err => {
+    console.log("err updating node is >>>", err);
+  })
+}
+
+const deleteNode = (req, res) => {
+  const { node_id } = req.params;
+  return db.node.destroy({
+    where: {id: node_id}
+  })
+  .then((response) => {
+    console.log("deleting node response is>>>", response);
+    res.json(response);
+  })
+  .catch(err => {
+    console.log("err deleting node is >>>", err);
+  })
+}
+
 module.exports = {
   getNode,
   addNode,
+  updateNode,
+  deleteNode,
 }

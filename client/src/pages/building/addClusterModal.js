@@ -18,17 +18,12 @@ class AddClusterModal extends Component {
     this.setState({cluster});
   }
 
-  handleFloorChange = (event, data) => {
-    this.setState({selectedFloor: data.value});
-  }
-
   handleSubmit = (event) => {
   event.preventDefault();
     const { params, floor, addClusterConfig } = this.props;
     const building_id = +params.building_id;
     let newClusterData = _.assign({}, this.state.cluster, { building_id, floor_id: floor.id });
     console.log("newClusterData is>>>", newClusterData);
-
     return addClusterConfig(newClusterData);
   }
   render() {

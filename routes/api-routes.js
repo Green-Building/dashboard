@@ -13,6 +13,8 @@ router
 
   .get('/nodes/:node_id', nodeConfig.getNode)
   .post('/nodes/add', nodeConfig.addNode)
+  .put('/nodes/:node_id', nodeConfig.updateNode)
+  .delete('/nodes/:node_id', nodeConfig.deleteNode)
 
   .get('/floors/:floor_id', floorConfig.getClusterFromFloor)
   .get('/clusters/:cluster_id', clusterConfig.getCluster)

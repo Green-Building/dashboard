@@ -21,10 +21,16 @@ const upsertCluster = (req, res) => {
   const clusterToUpsert = req.body;
   if (clusterToUpsert.id) {
     // update
-    return updateCluster(clusterToUpsert);
+    return updateCluster(clusterToUpsert)
+    .then(cluster => {
+      res.json(cluster);
+    })
   } else {
     // add
-    return addCluster(clusterToUpsert);
+    return addCluster(clusterToUpsert)
+    .then(cluster => {
+      res.json(cluster);
+    })
   }
 }
 const addCluster = newCluster => {
@@ -52,10 +58,6 @@ const addCluster = newCluster => {
     newCluster.floor_id = floor_id;
     return db.cluster.create(newCluster)
   })
-  .then(response => {
-    console.log("response creating a new cluster is >>>", response);
-    res.json(response);
-  })
   .catch(err => {
     console.log("error creating a new cluster>>", err);
   });
@@ -74,9 +76,6 @@ const updateCluster = updatedCluster => {
         id: cluster_id,
       }
     })
-  })
-  .then(response => {
-    res.json(response);
   })
   .catch(err => {
     console.log("err updating cluster is >>>", err);

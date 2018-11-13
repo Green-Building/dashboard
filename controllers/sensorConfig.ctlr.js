@@ -9,9 +9,6 @@ const getSensor = (req, res) => {
     },
     include: [ {model: db.node, as: 'node'} ]
   })
-  .then(sensor => {
-    res.json(sensor);
-  })
   .catch(err => {
     console.log("err fetching building>>>", err);
   })
@@ -21,19 +18,21 @@ const upsertSensor = (req, res) => {
   const sensorToUpsert = req.body;
   if(sensorToUpsert.id) {
     //update
-    return updateSensor(sensorToUpsert);
+    return updateSensor(sensorToUpsert)
+    .then(sensor => {
+      res.json(sensor);
+    })
   } else {
     //insert
-    return addSensor(sensorToUpsert);
+    return addSensor(sensorToUpsert)
+    .then(sensor => {
+      res.json(sensor);
+    })
   }
 }
 
 const addSensor = newSensor => {
   return db.sensor.create(newSensor)
-  .then(response => {
-    console.log("response creating a new sensor is >>>", response);
-    res.json(response);
-  })
   .catch(err => {
     console.log("error creating a new sensor>>", err);
   })
@@ -41,7 +40,6 @@ const addSensor = newSensor => {
 
 const updateSensor = updatedSensor => {
   const { id: sensor_id } = updatedSensor;
-  const updatedSensor = req.body;
 
   return db.sensor.update(_.omit(updatedSensor, 'id'),{
     returning: true,
@@ -54,9 +52,6 @@ const updateSensor = updatedSensor => {
         id: sensor_id,
       }
     })
-  })
-  .then(response => {
-    res.json(response);
   })
   .catch(err => {
     console.log("err updating sensor is >>>", err);

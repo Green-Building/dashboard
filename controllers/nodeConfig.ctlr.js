@@ -24,19 +24,21 @@ const upsertNode = (req, res) => {
   const nodeToUpsert = req.body;
   if(nodeToUpsert.id) {
     // upate
-    return updateNode(nodeToUpsert);
+    return updateNode(nodeToUpsert)
+    .then(node => {
+      res.json(node);
+    })
   } else {
     //insert
-    return addNode(nodeToUpsert);
+    return addNode(nodeToUpsert)
+    .then(node => {
+      res.json(node);
+    })
   }
 }
 
 const addNode = newNode => {
   return db.node.create(newNode)
-  .then(response =>{
-    console.log("response creating a new Node is >>>", response);
-    res.json(response);
-  })
   .catch(err => {
     console.log("error creating a new node>>", err);
   })
@@ -56,9 +58,6 @@ const updateNode = updatedNode => {
         id: node_id,
       }
     });
-  })
-  .then(response => {
-    res.json(response);
   })
   .catch(err => {
     console.log("err updating node is >>>", err);

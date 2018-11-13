@@ -77,6 +77,7 @@ export default class NodeNetwork extends Component {
           collapsible={false}
           zoom={1}
           styles={styles}
+          textLayout={{transform: 'rotate(-20 70 100)'}}
         />
       </div>
     );

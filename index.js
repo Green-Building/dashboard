@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const logger = require('morgan');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const Promise = require('bluebird');
 mongoose.Promise = Promise;
 
 const db = require('./models');
@@ -34,8 +35,11 @@ const apiRoutes = require('./routes/api-routes');
 app.use('/auth', authRoutes);
 app.use('/api', apiRoutes);
 
-mongoose.connect('mongodb://localhost/greenBuilding');
-db.sequelize.sync().then(() => {
+return Promise.all([
+  mongoose.connect('mongodb://localhost/greenBuilding'),
+  db.sequelize.sync(),
+])
+.then(() => {
   app.listen(app.get('port'), () => {
     console.log(`Find the server at: http://localhost:${app.get('port')}/`);
   });

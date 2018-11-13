@@ -24,7 +24,7 @@ class UpdateSensorModal extends Component {
     event.preventDefault();
     const { updateSensorConfig } = this.props;
     console.log("updateSensorConfig is >>", updateSensorConfig);
-    return updateSensorConfig(this.props.sensor.id, _.omit(this.state.sensor, 'id'));
+    return updateSensorConfig(this.props.sensor.id, this.state.sensor);
   }
   render() {
     const { sensor } = this.props;

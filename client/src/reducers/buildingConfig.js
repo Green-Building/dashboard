@@ -86,7 +86,7 @@ export const addClusterConfig = (newClusterData) => (dispatch, getState) => {
     type: 'ADD_CLUSTER_CONFIG',
   });
 
-  return client.post(`${INFRA_MANAGER_HOST}/api/clusters/add`, newClusterData)
+  return client.post(`${INFRA_MANAGER_HOST}/api/clusters`, newClusterData)
   .then(
     response => {
       let cluster = response.data;
@@ -109,14 +109,14 @@ export const updateClusterConfig = (clusterId, updatedClusterData) => (dispatch,
     type: 'UPDATE_CLUSTER_CONFIG',
   });
 
-  return client.put(`${INFRA_MANAGER_HOST}/api/clusters/${clusterId}`, updatedClusterData)
+  return client.post(`${INFRA_MANAGER_HOST}/api/clusters`, updatedClusterData)
   .then(
     response => {
       let cluster = response.data;
       dispatch({
         type: 'SUCCESS_UPDATE_CLUSTER_CONFIG',
         clusterId,
-        cluster: _.assign({},updatedClusterData, {id: clusterId})
+        cluster: cluster,
       });
     },
     error => {

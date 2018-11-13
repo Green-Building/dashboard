@@ -17,10 +17,17 @@ const getCluster = (req, res) => {
   })
 }
 
-const addCluster = (req, res) => {
-  console.log("req.body is>>>", req.body);
-  const newCluster = req.body;
-  console.log("newCluster is>>>", newCluster);
+const upsertCluster = (req, res) => {
+  const clusterToUpsert = req.body;
+  if (clusterToUpsert.id) {
+    // update
+    return updateCluster(clusterToUpsert);
+  } else {
+    // add
+    return addCluster(clusterToUpsert);
+  }
+}
+const addCluster = newCluster => {
   return db.floor.findOne({
     where: {
       building_id: newCluster.building_id,
@@ -54,20 +61,22 @@ const addCluster = (req, res) => {
   });
 }
 
-const updateCluster = (req, res) => {
-  const { cluster_id } = req.params;
-  const updatedCluster = req.body;
-  console.log("cluster_id>>>", cluster_id);
-  console.log("updatedCluster>>>", updatedCluster);
-
-  return db.cluster.update(updatedCluster,{
+const updateCluster = updatedCluster => {
+  const { id: cluster_id } = updatedCluster;
+  return db.cluster.update(_.omit(updatedCluster, 'id'),{
     returning: true,
     plain: true,
     where: {id: cluster_id}
   })
-  .then((response) => {
-    console.log("updating cluster response is>>>", response);
-    res.json(response[1]);
+  .then(response => {
+    return db.cluster.findOne({
+      where: {
+        id: cluster_id,
+      }
+    })
+  })
+  .then(response => {
+    res.json(response);
   })
   .catch(err => {
     console.log("err updating cluster is >>>", err);
@@ -93,4 +102,5 @@ module.exports = {
   addCluster,
   updateCluster,
   deleteCluster,
+  upsertCluster,
 }

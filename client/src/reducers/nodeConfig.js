@@ -70,7 +70,7 @@ export const addSensorConfig = (newSensorData) => (dispatch, getState) => {
     type: 'ADD_SENSOR_CONFIG',
   });
 
-  return client.post(`${INFRA_MANAGER_HOST}/api/sensors/add`, newSensorData)
+  return client.post(`${INFRA_MANAGER_HOST}/api/sensors`, newSensorData)
   .then(
     response => {
       let sensor = response.data;
@@ -93,14 +93,14 @@ export const updateSensorConfig = (sensorId, updatedSensorData) => (dispatch, ge
     type: UPDATE_SENSOR_CONFIG,
   });
 
-  return client.put(`${INFRA_MANAGER_HOST}/api/sensors/${sensorId}`, updatedSensorData)
+  return client.post(`${INFRA_MANAGER_HOST}/api/sensors`, updatedSensorData)
   .then(
     response => {
-      let node = response.data;
+      let sensor = response.data;
       dispatch({
         type: SUCCESS_UPDATE_SENSOR_CONFIG,
         sensorId,
-        sensor: _.assign({},updatedSensorData, {id: sensorId})
+        sensor: sensor
       });
     },
     error => {

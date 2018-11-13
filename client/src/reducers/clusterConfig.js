@@ -96,7 +96,7 @@ export const addNodeConfig = (newNodeData) => (dispatch, getState) => {
     type: 'ADD_NODE_CONFIG',
   });
 
-  return client.post(`${INFRA_MANAGER_HOST}/api/nodes/add`, newNodeData)
+  return client.post(`${INFRA_MANAGER_HOST}/api/nodes`, newNodeData)
   .then(
     response => {
       let node = response.data;
@@ -119,14 +119,14 @@ export const updateNodeConfig = (nodeId, updatedNodeData) => (dispatch, getState
     type: 'UPDATE_NODE_CONFIG',
   });
 
-  return client.put(`${INFRA_MANAGER_HOST}/api/nodes/${nodeId}`, updatedNodeData)
+  return client.post(`${INFRA_MANAGER_HOST}/api/nodes`, updatedNodeData)
   .then(
     response => {
       let node = response.data;
       dispatch({
         type: 'SUCCESS_UPDATE_NODE_CONFIG',
         nodeId,
-        node: _.assign({},updatedNodeData, {id: nodeId})
+        node: node,
       });
     },
     error => {

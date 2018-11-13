@@ -9,19 +9,16 @@ const roomConfig = require('../controllers/roomConfig.ctlr');
 
 router
   .get('/sensors/:sensor_id', sensorConfig.getSensor)
-  .post('/sensors/add', sensorConfig.addSensor)
-  .put('/sensors/:sensor_id', sensorConfig.updateSensor)
+  .post('/sensors', sensorConfig.upsertSensor)
   .delete('/sensors/:sensor_id', sensorConfig.deleteSensor)
 
   .get('/nodes/:node_id', nodeConfig.getNode)
-  .post('/nodes/add', nodeConfig.addNode)
-  .put('/nodes/:node_id', nodeConfig.updateNode)
+  .post('/nodes', nodeConfig.upsertNode)
   .delete('/nodes/:node_id', nodeConfig.deleteNode)
 
   .get('/floors/:floor_id', floorConfig.getClusterFromFloor)
   .get('/clusters/:cluster_id', clusterConfig.getCluster)
-  .post('/clusters/add', clusterConfig.addCluster)
-  .put('/clusters/:cluster_id', clusterConfig.updateCluster)
+  .post('/clusters', clusterConfig.upsertCluster)
   .delete('/clusters/:cluster_id', clusterConfig.deleteCluster)
 
   .post('/floors/add', floorConfig.addFloor)

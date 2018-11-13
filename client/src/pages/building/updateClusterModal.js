@@ -27,7 +27,7 @@ class UpdateClusterModal extends Component {
     event.preventDefault();
     const { updateClusterConfig } = this.props;
     console.log("this.props.cluster is>>>", this.props.cluster);
-    return updateClusterConfig(this.props.cluster.id, _.omit(this.state.cluster, 'id'));
+    return updateClusterConfig(this.props.cluster.id, this.state.cluster);
   }
   render() {
     const { cluster } = this.props;

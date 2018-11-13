@@ -24,7 +24,7 @@ class UpdateNodeModal extends Component {
     event.preventDefault();
     const { updateNodeConfig } = this.props;
     console.log("updateNodeConfig is>>>", updateNodeConfig);
-    return updateNodeConfig(this.props.node.id, _.omit(this.state.node, 'id'));
+    return updateNodeConfig(this.props.node.id, this.state.node);
   }
   render() {
     const { node } = this.props;

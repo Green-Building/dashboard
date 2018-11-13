@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const db = require('../models');
 
 const getSensor = (req, res) => {
@@ -16,11 +17,20 @@ const getSensor = (req, res) => {
   })
 };
 
-const addSensor = (req, res) => {
-  console.log("req.body is>>>", req.body);
-  const newSensor = req.body;
+const upsertSensor = (req, res) => {
+  const sensorToUpsert = req.body;
+  if(sensorToUpsert.id) {
+    //update
+    return updateSensor(sensorToUpsert);
+  } else {
+    //insert
+    return addSensor(sensorToUpsert);
+  }
+}
+
+const addSensor = newSensor => {
   return db.sensor.create(newSensor)
-  .then(response =>{
+  .then(response => {
     console.log("response creating a new sensor is >>>", response);
     res.json(response);
   })
@@ -29,18 +39,24 @@ const addSensor = (req, res) => {
   })
 }
 
-const updateSensor = (req, res) => {
-  const { sensor_id } = req.params;
+const updateSensor = updatedSensor => {
+  const { id: sensor_id } = updatedSensor;
   const updatedSensor = req.body;
 
-  return db.sensor.update(updatedSensor,{
+  return db.sensor.update(_.omit(updatedSensor, 'id'),{
     returning: true,
     plain: true,
     where: {id: sensor_id}
   })
-  .then((response) => {
-    console.log("updating sensor response is>>>", response);
-    res.json(response[1]);
+  .then(response => {
+    return db.sensor.findOne({
+      where: {
+        id: sensor_id,
+      }
+    })
+  })
+  .then(response => {
+    res.json(response);
   })
   .catch(err => {
     console.log("err updating sensor is >>>", err);
@@ -66,4 +82,5 @@ module.exports = {
   addSensor,
   updateSensor,
   deleteSensor,
+  upsertSensor,
 }

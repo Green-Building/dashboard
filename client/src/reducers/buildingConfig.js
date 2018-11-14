@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import Promise from 'bluebird';
 import moment from 'moment';
 import client from '../client';
 
@@ -12,6 +13,7 @@ import {
 //
 const INITIAL_STATE = {
   building: {},
+  buildingStats: {},
   floors: [],
   isLoading: true,
   errorMessage: null,
@@ -56,29 +58,30 @@ export const fetchBuildingConfig = (buildingId) => (dispatch, getState) => {
   dispatch({
     type: 'GET_BUILDING_CONFIG',
   });
-
-  return client.get(`${INFRA_MANAGER_HOST}/api/buildings/${buildingId}?fetch_nested=floor,cluster`)
-  .then(
-    response => {
-      let building = response.data;
-      _.forEach(building.floors, floor => {
-        floor.cluster = _.find(building.clusters, {floor_id: floor.id}) || null;
-      });
-      let floors = _.sortBy(building.floors, ['floor_number']);
-      console.log("floors >>>", floors);
-      dispatch({
-        type: 'SUCCESS_GET_BUILDING_CONFIG',
-        building,
-        floors,
-      });
-    },
-    error => {
-      dispatch({
-        type: 'ERROR_GET_BUILDING_CONFIG',
-        message: error.message || 'Something went wrong.',
-      });
-    }
-  );
+  return Promise.all([
+    client.get(`${INFRA_MANAGER_HOST}/api/buildings/${buildingId}?fetch_nested=floor,cluster`),
+    client.get(`${INFRA_MANAGER_HOST}/api/buildings/statistics/${buildingId}`)
+  ])
+  .spread((buildingConfig, buildingStats) => {
+    let building = buildingConfig.data;
+    _.forEach(building.floors, floor => {
+      floor.cluster = _.find(building.clusters, {floor_id: floor.id}) || null;
+    });
+    let floors = _.sortBy(building.floors, ['floor_number']);
+    console.log("floors >>>", floors);
+    dispatch({
+      type: 'SUCCESS_GET_BUILDING_CONFIG',
+      building,
+      floors,
+      buildingStats: buildingStats.data,
+    });
+  })
+  .catch( error => {
+    dispatch({
+      type: 'ERROR_GET_BUILDING_CONFIG',
+      message: error.message || 'Something went wrong.',
+    });
+  });
 };
 
 export const addClusterConfig = (newClusterData) => (dispatch, getState) => {
@@ -156,7 +159,7 @@ const buildingConfig = (state = INITIAL_STATE, action) => {
   let cluster, floors, floor, clusterId, floorId;
   switch (action.type) {
     case SUCCESS_GET_BUILDING_CONFIG:
-      return _.assign({}, state, {building: action.building, floors: action.floors, isLoading: false});
+      return _.assign({}, state, {building: action.building, buildingStats: action.buildingStats, floors: action.floors, isLoading: false});
     case SUCCESS_ADD_CLUSTER_CONFIG:
       cluster = action.cluster;
       floors = state.floors;

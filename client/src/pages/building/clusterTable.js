@@ -15,8 +15,8 @@ export default function({ floors, params, addClusterConfig, updateClusterConfig,
           <Table.HeaderCell>Floor</Table.HeaderCell>
           <Table.HeaderCell>Cluster Name</Table.HeaderCell>
           <Table.HeaderCell>Status</Table.HeaderCell>
-          <Table.HeaderCell>Update</Table.HeaderCell>
-          <Table.HeaderCell colSpan='2'>Add/Delete</Table.HeaderCell>
+          <Table.HeaderCell colSpan='2'>Operation</Table.HeaderCell>
+          <Table.HeaderCell>Data</Table.HeaderCell>
         </Table.Row>
       </Table.Header>
       <Table.Body>

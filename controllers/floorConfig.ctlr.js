@@ -41,7 +41,27 @@ const getClusterFromFloor = (req, res) => {
   })
 }
 
+const getFloorStats = (req, res) => {
+  const { floor_id: floorId } = req.params;
+  return db.sequelize.query(`SELECT count(DISTINCT node.id) as node_count,
+    count(DISTINCT sensor.id) as sensor_count
+    FROM floor
+    INNER JOIN cluster on floor.id = cluster.floor_id
+    LEFT JOIN node on cluster.id = node.cluster_id
+    LEFT JOIN sensor on node.id = sensor.node_id
+    WHERE floor.id = :floorId;`,
+    { replacements: { floorId: +floorId }, type: db.sequelize.QueryTypes.SELECT }
+  )
+  .then(results => {
+    res.json(results[0]);
+  })
+  .catch(err => {
+    console.log("err getting floor Stats");
+  })
+}
+
 module.exports = {
   addFloor,
   getClusterFromFloor,
+  getFloorStats,
 }

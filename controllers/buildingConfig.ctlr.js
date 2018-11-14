@@ -85,9 +85,31 @@ const searchBuildingByCity = (req, res) => {
   })
 }
 
+const getBuildingStats = (req, res) => {
+
+  const { building_id: buildingId } = req.params;
+  return db.sequelize.query(`SELECT count(DISTINCT cluster.id) as cluster_count,
+    count(DISTINCT node.id) as node_count,
+    count(DISTINCT sensor.id) as sensor_count
+    FROM building
+    INNER JOIN cluster on building.id = cluster.building_id
+    LEFT JOIN node on cluster.id = node.cluster_id
+    LEFT JOIN sensor on node.id = sensor.node_id
+    WHERE building.id = :buildingId;`,
+    { replacements: { buildingId: +buildingId }, type: db.sequelize.QueryTypes.SELECT }
+  )
+  .then(results => {
+    res.json(results[0]);
+  })
+  .catch(err => {
+    console.log("err getting building Stats>>", err);
+  })
+}
+
 module.exports = {
   getBuilding,
   addBuilding,
   searchBuildingByLatLng,
   searchBuildingByCity,
+  getBuildingStats,
 }

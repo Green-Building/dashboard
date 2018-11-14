@@ -21,13 +21,17 @@ router
   .post('/clusters', clusterConfig.upsertCluster)
   .delete('/clusters/:cluster_id', clusterConfig.deleteCluster)
 
+  .get('/floors/statistics/:floor_id', floorConfig.getFloorStats)
+  .get('/rooms/statistics/:room_id', roomConfig.getRoomStats)
   .post('/floors/add', floorConfig.addFloor)
   .post('/rooms/add', roomConfig.addRoom)
 
+  .get('/buildings/statistics/:building_id', buildingConfig.getBuildingStats)
   .get('/buildings/search/location', buildingConfig.searchBuildingByCity)
   .get('/buildings/search/geocode', buildingConfig.searchBuildingByLatLng)
   .get('/buildings/:building_id', buildingConfig.getBuilding)
   .post('/buildings/add', buildingConfig.addBuilding)
+
 
   .post('/sensor-data/add', sensorDataMgmt.insertSensorData)
   .post('/sensor-data/bulk-add', sensorDataMgmt.bulkInsertSensorData)

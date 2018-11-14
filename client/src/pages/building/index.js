@@ -24,14 +24,14 @@ class Building extends Component {
   }
 
   render() {
-    const { isLoading, building, floors } = this.props.buildingConfig;
+    const { isLoading, building, floors, buildingStats } = this.props.buildingConfig;
     return isLoading ? <Loading /> :
       (
         <Container>
           <Grid celled verticalAlign='middle' style={{'height': '80vh', 'backgroundColor': '#f7f7f7'}}>
             <Grid.Row>
               <Grid.Column width={4}>
-                <BuildingSummary building={building} />
+                <BuildingSummary building={building} buildingStats={buildingStats}/>
               </Grid.Column>
               <Grid.Column width={12}>
                 <ClusterTable

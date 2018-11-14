@@ -15,11 +15,11 @@ class NodeTable extends Component {
       <Table celled>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell>Node</Table.HeaderCell>
+            <Table.HeaderCell>Node ID</Table.HeaderCell>
             <Table.HeaderCell>Node Name</Table.HeaderCell>
             <Table.HeaderCell>Status</Table.HeaderCell>
-            <Table.HeaderCell>Update</Table.HeaderCell>
-            <Table.HeaderCell colSpan='2'>Add/Delete</Table.HeaderCell>
+            <Table.HeaderCell colSpan='2'>Operation</Table.HeaderCell>
+            <Table.HeaderCell>Data</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>

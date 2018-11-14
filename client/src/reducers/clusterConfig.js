@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import Promise from 'bluebird';
 import moment from 'moment';
 import client from '../client';
 
@@ -12,6 +13,7 @@ import {
 //
 const INITIAL_STATE = {
   cluster: {},
+  floorStats: {},
   nodes: [],
   rooms: [],
   roomMap: [],
@@ -47,48 +49,48 @@ export const fetchFloorConfig = (floorId) => (dispatch, getState) => {
   dispatch({
     type: 'GET_FLOOR_CONFIG',
   });
+  return Promise.all([
+    client.get(`${INFRA_MANAGER_HOST}/api/floors/${floorId}?fetch_nested=floor,room,node,sensor`),
+    client.get(`${INFRA_MANAGER_HOST}/api/floors/statistics/${floorId}`),
+  ])
+  .spread((cluster, floorStats) => {
+    cluster = cluster.data;
+    let rooms = cluster.floor.rooms;
+    let nodes = cluster.nodes;
+    _.forEach(rooms, room => {
+      room.node = _.find(nodes, {id: room.id});
+    })
 
-  return client.get(`${INFRA_MANAGER_HOST}/api/floors/${floorId}?fetch_nested=floor,room,node,sensor`)
-  .then(
-    response => {
-      let cluster = response.data;
-      let rooms = cluster.floor.rooms;
-      let nodes = cluster.nodes;
-      _.forEach(rooms, room => {
-        room.node = _.find(nodes, {id: room.id});
-      })
-
-      const roomMap = alphabet.reduce((acc, letter1, idx) => {
-        return acc.concat(
-          alphabet.map((letter2, jdx) => ({
-            x: `${letter1}1`,
-            y: `${letter2}2`,
-            color: 0,
-            label: ''
-          }))
-        );
-      }, []);
-      console.log("rooms>>>", rooms);
-      _.forEach(rooms, (room, i) => {
-        roomMap[i].color = _.get(room.node, 'sensors', []).length;
-        roomMap[i].label = room.room_number;
-      })
-      console.log("here>>>", cluster, rooms, nodes, roomMap)
-      dispatch({
-        type: 'SUCCESS_GET_FLOOR_CONFIG',
-        cluster,
-        rooms,
-        nodes,
-        roomMap,
-      });
-    },
-    error => {
-      dispatch({
-        type: 'ERROR_GET_FLOOR_CONFIG',
-        message: error.message || 'Something went wrong.',
-      });
-    }
-  );
+    const roomMap = alphabet.reduce((acc, letter1, idx) => {
+      return acc.concat(
+        alphabet.map((letter2, jdx) => ({
+          x: `${letter1}1`,
+          y: `${letter2}2`,
+          color: 0,
+          label: ''
+        }))
+      );
+    }, []);
+    _.forEach(rooms, (room, i) => {
+      roomMap[i].color = _.get(room.node, 'sensors', []).length;
+      roomMap[i].label = room.room_number;
+    })
+    console.log("here>>>", cluster, rooms, nodes, roomMap)
+    dispatch({
+      type: 'SUCCESS_GET_FLOOR_CONFIG',
+      cluster,
+      rooms,
+      nodes,
+      roomMap,
+      floorStats: floorStats.data
+    });
+  })
+  .catch(error => {
+    dispatch({
+      type: 'ERROR_GET_FLOOR_CONFIG',
+      message: error.message || 'Something went wrong.',
+    });
+  });
 };
 
 export const addNodeConfig = (newNodeData) => (dispatch, getState) => {
@@ -165,7 +167,7 @@ const clusterConfig = (state = INITIAL_STATE, action) => {
   let node, nodeId, nodes;
   switch (action.type) {
     case SUCCESS_GET_FLOOR_CONFIG:
-      return _.assign({}, state, { cluster: action.cluster, rooms: action.rooms, nodes: action.nodes, roomMap: action.roomMap, isLoading: false});
+      return _.assign({}, state, { cluster: action.cluster, floorStats: action.floorStats, rooms: action.rooms, nodes: action.nodes, roomMap: action.roomMap, isLoading: false});
     case SUCCESS_ADD_NODE_CONFIG:
       node = action.node;
       nodes = state.nodes;

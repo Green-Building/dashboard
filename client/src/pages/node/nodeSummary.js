@@ -20,18 +20,6 @@ export default class NodeSummary extends Component {
             {_.get(node, 'sensors', []).length} sensors
           </a>
         </Card.Content>
-        <Card.Content extra>
-          <List>
-            <List.Item>
-              <List.Icon name='users' />
-              <List.Content>{node.room_id}</List.Content>
-            </List.Item>
-            <List.Item>
-              <List.Icon name='marker' />
-              <List.Content>{_.get(node, ['cluster', 'name'], '')}</List.Content>
-            </List.Item>
-          </List>
-        </Card.Content>
       </Card>
     );
   }

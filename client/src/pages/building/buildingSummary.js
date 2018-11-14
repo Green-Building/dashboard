@@ -8,7 +8,7 @@ import {
 
 export default class BuildingSummary extends Component {
   render() {
-    const { building } = this.props;
+    const { building, buildingStats } = this.props;
     return (
       <Card>
         <Image src={building.image_url} />
@@ -29,16 +29,16 @@ export default class BuildingSummary extends Component {
           <List>
             <List.Item>
               <List.Icon name='cogs' />
-              <List.Content># of Clusters</List.Content>
+              <List.Content># of clusters: {buildingStats.cluster_count}</List.Content>
             </List.Item>
             <List.Item>
               <List.Icon name='certificate' />
-              <List.Content># of Node</List.Content>
+              <List.Content># of nodes: {buildingStats.node_count}</List.Content>
             </List.Item>
             <List.Item>
               <List.Icon name='lightbulb' />
               <List.Content>
-                # of sensors
+              # of sensors: {buildingStats.sensor_count}
               </List.Content>
             </List.Item>
           </List>

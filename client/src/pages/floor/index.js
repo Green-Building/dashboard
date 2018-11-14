@@ -33,9 +33,15 @@ class Floor extends Component {
           <Grid.Row stretched>
             <Grid.Column width={6}>
               <ClusterSummary floorStats={floorStats} cluster={cluster} nodes={nodes} rooms={rooms} />
-              <FloorRoomMap roomMap={roomMap} rooms={rooms} router={router}/>
             </Grid.Column>
             <Grid.Column width={10}>
+              <FloorRoomMap roomMap={roomMap} rooms={rooms} router={router}/>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+        <Grid columns={2} celled style={{'backgroundColor': '#f7f7f7'}}>
+          <Grid.Row stretched>
+            <Grid.Column width={16}>
               <NodeTable
                 cluster={cluster}
                 params={params}

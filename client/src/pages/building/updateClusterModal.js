@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import client from '../../client';
-import { Form, Button, Header, Image, Modal, Input } from 'semantic-ui-react';
+import { Form, Button, Header, Image, Modal, Input, Icon } from 'semantic-ui-react';
 
 import {
   INFRA_MANAGER_HOST
@@ -32,7 +32,7 @@ class UpdateClusterModal extends Component {
   render() {
     const { cluster } = this.props;
     return (
-      <Modal trigger={<Button>Update</Button>}>
+      <Modal trigger={<Icon name="edit" />}>
         <Modal.Header>Update a Cluster Config</Modal.Header>
         <Modal.Content>
           <Modal.Description>

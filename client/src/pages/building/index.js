@@ -28,7 +28,7 @@ class Building extends Component {
     return isLoading ? <Loading /> :
       (
         <Container>
-          <Grid celled verticalAlign='middle' style={{'height': '80vh', 'backgroundColor': '#f7f7f7'}}>
+          <Grid celled verticalAlign='middle' style={{'minHeight': '80vh', 'backgroundColor': '#f7f7f7'}}>
             <Grid.Row>
               <Grid.Column width={4}>
                 <BuildingSummary building={building} buildingStats={buildingStats}/>

@@ -71,13 +71,14 @@ export default class NodeNetwork extends Component {
         <Tree
           data={treeDataWrapper}
           nodeSvgShape={{shape: 'circle', shapeProps: {r: 10}}}
-          translate={{x: 50, y: 180}}
+          translate={{x: 350, y: 180}}
           pathFunc="straight"
           onClick={this.handleClick}
           collapsible={false}
           zoom={1}
           styles={styles}
           textLayout={{transform: 'rotate(-20 70 100)'}}
+          orientation="vertical"
         />
       </div>
     );

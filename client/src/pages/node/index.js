@@ -30,24 +30,28 @@ class Node extends Component {
       <Container>
         <Grid columns={2} celled style={{'backgroundColor': '#f7f7f7'}}>
           <Grid.Row stretched>
-            <Grid.Column width={5} >
+            <Grid.Column width={6}>
+              <NodeSummary node={node} />
+            </Grid.Column>
+            <Grid.Column width={10}>
+              <NodeNetwork node={node} router={router}/>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+        <Grid columns={2} celled style={{'backgroundColor': '#f7f7f7'}}>
+          <Grid.Row stretched>
+            <Grid.Column width={16} >
               <Grid>
                 <Grid.Row>
-                  <NodeSummary node={node} />
-                </Grid.Row>
-                <Grid.Row>
-                  <NodeNetwork node={node} router={router}/>
+                  <SensorTable
+                    sensors={sensors}
+                    addSensorConfig={addSensorConfig}
+                    updateSensorConfig={updateSensorConfig}
+                    deleteSensorConfig={deleteSensorConfig}
+                    node={node}
+                  />
                 </Grid.Row>
               </Grid>
-            </Grid.Column>
-            <Grid.Column width={11} >
-              <SensorTable
-                sensors={sensors}
-                addSensorConfig={addSensorConfig}
-                updateSensorConfig={updateSensorConfig}
-                deleteSensorConfig={deleteSensorConfig}
-                node={node}
-              />
             </Grid.Column>
           </Grid.Row>
         </Grid>

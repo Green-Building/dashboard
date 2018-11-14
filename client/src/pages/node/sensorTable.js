@@ -15,14 +15,13 @@ export default class SensorTable extends Component {
       <Table celled>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell>#</Table.HeaderCell>
+            <Table.HeaderCell>Sensor ID</Table.HeaderCell>
             <Table.HeaderCell>Sensor Name</Table.HeaderCell>
             <Table.HeaderCell>Sensor Type</Table.HeaderCell>
             <Table.HeaderCell>Instllation time</Table.HeaderCell>
             <Table.HeaderCell>Status</Table.HeaderCell>
-            <Table.HeaderCell>Update</Table.HeaderCell>
-            <Table.HeaderCell>Delete</Table.HeaderCell>
-            <Table.HeaderCell>Sensor Data</Table.HeaderCell>
+            <Table.HeaderCell colspan='2'>Operation</Table.HeaderCell>
+            <Table.HeaderCell>Data</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>

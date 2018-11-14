@@ -7,44 +7,41 @@ import {
   INFRA_MANAGER_HOST
 } from '../../api-config';
 
-class UpdateClusterModal extends Component {
+class UpdateSensorModal extends Component {
   state = {
-    cluster: this.props.cluster,
+    sensor: this.props.sensor,
   }
 
   handleChange = (event, data) => {
     console.log("data is>>>", data);
-    if(this.props.isNew) {
-      this.props.cluster[data.name] = data.value;
-    } else {
-      let cluster = this.state.cluster;
-      cluster[data.name] = data.value;
-      this.setState({cluster});
-    }
+
+    let sensor = this.state.sensor;
+    sensor[data.name] = data.value;
+    this.setState({sensor});
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const { updateClusterConfig } = this.props;
-    console.log("this.props.cluster is>>>", this.props.cluster);
-    return updateClusterConfig(this.props.cluster.id, this.state.cluster);
+    const { updateSensorConfig } = this.props;
+    console.log("updateSensorConfig is >>", updateSensorConfig);
+    return updateSensorConfig(this.props.sensor.id, this.state.sensor);
   }
   render() {
-    const { cluster } = this.props;
+    const { sensor } = this.props;
     return (
       <Modal trigger={<Button>Update</Button>}>
-        <Modal.Header>Update a Cluster Config</Modal.Header>
+        <Modal.Header>Update a Sensor Config</Modal.Header>
         <Modal.Content>
           <Modal.Description>
           <Form onSubmit={this.handleSubmit}>
             <Form.Group>
               <Form.Field>
-                <label>Cluster Name</label>
-                <Input name='name' placeholder='Name' value={this.state.cluster.name} onChange={this.handleChange} />
+                <label>Sensor Name</label>
+                <Input name='name' placeholder='Name' value={this.state.sensor.name} onChange={this.handleChange} />
               </Form.Field>
               <Form.Field>
                 <label>Status</label>
-                <Input name='status' placeholder='Status' value={this.state.cluster.status} onChange={this.handleChange} />
+                <Input name='status' placeholder='Status' value={this.state.sensor.status} onChange={this.handleChange} />
               </Form.Field>
             </Form.Group>
             <Form.Field control={Button}>Submit</Form.Field>
@@ -55,4 +52,4 @@ class UpdateClusterModal extends Component {
     )
   }
 }
-export default UpdateClusterModal;
+export default UpdateSensorModal;

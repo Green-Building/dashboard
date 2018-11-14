@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const db = require('../models');
 
 const getNode = (req, res) => {
@@ -19,20 +20,68 @@ const getNode = (req, res) => {
   })
 };
 
-const addNode = (req, res) => {
-  console.log("req.body is>>>", req.body.data);
-  const newNode = req.body.data;
+const upsertNode = (req, res) => {
+  const nodeToUpsert = req.body;
+  if(nodeToUpsert.id) {
+    // upate
+    return updateNode(nodeToUpsert)
+    .then(node => {
+      res.json(node);
+    })
+  } else {
+    //insert
+    return addNode(nodeToUpsert)
+    .then(node => {
+      res.json(node);
+    })
+  }
+}
+
+const addNode = newNode => {
   return db.node.create(newNode)
-  .then(response =>{
-    console.log("response creating a new Node is >>>", response);
+  .catch(err => {
+    console.log("error creating a new node>>", err);
+  })
+}
+
+const updateNode = updatedNode => {
+  const { id: node_id } = updatedNode;
+
+  return db.node.update(_.omit(updatedNode, 'id'),{
+    returning: true,
+    plain: true,
+    where: {id: node_id}
+  })
+  .then(response => {
+    return db.node.findOne({
+      where: {
+        id: node_id,
+      }
+    });
+  })
+  .catch(err => {
+    console.log("err updating node is >>>", err);
+  })
+}
+
+const deleteNode = (req, res) => {
+  const { node_id } = req.params;
+  return db.node.destroy({
+    where: {id: node_id}
+  })
+  .then((response) => {
+    console.log("deleting node response is>>>", response);
     res.json(response);
   })
   .catch(err => {
-    console.log("error creating a new node>>", err);
+    console.log("err deleting node is >>>", err);
   })
 }
 
 module.exports = {
   getNode,
   addNode,
+  updateNode,
+  deleteNode,
+  upsertNode,
 }

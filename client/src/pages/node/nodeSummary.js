@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import axios from 'axios';
 import { Card, Image, List, Icon } from 'semantic-ui-react';
 
 import {
@@ -11,7 +10,7 @@ export default class NodeSummary extends Component {
   render() {
     const { node } = this.props;
     return (
-      <Card>
+      <Card className="centered">
         <Card.Content>
           <Card.Header>{node.name}</Card.Header>
         </Card.Content>

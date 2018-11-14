@@ -8,42 +8,112 @@ import sensorNetwork from './pages/SensorNetwork';
 import addBuilding from './pages/configManager/addBuilding';
 import addSensorData from './pages/dataManager/addSensorData';
 
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+
+import Auth from './modules/Auth';
+
 const routes = {
   // base component (wrapper for the whole application).
   component: Header,
   childRoutes: [
     {
       path: '/',
-      component: Home,
+      getComponent: (location, callback) => {
+        if (Auth.isUserAuthenticated()) {
+          callback(null, Home);
+        } else {
+          callback(null, Login);
+        }
+      }
+    },
+    {
+      path: '/login',
+      component: Login,
+    },
+    {
+      path: '/signup',
+      component: Signup,
     },
     {
       path: '/building/:building_id',
-      component: Building,
+      getComponent: (location, callback) => {
+        if (Auth.isUserAuthenticated()) {
+          callback(null, Building);
+        } else {
+          callback(null, Login);
+        }
+      }
     },
     {
       path: '/floor/:floor_id',
-      component: Floor,
+      getComponent: (location, callback) => {
+        if (Auth.isUserAuthenticated()) {
+          callback(null, Floor);
+        } else {
+          callback(null, Login);
+        }
+      }
     },
     {
       path: '/node/:node_id',
-      component: Node,
+      getComponent: (location, callback) => {
+        if (Auth.isUserAuthenticated()) {
+          callback(null, Node);
+        } else {
+          callback(null, Login);
+        }
+      }
     },
     {
       path: '/data-manager',
-      component: addSensorData,
+      getComponent: (location, callback) => {
+        if (Auth.isUserAuthenticated()) {
+          callback(null, addSensorData);
+        } else {
+          callback(null, Login);
+        }
+      }
     },
     {
-      path: '/sensor/:sensor_id',
-      component: sensorStats,
+      path: '/sensor',
+      getComponent: (location, callback) => {
+        if (Auth.isUserAuthenticated()) {
+          callback(null, sensorStats);
+        } else {
+          callback(null, Login);
+        }
+      }
     },
     {
       path: '/sensor-network',
-      component: sensorNetwork,
+      getComponent: (location, callback) => {
+        if (Auth.isUserAuthenticated()) {
+          callback(null, sensorNetwork);
+        } else {
+          callback(null, Login);
+        }
+      }
     },
     {
-      path: 'infra-manager',
-      component: addBuilding,
+      path: '/infra-manager',
+      getComponent: (location, callback) => {
+        if (Auth.isUserAuthenticated()) {
+          callback(null, addBuilding);
+        } else {
+          callback(null, Login);
+        }
+      }
     },
+    {
+      path: '/logout',
+      onEnter: (nextState, replace) => {
+        Auth.deauthenticateUser();
+
+        // change the current URL to /
+        replace('/login');
+      }
+    }
   ]
 };
 

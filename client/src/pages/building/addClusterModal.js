@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import axios from 'axios';
-import { Form, Button, Header, Image, Modal, Input, Dropdown } from 'semantic-ui-react';
+import client from '../../client';
+import { Form, Button, Header, Image, Modal, Input, Dropdown, Icon } from 'semantic-ui-react';
 
 import {
   INFRA_MANAGER_HOST
@@ -9,7 +9,6 @@ import {
 
 class AddClusterModal extends Component {
   state = {
-    selectedFloor: null,
     cluster: {},
   }
 
@@ -19,49 +18,22 @@ class AddClusterModal extends Component {
     this.setState({cluster});
   }
 
-  handleFloorChange = (event, data) => {
-    this.setState({selectedFloor: data.value});
-  }
-
   handleSubmit = (event) => {
   event.preventDefault();
-    console.log("this.props is>>>", this.props);
-    const { params } = this.props;
+    const { params, floor, addClusterConfig } = this.props;
     const building_id = +params.building_id;
-    let newClusterData = _.assign({}, this.state.cluster, { building_id }, {floor_number: +this.state.selectedFloor});
+    let newClusterData = _.assign({}, this.state.cluster, { building_id, floor_id: floor.id });
     console.log("newClusterData is>>>", newClusterData);
-    return axios.post(`${INFRA_MANAGER_HOST}/clusters/add`, {
-      data: newClusterData
-    })
-    .then(response => {
-      console.log("response adding a cluster>>>", response);
-    })
-    .catch(err => {
-      console.log("err adding a cluster>>>", err);
-    })
+    return addClusterConfig(newClusterData);
   }
   render() {
-    const { cluster, availableFloors } = this.props;
-    const floorOptions = _.map(availableFloors, floor => {
-      return {
-        key: `Floor ${floor}`,
-        value: floor,
-        text: `Floor ${floor}`,
-      }
-    });
+    const { floor } = this.props;
     return (
-      <Modal trigger={<Button>Add Cluster</Button>}>
+      <Modal trigger={<Icon name="add" />}>
         <Modal.Header>Add a Cluster Config</Modal.Header>
         <Modal.Content>
           <Modal.Description>
           <Form onSubmit={this.handleSubmit}>
-              <Form.Group>
-                <Dropdown
-                  placeholder='Select a floor'
-                  value={this.state.selectedFloor}
-                  options={floorOptions}
-                  onChange={this.handleFloorChange} />
-              </Form.Group>
               <Form.Group>
                 <Form.Field>
                   <label>Cluster Name</label>

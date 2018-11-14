@@ -103,7 +103,7 @@ function clusterCase(map, db) {
       model: db.node,
     }
     if(map['sensor']) {
-      nodeMapping.include[0].include = [
+      nodeMapping.include = [
         {model: db.sensor}
       ]
     }

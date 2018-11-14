@@ -17,14 +17,27 @@ const getCluster = (req, res) => {
   })
 }
 
-const addCluster = (req, res) => {
-  console.log("req.body is>>>", req.body.data);
-  const newCluster = req.body.data;
-  console.log("newCluster is>>>", newCluster);
+const upsertCluster = (req, res) => {
+  const clusterToUpsert = req.body;
+  if (clusterToUpsert.id) {
+    // update
+    return updateCluster(clusterToUpsert)
+    .then(cluster => {
+      res.json(cluster);
+    })
+  } else {
+    // add
+    return addCluster(clusterToUpsert)
+    .then(cluster => {
+      res.json(cluster);
+    })
+  }
+}
+const addCluster = newCluster => {
   return db.floor.findOne({
     where: {
       building_id: newCluster.building_id,
-      floor_number: newCluster.floor_number,
+      id: newCluster.floor_id,
     }
   })
   .then(floor => {
@@ -45,29 +58,24 @@ const addCluster = (req, res) => {
     newCluster.floor_id = floor_id;
     return db.cluster.create(newCluster)
   })
-  .then(response => {
-    console.log("response creating a new cluster is >>>", response);
-    res.json(response);
-  })
   .catch(err => {
     console.log("error creating a new cluster>>", err);
   });
 }
 
-const updateCluster = (req, res) => {
-  const { cluster_id } = req.params;
-  const updatedCluster = req.body.data;
-  console.log("cluster_id>>>", cluster_id);
-  console.log("updatedCluster>>>", updatedCluster);
-
-  return db.cluster.update(updatedCluster,{
+const updateCluster = updatedCluster => {
+  const { id: cluster_id } = updatedCluster;
+  return db.cluster.update(_.omit(updatedCluster, 'id'),{
     returning: true,
     plain: true,
     where: {id: cluster_id}
   })
-  .then((response) => {
-    console.log("updating cluster response is>>>", response);
-    res.json(response[1]);
+  .then(response => {
+    return db.cluster.findOne({
+      where: {
+        id: cluster_id,
+      }
+    })
   })
   .catch(err => {
     console.log("err updating cluster is >>>", err);
@@ -93,4 +101,5 @@ module.exports = {
   addCluster,
   updateCluster,
   deleteCluster,
+  upsertCluster,
 }

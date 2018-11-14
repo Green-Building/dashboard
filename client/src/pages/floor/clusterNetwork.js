@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import axios from 'axios';
+import client from '../../client';
 import { Label } from 'semantic-ui-react';
 import Tree from 'react-d3-tree';
 
@@ -21,9 +21,8 @@ export default class ClusterNetwork extends Component {
   render() {
     let treeDataWrapper = [];
     const { cluster } = this.props;
-    console.log("cluster is >>>", cluster);
     let treeData = {
-      name: cluster.name,
+      name: `${cluster.id}:${cluster.type}`,
       cluster_id: cluster.id,
       nodeSvgShape: {
         shape: 'rect',

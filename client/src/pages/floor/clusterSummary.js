@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import axios from 'axios';
+import client from '../../client';
 import { Card, Image, List, Icon } from 'semantic-ui-react';
 
 import {
@@ -9,16 +9,18 @@ import {
 
 export default class ClusterSummary extends Component {
   render() {
-    const { cluster } = this.props;
+    const { cluster, nodes, rooms } = this.props;
     return (
-      <Card>
+      <Card className="centered">
         <Card.Content>
           <Card.Header>{cluster.name}</Card.Header>
         </Card.Content>
         <Card.Content extra>
           <a>
             <Icon name='user' />
-            {_.get(cluster, 'nodes', []).length} nodes
+            {nodes.length} nodes
+            <Icon name='user' />
+            {rooms.length} rooms
           </a>
         </Card.Content>
         <Card.Content extra>

@@ -1,155 +1,80 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import _ from 'lodash';
 import { Container, Grid, Button, Card, Icon, Image, Dropdown, Table, Label } from 'semantic-ui-react';
-import axios from 'axios';
+import client from '../../client';
+import { fetchBuildingConfig, addClusterConfig, updateClusterConfig, deleteClusterConfig } from '../../reducers/buildingConfig';
 
-import UpdateClusterModal from './updateClusterModal';
-import AddClusterModal from './addClusterModal';
-import AddFloorModal from './addFloorModal';
-import AddRoomModal from './addRoomModal';
-import BuildinSummary from './buildingSummary';
+import Loading from '../../component/Loading';
+import ClusterTable from './clusterTable';
+import BuildingSummary from './buildingSummary';
 
 import {
   INFRA_MANAGER_HOST
 } from '../../api-config';
 
 class Building extends Component {
-  state = {
-    building: {},
-    floor: {selected: null},
-    availableFloors: [],
-    usedFloors: [],
-    showModal: false,
-  }
 
   componentDidMount() {
+    const { fetchBuildingConfig } = this.props;
     const { building_id } = this.props.params;
-    return axios.get(`${INFRA_MANAGER_HOST}/buildings/${building_id}?fetch_nested=floor,cluster`)
-    .then(response => {
-      let building = response.data;
-      _.forEach(building.clusters, cluster => {
-        cluster.floor_number = _.find(building.floors, {id: cluster.floor_id}).floor_number;
-      })
-      let floors = _.range(1, building.num_of_floors+1);
-      let usedFloors = _.map(building.floors, floor => {
-        return +floor.floor_number;
-      })
-      let unusedFloors = _.difference(floors, usedFloors);
-      this.setState({ building: response.data, clusters: response.data.clusters, availableFloors: unusedFloors, usedFloors: usedFloors });
-    })
-    .catch(err => {
-      console.log("error is>>", err);
-    })
+    return fetchBuildingConfig(building_id);
   }
 
-  showModal = () => {
-    this.setState({showModal: true})
-  }
-
-  handleFloorChange = (event, data) => {
-    console.log("event>>", event.target.value);
-    console.log('data is >>>', data);
-    this.setState({floor: {selected: data.value}});
-  }
-
-  handleDelete(cluster) {
-    console.log("cluster is>>>", cluster);
-    return axios.delete(`${INFRA_MANAGER_HOST}/clusters/${cluster.id}`)
-    .then(() => {
-      let clusters = this.state.building.clusters;
-      clusters = _.filter(clusters, c => c.id !== cluster.id);
-      console.log("clusters is >>>", clusters);
-      let building = this.state.building;
-      building.clusters = clusters;
-      this.setState({building});
-    })
-  }
-
-  goToFloor = () => {
-    const floorNumber = this.state.floor.selected;
-    let floors = this.state.building.floors;
-    let floor = _.find(floors, {floor_number: floorNumber});
-
-    this.props.router.push(`/floor/${floor.id}`);
-  }
   render() {
-    const floorOptions = _.map(this.state.usedFloors, floor => {
-      return {
-        key: `Floor ${floor}`,
-        value: floor,
-        text: `Floor ${floor}`,
-      }
-    })
-    return (
-      <Container>
-        <Grid>
-          <Grid.Row>
-            <Grid.Column width={8}>
-              <Card>
-                <Image src={this.state.building.image_url} />
-                <Card.Content>
-                  <Card.Header>{this.state.building.name}</Card.Header>
-                  <Card.Description>{this.state.building.address}</Card.Description>
-                </Card.Content>
-                <Card.Content extra>
-                  <a>
-                    <Icon name='user' />
-                    {this.state.building.num_of_floors}
-                  </a>
-                </Card.Content>
-              </Card>
-            </Grid.Column>
-            <Grid.Column width={8}>
-              <Table celled>
-                <Table.Header>
-                  <Table.Row>
-                    <Table.HeaderCell>Floor</Table.HeaderCell>
-                    <Table.HeaderCell>Cluster Name</Table.HeaderCell>
-                    <Table.HeaderCell>Status</Table.HeaderCell>
-                    <Table.HeaderCell>Update</Table.HeaderCell>
-                    <Table.HeaderCell>Delete</Table.HeaderCell>
-                  </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                  {_.map(this.state.building.clusters, (cluster, index)=>{
-                    return (
-                      <Table.Row>
-                        <Table.Cell>
-                          <Label ribbon={index===0}>{cluster.floor_number}</Label>
-                        </Table.Cell>
-                        <Table.Cell>{cluster.name}</Table.Cell>
-                        <Table.Cell>{cluster.status}</Table.Cell>
-                        <Table.Cell>
-                          <UpdateClusterModal buildingId={this.props.params.building_id} floor={this.state.floor} cluster={cluster} />
-                        </Table.Cell>
-                        <Table.Cell onClick={()=>this.handleDelete(cluster)}>Delete</Table.Cell>
-                      </Table.Row>
-                    )
-                  })}
-                </Table.Body>
-              </Table>
-              <AddFloorModal params={this.props.params} />
-              <AddRoomModal params={this.props.params} floors={this.state.building.floors}/>
-              <AddClusterModal params={this.props.params} availableFloors={this.state.availableFloors} />
-            </Grid.Column>
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Column width={8}>
-              <Dropdown
-                placeholder='Select a floor'
-                value={this.state.floor.selected}
-                options={floorOptions}
-                onChange={this.handleFloorChange} />
-              <Button onClick={this.goToFloor}>Goto Floor</Button>
-            </Grid.Column>
-            <Grid.Column width={8}>
-              <BuildinSummary />
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
-      </Container>
+    const { isLoading, building, floors } = this.props.buildingConfig;
+    return isLoading ? <Loading /> :
+      (
+        <Container>
+          <Grid celled verticalAlign='middle' style={{'height': '80vh', 'backgroundColor': '#f7f7f7'}}>
+            <Grid.Row>
+              <Grid.Column width={4}>
+                <BuildingSummary building={building} />
+              </Grid.Column>
+              <Grid.Column width={12}>
+                <ClusterTable
+                  params={this.props.params}
+                  addClusterConfig={this.props.addClusterConfig}
+                  updateClusterConfig={this.props.updateClusterConfig}
+                  deleteClusterConfig={this.props.deleteClusterConfig}
+                  floors={floors}
+                />
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+        </Container>
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    buildingConfig: state.buildingConfig,
+  };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    fetchBuildingConfig: (buildingId) => {
+      dispatch(fetchBuildingConfig(buildingId));
+    },
+    addClusterConfig: (newClusterData) => {
+      dispatch(addClusterConfig(newClusterData));
+    },
+    updateClusterConfig: (clusterId, updatedClusterData) => {
+      dispatch(updateClusterConfig(clusterId, updatedClusterData));
+    },
+    deleteClusterConfig: (clusterId, floorId) => {
+      dispatch(deleteClusterConfig(clusterId, floorId));
+    }
+  }
+}
+
+Building = withRouter(connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Building));
 
 export default Building;

@@ -9,15 +9,14 @@ export default class NodeNetwork extends Component {
     console.log("evt>>>", evt);
     const { router } = this.props;
     if(nodeData.sensor_id) {
-      router.push(`/sensor/${nodeData.sensor_id}`);
+      router.push(`/sensor?type=sensor&id=${nodeData.sensor_id}`);
     }
   }
   render() {
     let treeDataWrapper = [];
     const { node } = this.props;
-    console.log("node is >>>", node);
     let treeData = {
-      name: node.name,
+      name: `node:${node.id}`,
       node_id: node.id,
       nodeSvgShape: {
         shape: 'rect',
@@ -32,7 +31,7 @@ export default class NodeNetwork extends Component {
     }
     treeData.children = _.map(node.sensors, child => {
       return {
-        name: child.name,
+        name: `${child.type}:${child.id}`,
         sensor_id: child.id,
         nodeSvgShape: {
           shape: 'circle',
@@ -44,15 +43,41 @@ export default class NodeNetwork extends Component {
       };
     });
     treeDataWrapper.push(treeData);
+    const lineAttr = {
+      stroke: 'black',
+      strokeWidth: 1,
+    };
+    const nodeAttr = {
+      stroke: 'transparent',
+      strokeWidth: 1,
+    }
+    let styles= {
+      links: lineAttr,
+      nodes: {
+        node: {
+          circle: nodeAttr,
+          name: nodeAttr,
+          attributes: nodeAttr,
+        },
+        leafNode: {
+          circle: nodeAttr,
+          name: nodeAttr,
+          attributes: nodeAttr,
+        },
+      }
+    }
     return (
-      <div id="treeWrapper" style={{width: '50em', height: '20em'}}>
+      <div id="treeWrapper" style={{width: '60em', height: '30em'}}>
         <Tree
           data={treeDataWrapper}
           nodeSvgShape={{shape: 'circle', shapeProps: {r: 10}}}
-          translate={{x: 50, y: 100}}
+          translate={{x: 50, y: 180}}
           pathFunc="straight"
           onClick={this.handleClick}
           collapsible={false}
+          zoom={1}
+          styles={styles}
+          textLayout={{transform: 'rotate(-20 70 100)'}}
         />
       </div>
     );

@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
+import moment from 'moment';
 import {curveCatmullRom} from 'd3-shape';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+
+import { getRandomStrokeStyle, getRandomColor } from '../../utils';
 
 import {
   XYPlot,
@@ -18,29 +21,41 @@ export default function LineChart (props) {
   const Line = LineSeries;
   const { sensorData } = props;
   const data = sensorData.data;
-  console.log("data is>>>", data.length);
-  let mdata = [];
-  _.forEach(data, datum => {
-    console.log("datum is>>>", datum);
-    mdata.push(
-      {
-        x: new Date(datum.timeStamp),
-        y: datum.data
-      }
-    );
+  console.log("data is>>>", data);
+  let mData = {};
+  _.forEach(data, (value, key) => {
+    mData[key] = [];
   });
-  console.log("mdata is>>>", mdata);
+  _.forEach(data, (values, key) => {
+    console.log("datum is>>>", values);
+    _.forEach(values, value => {
+      mData[key].push(
+        {
+          x: new Date(value.timeStamp),
+          y: value.data
+        }
+      );
+    })
+  });
+  console.log("mdata is>>>", mData);
   return (
     <div>
-      <XYPlot width={300} height={300}>
+      <XYPlot width={400} height={400} margin={{left: 50, right: 10, top: 10, bottom: 60}} style={{'backgroundColor': 'white', 'boxShadow': '0 1px 2px 0 rgba(34,36,38,.15)'}}>
         <HorizontalGridLines />
         <VerticalGridLines />
-        <XAxis title="X Axis" position="start" />
-        <YAxis title="Y Axis" />
-        <Line
-          className="first-series"
-          data={mdata.length>0 ? mdata: [{x:1, y:2}, {x:2, y:1}]}
-        />
+        <XAxis title="Time" height={100} postition='start' tickFormat={v => moment(v).format('YY-MM-DD hh:ss')} tickLabelAngle={-35} style={{'fontSize': '8'}} />
+        <YAxis title="Data Value" />
+        {_.map(mData, (data, key) => {
+          console.log("linegraph data is >>>", data);
+          return (
+            <LineSeries
+              key={key}
+              color={getRandomColor()}
+              data={data}
+              strokeDasharray={getRandomStrokeStyle()}
+            />
+          )
+        })}
         <Line className="second-series" data={null} />
       </XYPlot>
     </div>

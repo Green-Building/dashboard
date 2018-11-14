@@ -26,13 +26,13 @@ class Floor extends Component {
 
   render() {
     const { params, router, clusterConfig, addNodeConfig, updateNodeConfig, deleteNodeConfig } = this.props;
-    const { cluster, nodes, rooms, roomMap } = clusterConfig;
+    const { cluster, nodes, rooms, roomMap, floorStats } = clusterConfig;
     return (
       <Container>
         <Grid columns={2} celled style={{'backgroundColor': '#f7f7f7'}}>
           <Grid.Row stretched>
             <Grid.Column width={6}>
-              <ClusterSummary cluster={cluster} nodes={nodes} rooms={rooms} />
+              <ClusterSummary floorStats={floorStats} cluster={cluster} nodes={nodes} rooms={rooms} />
               <FloorRoomMap roomMap={roomMap} rooms={rooms} router={router}/>
             </Grid.Column>
             <Grid.Column width={10}>

@@ -12,6 +12,12 @@ class SelectTimeRange extends Component {
     endTime: moment().format("YYYY-MM-DDThh:mm:ss"),
   };
 
+  componentDidMount() {
+    const { fetchSensorData, router, location } = this.props;
+    console.log("this.state is >>>", this.state);
+    return fetchSensorData(location.query.type, location.query.id, this.state.startTime,this.state.endTime);
+  }
+
   handleChange = (event, {name, value, type}) => {
     console.log("name is >>>", name);
     console.log("value is >>>", value);

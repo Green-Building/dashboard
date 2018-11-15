@@ -3,11 +3,14 @@ const db = require('../models');
 
 const getSensor = (req, res) => {
   const sensor_id= req.params.sensor_id;
+  console.log("getSensor>>>>");
   return db.sensor.findOne({
     where: {
       id: sensor_id
     },
-    include: [ {model: db.node, as: 'node'} ]
+  })
+  .then(result => {
+    res.json(result);
   })
   .catch(err => {
     console.log("err fetching building>>>", err);

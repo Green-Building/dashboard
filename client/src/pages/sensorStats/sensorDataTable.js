@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { Table, Label, Tab } from 'semantic-ui-react';
+import { Link } from 'react-router';
+import { Table, Label, Button } from 'semantic-ui-react';
 
 export default class SensorDataTable extends Component {
   render() {
-    const { data } = this.props;
+    const { data, sensorId } = this.props;
     return (
       <Table celled>
         <Table.Header>
@@ -28,6 +29,11 @@ export default class SensorDataTable extends Component {
             </Table.Row>
           )
         })}
+        <Table.Row>
+          <Table.Cell colSpan='4'>
+            <Link to={`/sensor-data-manager?sensor_id=${sensorId}`}><Button>Add Sensor Data</Button></Link>
+          </Table.Cell>
+        </Table.Row>
         </Table.Body>
       </Table>
     )

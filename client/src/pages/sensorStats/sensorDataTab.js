@@ -30,7 +30,7 @@ export default class SensorDataTab extends Component {
     return (
       <div>
         <Tab panes={panes} onTabChange={this.handleChange} />
-        <SensorDataTable data={data[this.state.sensorId]} />
+        <SensorDataTable data={data[this.state.sensorId]} sensorId={this.state.sensorId} />
       </div>
     )
   }

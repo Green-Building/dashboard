@@ -1,14 +1,19 @@
 const db = require('../models');
 const _ = require('lodash');
+const { generateNest } = require('../utils');
 
 const getCluster = (req, res) => {
   const cluster_id = req.params.cluster_id;
-  return db.cluster.findOne({
+  const { fetch_nested } = req.query;
+  let queryObj = {
     where: {
-      id: cluster_id
+      id: cluster_id,
     },
-    include: [ {model: db.building} ]
-  })
+  };
+  if(fetch_nested) {
+    queryObj.include = generateNest('cluster', fetch_nested, db);
+  }
+  return db.cluster.findOne(queryObj)
   .then(cluster => {
     res.json(cluster);
   })

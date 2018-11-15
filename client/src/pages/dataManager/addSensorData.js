@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import client from '../../client';
 import CSVReader from 'react-csv-reader';
-import { Container, Form, Input, Button, Dropdown } from 'semantic-ui-react';
+import { Container, Form, Input, Button, Dropdown, Icon, Segment, Label } from 'semantic-ui-react';
 
 import {
   DATA_MANAGER_HOST
@@ -74,7 +74,6 @@ class AddSensorData extends Component {
       <Container>
         <Form onSubmit={this.handleSubmit}>
           <Form.Group widths='equal'>
-
             <Form.Field>
               <label>Unit</label>
               <Input name='unit' value={this.state.unit} placeholder='Unit' onChange={this.handleChange} />
@@ -116,12 +115,21 @@ class AddSensorData extends Component {
           </Form.Group>
           <Form.Field control={Button}>Submit</Form.Field>
         </Form>
-        <CSVReader
-          parserOptions={{ header: true, skipEmptyLines: true, trimHeaders: true }}
-          label="Select CSV to import"
-          onFileLoaded={this.handleUpload}
-        />
-        <Button onClick={this.handleBulkSubmit}>Submit</Button>
+        <Segment>
+          <Form onSubmit={this.handleBulkSubmit}>
+          <Form.Group >
+            <Form.Field>
+              <label>Select CSV to import</label>
+              <CSVReader
+                parserOptions={{ header: true, skipEmptyLines: true, trimHeaders: true }}
+                onFileLoaded={this.handleUpload}
+              />
+            </Form.Field>
+          </Form.Group>
+
+            <Form.Button type="submit" color='green'><Icon name='upload' />Upload</Form.Button>
+          </Form>
+        </Segment>
       </Container>
     )
   }

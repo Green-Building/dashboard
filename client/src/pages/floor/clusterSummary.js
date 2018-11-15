@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import client from '../../client';
 import { Card, Image, List, Icon } from 'semantic-ui-react';
 
-import {
-  INFRA_MANAGER_HOST
-} from '../../api-config';
+import floorPlan from '../../assets/floorplan.jpg';
 
 export default class ClusterSummary extends Component {
   render() {
     const { cluster, nodes, rooms, floorStats } = this.props;
     return (
       <Card className="centered">
+        <Image src={floorPlan} alt="floor Plan"/>
         <Card.Content>
           <Card.Header>Floor # {_.get(cluster, 'floor.floor_number', '')}</Card.Header>
         </Card.Content>

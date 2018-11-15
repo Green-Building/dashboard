@@ -9,7 +9,7 @@ export default class NodeNetwork extends Component {
     console.log("evt>>>", evt);
     const { router } = this.props;
     if(nodeData.sensor_id) {
-      router.push(`/sensor?type=sensor&id=${nodeData.sensor_id}`);
+      router.push(`/sensor-data?type=sensor&id=${nodeData.sensor_id}`);
     }
   }
   render() {
@@ -67,17 +67,18 @@ export default class NodeNetwork extends Component {
       }
     }
     return (
-      <div id="treeWrapper" style={{width: '60em', height: '30em'}}>
+      <div id="treeWrapper" style={{ height: '30em'}}>
         <Tree
           data={treeDataWrapper}
           nodeSvgShape={{shape: 'circle', shapeProps: {r: 10}}}
-          translate={{x: 50, y: 180}}
+          translate={{x: 350, y: 100}}
           pathFunc="straight"
           onClick={this.handleClick}
           collapsible={false}
           zoom={1}
           styles={styles}
           textLayout={{transform: 'rotate(-20 70 100)'}}
+          orientation="vertical"
         />
       </div>
     );

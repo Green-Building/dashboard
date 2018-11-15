@@ -66,7 +66,7 @@ const routes = {
       }
     },
     {
-      path: '/data-manager',
+      path: '/sensor-data-manager',
       getComponent: (location, callback) => {
         if (Auth.isUserAuthenticated()) {
           callback(null, addSensorData);
@@ -76,7 +76,7 @@ const routes = {
       }
     },
     {
-      path: '/sensor',
+      path: '/sensor-data',
       getComponent: (location, callback) => {
         if (Auth.isUserAuthenticated()) {
           callback(null, sensorStats);

@@ -30,7 +30,7 @@ export default class BarChart extends Component {
     const BarSeries = useCanvas ? VerticalBarSeriesCanvas : VerticalBarSeries;
     return (
       <div>
-        <XYPlot xType="ordinal" width={300} height={300} xDistance={100}>
+        <XYPlot xType="ordinal" width={400} height={400} margin={{left: 50, right: 10, top: 10, bottom: 60}} style={{'backgroundColor': 'white', 'boxShadow': '0 1px 2px 0 rgba(34,36,38,.15)'}}>
           <VerticalGridLines />
           <HorizontalGridLines />
           <XAxis />

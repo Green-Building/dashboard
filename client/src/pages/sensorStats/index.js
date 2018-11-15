@@ -8,7 +8,9 @@ import SelectTimeRange from './SelectTimeRange';
 import BarChart from './BarChart';
 import LineChart from './LineChart';
 import ScatterChart from './ScatterChart';
+import RadarChart from './RadarChart';
 import PieChart from './PieChart';
+import AreaChart from './AreaChart';
 import SensorDataTab from './sensorDataTab';
 import SensorSummary from './sensorSummary';
 
@@ -33,10 +35,33 @@ class sensorStats extends Component {
             </Grid.Column>
           </Grid.Row>
         </Grid>
-        <Grid columns={1} celled  style={{'backgroundColor': '#f7f7f7'}}>
+        <Grid columns={2} celled  style={{'backgroundColor': '#f7f7f7'}}>
           <Grid.Row>
-            <Grid.Column width={16}>
+            <Grid.Column width={8}>
               <LineChart sensorData={sensorData} />
+            </Grid.Column>
+            <Grid.Column width={8}>
+              <BarChart />
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+        <Grid columns={2} celled  style={{'backgroundColor': '#f7f7f7'}}>
+          <Grid.Row>
+            <Grid.Column width={8}>
+              <PieChart />
+            </Grid.Column>
+            <Grid.Column width={8}>
+              <RadarChart />
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+        <Grid columns={2} celled  style={{'backgroundColor': '#f7f7f7'}}>
+          <Grid.Row>
+            <Grid.Column width={8}>
+              <AreaChart />
+            </Grid.Column>
+            <Grid.Column width={8}>
+              <ScatterChart />
             </Grid.Column>
           </Grid.Row>
         </Grid>

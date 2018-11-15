@@ -10,6 +10,8 @@ export default class NodeNetwork extends Component {
     const { router } = this.props;
     if(nodeData.sensor_id) {
       router.push(`/sensor-data?type=sensor&id=${nodeData.sensor_id}`);
+    } else if (nodeData.node_id) {
+      router.push(`/node/${nodeData.node_id}`);
     }
   }
   render() {

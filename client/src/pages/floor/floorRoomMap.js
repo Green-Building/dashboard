@@ -3,19 +3,34 @@ import { Link } from 'react-router';
 import _ from 'lodash';
 import { scaleLinear } from 'd3-scale';
 import {XYPlot, XAxis, YAxis, HeatmapSeries, LabelSeries} from 'react-vis';
+import { Segment, Label } from 'semantic-ui-react';
+import Modal from 'react-modal';
+
+import RoomNodeNetwork from './roomNodeNetwork';
 
 const alphabet = ['A', 'B', 'C', 'D', 'E'];
 export default class FloorRoomMap extends Component {
-
+  state = {
+    modalIsOpen: false,
+    selectedRoom: {},
+  }
   handleValueClick(d, event) {
     const { rooms, router, roomMap } = this.props;
     let room = _.find(rooms, {room_number: d.label});
     console.log("found node >>>", room);
-    router.push(`/node/${room.node.id}`);
+    //router.push(`/node/${room.node.id}`);
+    this.setState({
+      modalIsOpen: true,
+      selectedRoom: room
+    });
+  }
+
+  closeModal= () => {
+    this.setState({modalIsOpen: false});
   }
 
   render() {
-    const { roomMap, rooms } = this.props;
+    const { roomMap, rooms, router } = this.props;
     const {min, max} = roomMap.reduce(
       (acc, row) => ({
         min: Math.min(acc.min, row.color),
@@ -62,6 +77,25 @@ export default class FloorRoomMap extends Component {
             getLabel={d => `${d.label}`}
           />
         </XYPlot>
+        <Modal
+          style={{
+            content: {
+              color: 'lightsteelblue',
+              width: '60%',
+              height: '80%',
+            }
+          }}
+          isOpen={this.state.modalIsOpen}
+          onRequestClose={this.closeModal}
+          contentLabel="Node Network"
+          role="document"
+          ariaHideApp={false}
+        >
+          <Segment>
+            <Label>Room # {this.state.selectedRoom.room_number}</Label>
+            <RoomNodeNetwork room={this.state.selectedRoom} router={router} />
+          </Segment>
+        </Modal>
       </div>
     )
   }

@@ -15,7 +15,7 @@ code {
 }
 
 #floorColorMap {
-  background-image: url('./assets/floorplan.jpg');
+  background-image: url('./assets/floorplan_opaque.jpg');
   background-size: cover;
   display: flex;
   flex-direction: column;

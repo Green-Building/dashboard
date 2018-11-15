@@ -23,20 +23,26 @@ class sensorStats extends Component {
     const { sensorData, params } = this.props;
     return (
       <Container>
-        <Grid columns={2} celled  style={{'backgroundColor': '#f7f7f7'}}>
+        <Grid columns={2} celled style={{'backgroundColor': '#f7f7f7'}}>
           <Grid.Row stretched>
-            <Grid.Column width={6}>
+            <Grid.Column width={8}>
               <SelectTimeRange params={params} />
             </Grid.Column>
-            <Grid.Column width={10}>
+            <Grid.Column width={8}>
               <SensorSummary sensorData={sensorData} />
             </Grid.Column>
           </Grid.Row>
+        </Grid>
+        <Grid columns={1} celled  style={{'backgroundColor': '#f7f7f7'}}>
           <Grid.Row>
-            <Grid.Column width={6}>
+            <Grid.Column width={16}>
               <LineChart sensorData={sensorData} />
             </Grid.Column>
-            <Grid.Column width={10}>
+          </Grid.Row>
+        </Grid>
+        <Grid columns={1} celled  style={{'backgroundColor': '#f7f7f7'}}>
+          <Grid.Row>
+            <Grid.Column width={16}>
               <SensorDataTab sensorData={sensorData} />
             </Grid.Column>
           </Grid.Row>

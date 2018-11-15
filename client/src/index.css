@@ -13,3 +13,17 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+#floorColorMap {
+  background-image: url('./assets/floorplan.jpg');
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#treeWrapper {
+  background-image: url('./assets/room_opaque.jpg');
+  background-size: contain;
+}

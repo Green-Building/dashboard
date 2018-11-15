@@ -67,11 +67,11 @@ export default class NodeNetwork extends Component {
       }
     }
     return (
-      <div id="treeWrapper" style={{width: '60em', height: '30em'}}>
+      <div id="treeWrapper" style={{ height: '30em'}}>
         <Tree
           data={treeDataWrapper}
           nodeSvgShape={{shape: 'circle', shapeProps: {r: 10}}}
-          translate={{x: 350, y: 180}}
+          translate={{x: 350, y: 100}}
           pathFunc="straight"
           onClick={this.handleClick}
           collapsible={false}

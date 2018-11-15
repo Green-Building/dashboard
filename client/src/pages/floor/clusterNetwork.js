@@ -4,10 +4,6 @@ import client from '../../client';
 import { Label } from 'semantic-ui-react';
 import Tree from 'react-d3-tree';
 
-import {
-  INFRA_MANAGER_HOST
-} from '../../api-config';
-
 export default class ClusterNetwork extends Component {
   handleClick = (nodeData, evt) => {
     console.log("nodeData>>", nodeData);

@@ -72,49 +72,49 @@ class AddSensorData extends Component {
   render() {
     return (
       <Container>
-        <Form onSubmit={this.handleSubmit}>
-          <Form.Group widths='equal'>
-            <Form.Field>
-              <label>Unit</label>
-              <Input name='unit' value={this.state.unit} placeholder='Unit' onChange={this.handleChange} />
-            </Form.Field>
-            <Form.Field>
-              <label>Data</label>
-              <Input name='data' value={this.state.data} placeholder='Data' onChange={this.handleChange} />
-            </Form.Field>
-            <Form.Field>
-              <label>Timestamp</label>
-              <Input name='timeStamp' value={this.state.timeStamp} type='datetime-local' placeholder='Timestamp' onChange={this.handleChange} />
-            </Form.Field>
-          </Form.Group>
-          <Form.Group widths='equal'>
-            <Form.Field>
-              <label>Sensor ID</label>
-              <Input name='sensorID' value={this.state.sensorID} placeholder='Sensor ID' onChange={this.handleChange} />
-            </Form.Field>
-            <Form.Field>
-              <label>Cluster ID</label>
-              <Input name='clusterID' value={this.state.clusterID} placeholder='Cluster ID' onChange={this.handleChange} />
-            </Form.Field>
-            <Form.Field>
-              <label>Room ID</label>
-              <Input name='roomID' value={this.state.roomID} placeholder='Room ID' onChange={this.handleChange} />
-            </Form.Field>
-            <Form.Field>
-              <label>Building ID</label>
-              <Input name='buildingID' value={this.state.buildingID} placeholder='Building ID' onChange={this.handleChange} />
-            </Form.Field>
-            <Form.Field>
-              <label>Floor</label>
-              <Input name='floor' value={this.state.floor} placeholder='Floor' onChange={this.handleChange} />
-            </Form.Field>
-            <Form.Field>
-              <label>Zipcode</label>
-              <Input name='zipcode' value={this.state.zipcode} placeholder='Zipcode' onChange={this.handleChange} />
-            </Form.Field>
-          </Form.Group>
-          <Form.Field control={Button}>Submit</Form.Field>
-        </Form>
+        <Segment>
+          <Form onSubmit={this.handleSubmit}>
+            <Form.Group widths='equal'>
+              <Form.Field>
+                <label>Unit</label>
+                <Input name='unit' value={this.state.unit} placeholder='Unit' onChange={this.handleChange} />
+              </Form.Field>
+              <Form.Field>
+                <label>Data</label>
+                <Input name='data' value={this.state.data} placeholder='Data' onChange={this.handleChange} />
+              </Form.Field>
+              <Form.Field>
+                <label>Timestamp</label>
+                <Input name='timeStamp' value={this.state.timeStamp} type='datetime-local' placeholder='Timestamp' onChange={this.handleChange} />
+              </Form.Field>
+            </Form.Group>
+            <Form.Group widths='equal'>
+              <Form.Field>
+                <label>Sensor ID</label>
+                <Input name='sensorID' value={this.state.sensorID} placeholder='Sensor ID' onChange={this.handleChange} />
+              </Form.Field>
+              <Form.Field>
+                <label>Cluster ID</label>
+                <Input name='clusterID' value={this.state.clusterID} placeholder='Cluster ID' onChange={this.handleChange} />
+              </Form.Field>
+              <Form.Field>
+                <label>Room ID</label>
+                <Input name='roomID' value={this.state.roomID} placeholder='Room ID' onChange={this.handleChange} />
+              </Form.Field>
+            </Form.Group>
+            <Form.Group widths='equal'>
+              <Form.Field>
+                <label>Building ID</label>
+                <Input name='buildingID' value={this.state.buildingID} placeholder='Building ID' onChange={this.handleChange} />
+              </Form.Field>
+              <Form.Field>
+                <label>Zipcode</label>
+                <Input name='zipcode' value={this.state.zipcode} placeholder='Zipcode' onChange={this.handleChange} />
+              </Form.Field>
+            </Form.Group>
+            <Form.Field control={Button}>Submit</Form.Field>
+          </Form>
+        </Segment>
         <Segment>
           <Form onSubmit={this.handleBulkSubmit}>
           <Form.Group >

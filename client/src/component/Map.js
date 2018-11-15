@@ -1,20 +1,22 @@
 import React from 'react';
 import _ from 'lodash';
 import client from '../client';
+import { Link } from 'react-router';
 import { Form, Input, Button, Grid } from 'semantic-ui-react';
 import {
   INFRA_MANAGER_HOST
 } from '../api-config';
-const { compose, withProps, lifecycle } = require("recompose");
-const {
+import { compose, withProps, lifecycle, withStateHandlers } from 'recompose';
+import {
   withScriptjs,
   withGoogleMap,
   GoogleMap,
   Marker,
-} = require("react-google-maps");
-const { SearchBox } = require("react-google-maps/lib/components/places/SearchBox");
+  InfoWindow,
+} from 'react-google-maps';
+import { SearchBox } from 'react-google-maps/lib/components/places/SearchBox';
 
-
+import MarkerWithInfoWindow from './MarkerWithInfoWindow';
 
 const MapWithASearchBox = compose(
   withProps({
@@ -25,15 +27,14 @@ const MapWithASearchBox = compose(
   }),
   lifecycle({
     componentWillMount() {
-      const refs = {}
-
+      const refs = {};
       this.setState({
         refs: refs,
         bounds: null,
         center: {
           lat: 37.77, lng: -122.42
         },
-        markers: [],
+        markers:[],
         city: '',
         state: '',
         zipcode: '',
@@ -92,6 +93,9 @@ const MapWithASearchBox = compose(
           const id =  this.state.markers[index].id;
           this.props.router.push(`/building/${id}`);
         },
+        handleBuildingClick: marker => {
+          this.props.router.push(`/building/${marker.id}`);
+        },
         onSearchBoxMounted: ref => {
           refs.searchBox = ref;
         },
@@ -126,6 +130,7 @@ const MapWithASearchBox = compose(
                 lat: building.latitude,
                 lng: building.longitude,
               }
+              building.clicked = false;
             });
             console.log("buildings is >>>", buildings);
             this.setState({
@@ -200,7 +205,8 @@ const MapWithASearchBox = compose(
           />
         </SearchBox>
         {_.map(props.markers,(marker, index) => {
-          return <Marker key={index} position={marker.position} onClick={()=>props.onMarkerClick(index)}/>;
+        console.log("marker is >>>", marker);
+        return <MarkerWithInfoWindow position={marker.position} building={marker} router={props.router} />
         })}
       </GoogleMap>
     </Grid.Row>

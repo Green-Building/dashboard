@@ -25,24 +25,26 @@ export default class BuildingSummary extends Component {
             {building.num_of_floors} floors
           </a>
         </Card.Content>
-        <Card.Content extra>
-          <List>
-            <List.Item>
-              <List.Icon name='cogs' />
-              <List.Content># of clusters: {buildingStats.cluster_count}</List.Content>
-            </List.Item>
-            <List.Item>
-              <List.Icon name='certificate' />
-              <List.Content># of nodes: {buildingStats.node_count}</List.Content>
-            </List.Item>
-            <List.Item>
-              <List.Icon name='lightbulb' />
-              <List.Content>
-              # of sensors: {buildingStats.sensor_count}
-              </List.Content>
-            </List.Item>
-          </List>
-        </Card.Content>
+        {buildingStats &&
+          <Card.Content extra>
+            <List>
+              <List.Item>
+                <List.Icon name='cogs' />
+                <List.Content># of clusters: {buildingStats.cluster_count}</List.Content>
+              </List.Item>
+              <List.Item>
+                <List.Icon name='certificate' />
+                <List.Content># of nodes: {buildingStats.node_count}</List.Content>
+              </List.Item>
+              <List.Item>
+                <List.Icon name='lightbulb' />
+                <List.Content>
+                # of sensors: {buildingStats.sensor_count}
+                </List.Content>
+              </List.Item>
+            </List>
+          </Card.Content>
+        }
       </Card>
     );
   }

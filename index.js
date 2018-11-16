@@ -31,9 +31,12 @@ app.use('/api', authCheckMiddleware);
 
 // routes
 const authRoutes = require('./routes/auth-routes');
-const apiRoutes = require('./routes/api-routes');
+const apiLocalRoutes = require('./routes/api-routes');
+const apiIntegrationRoutes = require('./routes/api-routes-integration');
+
 app.use('/auth', authRoutes);
-app.use('/api/v1', apiRoutes);
+app.use('/api/v0', apiLocalRoutes);
+app.user('/api/v1', apiIntegrationRoutes);
 
 return Promise.all([
   mongoose.connect('mongodb://localhost/greenBuilding'),

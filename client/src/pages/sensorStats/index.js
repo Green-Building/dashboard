@@ -48,14 +48,14 @@ class sensorStats extends Component {
         <Grid columns={2} celled  style={{'backgroundColor': '#F2F6EB', boxShadow: '1px 2px 3px #666'}}>
           <Grid.Row>
             <Grid.Column width={8}>
-              <PieChart />
+              <PieChart sensorData={sensorData} />
             </Grid.Column>
             <Grid.Column width={8}>
-              <RadarChart />
+              <RadarChart sensorData={sensorData} />
             </Grid.Column>
           </Grid.Row>
         </Grid>
-        <Grid columns={2} celled  style={{'backgroundColor': '#F2F6EB', boxShadow: '1px 2px 3px #666'}}>
+        <Grid columns={2} celled style={{'backgroundColor': '#F2F6EB', boxShadow: '1px 2px 3px #666'}}>
           <Grid.Row>
             <Grid.Column width={8}>
               <AreaChart />

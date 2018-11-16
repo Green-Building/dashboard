@@ -6,7 +6,7 @@ import { withRouter } from 'react-router';
 import { updateTime } from '../../reducers/sensorData';
 import SelectTimeRange from './SelectTimeRange';
 import BarChart from './BarChart';
-import LineChart from './LineChart';
+import LineChart from './RLineChart';
 import ScatterChart from './ScatterChart';
 import RadarChart from './RadarChart';
 import PieChart from './PieChart';

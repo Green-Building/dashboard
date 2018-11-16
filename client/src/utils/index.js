@@ -22,9 +22,14 @@ export function getRandomStrokeStyle() {
 }
 
 export function getRandomColor() {
-  const rand = Math.round(Math.random() *10 + 1);
+  const rand = Math.round(Math.random() * 3);
 
-  const colors = ['red', 'blue', 'green', 'orange', 'cyan', 'magenta', 'yellow', 'orange', 'gray', 'black', 'brown', '#ADDDE1'];
-  console.log('rand is >>>', colors[rand]);
+  const colors = ['#8884d8', '#82ca9d', '#ffc658',  '#ADDDE1'];
   return colors[rand];
+}
+
+export function getRandomShape() {
+  const rand = Math.round(Math.random() *6);
+  const shapes = ['circle', 'cross' ,'diamond' , 'square' , 'star' , 'triangle' , 'wye' ];
+  return shapes[rand];
 }

@@ -6,10 +6,7 @@ import Tree from 'react-d3-tree';
 
 export default class ClusterNetwork extends Component {
   handleClick = (nodeData, evt) => {
-    console.log("nodeData>>", nodeData);
-    console.log("evt>>>", evt);
     const { router } = this.props;
-    console.log("router is >>>", router);
     if(nodeData.node_id) {
       router.push(`/node/${nodeData.node_id}`);
     }

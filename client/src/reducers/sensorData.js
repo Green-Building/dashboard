@@ -37,7 +37,7 @@ export const fetchSensorData = (type, id, startTime, endTime) => (dispatch, getS
     type: 'FETCH_SENSOR_DATA',
   });
 
-  return client(`${DATA_MANAGER_HOST}/api/sensor-data/search-data`, {
+  return client(`${DATA_MANAGER_HOST}/sensor-data/search-data`, {
     method: 'GET',
     params: {
       idType:type,
@@ -69,11 +69,11 @@ export const fetchDevice = (type, id) => (dispatch, getState) => {
   });
   let fetchDeviceUrl;
   if(type === "cluster") {
-    fetchDeviceUrl = `${INFRA_MANAGER_HOST}/api/clusters/${id}?fetch_nested=node,sensor`;
+    fetchDeviceUrl = `${INFRA_MANAGER_HOST}/clusters/${id}?fetch_nested=node,sensor`;
   } else if (type === "node") {
-    fetchDeviceUrl = `${INFRA_MANAGER_HOST}/api/nodes/${id}?fetch_nested=sensor`;
+    fetchDeviceUrl = `${INFRA_MANAGER_HOST}/nodes/${id}?fetch_nested=sensor`;
   } else {
-    fetchDeviceUrl = `${INFRA_MANAGER_HOST}/api/sensors/${id}`;
+    fetchDeviceUrl = `${INFRA_MANAGER_HOST}/sensors/${id}`;
   }
   return client.get(fetchDeviceUrl)
   .then(

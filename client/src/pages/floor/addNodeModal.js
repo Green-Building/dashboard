@@ -23,12 +23,8 @@ class AddNodeModal extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const { params, cluster, addNodeConfig, rooms } = this.props;
-    console.log("cluster is>>>", cluster);
-    console.log("this.state.node is >>>", this.state.node);
-    console.log("floors is >>>");
 
     let newNodeData = _.assign({}, this.state.node, { cluster_id: cluster.id});
-    console.log("newNodeData is>>>", newNodeData);
     return addNodeConfig(newNodeData);
   }
   render() {

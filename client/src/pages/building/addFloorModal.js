@@ -26,7 +26,7 @@ class AddFloorModal extends Component {
     //console.log("newFloorData is>>>", ...newFloorData);
 
 
-    return client.post(`${INFRA_MANAGER_HOST}/api/floors/add`, newFloorData)
+    return client.post(`${INFRA_MANAGER_HOST}/floors/add`, newFloorData)
     .then(response => {
       console.log("response adding a floor>>>", response);
     })

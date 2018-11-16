@@ -7,6 +7,7 @@ import qs from 'qs';
 import Auth from '../modules/Auth';
 
 import {
+  AUTH_HOST,
   INFRA_MANAGER_HOST
 } from '../api-config';
 
@@ -34,7 +35,7 @@ class Signup extends Component {
 
     return client({
       method: 'post',
-      url: `${INFRA_MANAGER_HOST}/auth/signup`,
+      url: `${AUTH_HOST}/auth/signup`,
       data: qs.stringify(requestBody),
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'

@@ -14,14 +14,10 @@ class SelectTimeRange extends Component {
 
   componentDidMount() {
     const { fetchSensorData, router, location } = this.props;
-    console.log("this.state is >>>", this.state);
     return fetchSensorData(location.query.type, location.query.id, this.state.startTime,this.state.endTime);
   }
 
   handleChange = (event, {name, value, type}) => {
-    console.log("name is >>>", name);
-    console.log("value is >>>", value);
-    console.log("type is >>>", type);
     if (this.state.hasOwnProperty(name)) {
       this.setState({ [name]: value });
     }

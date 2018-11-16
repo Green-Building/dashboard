@@ -45,7 +45,7 @@ export const fetchNodeConfig = (nodeId) => (dispatch, getState) => {
     type: GET_NODE_CONFIG,
   });
 
-  return client.get(`${INFRA_MANAGER_HOST}/api/nodes/${nodeId}?fetch_nested=sensor`)
+  return client.get(`${INFRA_MANAGER_HOST}/nodes/${nodeId}?fetch_nested=sensor`)
   .then(
     response => {
       let node = response.data;
@@ -70,7 +70,7 @@ export const addSensorConfig = (newSensorData) => (dispatch, getState) => {
     type: 'ADD_SENSOR_CONFIG',
   });
 
-  return client.post(`${INFRA_MANAGER_HOST}/api/sensors`, newSensorData)
+  return client.post(`${INFRA_MANAGER_HOST}/sensors`, newSensorData)
   .then(
     response => {
       let sensor = response.data;
@@ -93,7 +93,7 @@ export const updateSensorConfig = (sensorId, updatedSensorData) => (dispatch, ge
     type: UPDATE_SENSOR_CONFIG,
   });
 
-  return client.post(`${INFRA_MANAGER_HOST}/api/sensors`, updatedSensorData)
+  return client.post(`${INFRA_MANAGER_HOST}/sensors`, updatedSensorData)
   .then(
     response => {
       let sensor = response.data;
@@ -117,7 +117,7 @@ export const deleteSensorConfig = (sensorId) => (dispatch, getState) => {
     type: DELETE_SENSOR_CONFIG,
   });
 
-  return client.delete(`${INFRA_MANAGER_HOST}/api/sensors/${sensorId}`)
+  return client.delete(`${INFRA_MANAGER_HOST}/sensors/${sensorId}`)
   .then(
     response => {
       dispatch({

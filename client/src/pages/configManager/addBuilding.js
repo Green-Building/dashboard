@@ -76,7 +76,7 @@ class AddBuilding extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    return client.post(`${INFRA_MANAGER_HOST}/api/buildings/add`, {
+    return client.post(`${INFRA_MANAGER_HOST}/buildings/add`, {
       data: {
         address: `${this.state.address}, ${this.state.city}, ${this.state.state} ${this.state.zipcode}`,
         latitude:  +this.state.latitude,

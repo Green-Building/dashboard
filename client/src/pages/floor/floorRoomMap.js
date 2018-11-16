@@ -17,7 +17,6 @@ export default class FloorRoomMap extends Component {
   handleValueClick(d, event) {
     const { rooms, router, roomMap } = this.props;
     let room = _.find(rooms, {room_number: d.label});
-    console.log("found node >>>", room);
     //router.push(`/node/${room.node.id}`);
     this.setState({
       modalIsOpen: true,

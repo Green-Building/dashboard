@@ -50,8 +50,8 @@ export const fetchFloorConfig = (floorId) => (dispatch, getState) => {
     type: 'GET_FLOOR_CONFIG',
   });
   return Promise.all([
-    client.get(`${INFRA_MANAGER_HOST}/api/floors/${floorId}?fetch_nested=floor,room,node,sensor`),
-    client.get(`${INFRA_MANAGER_HOST}/api/floors/statistics/${floorId}`),
+    client.get(`${INFRA_MANAGER_HOST}/floors/${floorId}?fetch_nested=floor,room,node,sensor`),
+    client.get(`${INFRA_MANAGER_HOST}/floors/statistics/${floorId}`),
   ])
   .spread((cluster, floorStats) => {
     cluster = cluster.data;
@@ -98,7 +98,7 @@ export const addNodeConfig = (newNodeData) => (dispatch, getState) => {
     type: 'ADD_NODE_CONFIG',
   });
 
-  return client.post(`${INFRA_MANAGER_HOST}/api/nodes`, newNodeData)
+  return client.post(`${INFRA_MANAGER_HOST}/nodes`, newNodeData)
   .then(
     response => {
       let node = response.data;
@@ -121,7 +121,7 @@ export const updateNodeConfig = (nodeId, updatedNodeData) => (dispatch, getState
     type: 'UPDATE_NODE_CONFIG',
   });
 
-  return client.post(`${INFRA_MANAGER_HOST}/api/nodes`, updatedNodeData)
+  return client.post(`${INFRA_MANAGER_HOST}/nodes`, updatedNodeData)
   .then(
     response => {
       let node = response.data;
@@ -145,7 +145,7 @@ export const deleteNodeConfig = (nodeId) => (dispatch, getState) => {
     type: 'DELETE_NODE_CONFIG',
   });
 
-  return client.delete(`${INFRA_MANAGER_HOST}/api/nodes/${nodeId}`)
+  return client.delete(`${INFRA_MANAGER_HOST}/nodes/${nodeId}`)
   .then(
     response => {
       dispatch({

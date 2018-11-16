@@ -59,8 +59,8 @@ export const fetchBuildingConfig = (buildingId) => (dispatch, getState) => {
     type: 'GET_BUILDING_CONFIG',
   });
   return Promise.all([
-    client.get(`${INFRA_MANAGER_HOST}/api/buildings/${buildingId}?fetch_nested=floor,cluster`),
-    client.get(`${INFRA_MANAGER_HOST}/api/buildings/statistics/${buildingId}`)
+    client.get(`${INFRA_MANAGER_HOST}/buildings/${buildingId}?fetch_nested=floor,cluster`),
+    client.get(`${INFRA_MANAGER_HOST}/buildings/statistics/${buildingId}`)
   ])
   .spread((buildingConfig, buildingStats) => {
     let building = buildingConfig.data;
@@ -89,7 +89,7 @@ export const addClusterConfig = (newClusterData) => (dispatch, getState) => {
     type: 'ADD_CLUSTER_CONFIG',
   });
 
-  return client.post(`${INFRA_MANAGER_HOST}/api/clusters`, newClusterData)
+  return client.post(`${INFRA_MANAGER_HOST}/clusters`, newClusterData)
   .then(
     response => {
       let cluster = response.data;
@@ -112,7 +112,7 @@ export const updateClusterConfig = (clusterId, updatedClusterData) => (dispatch,
     type: 'UPDATE_CLUSTER_CONFIG',
   });
 
-  return client.post(`${INFRA_MANAGER_HOST}/api/clusters`, updatedClusterData)
+  return client.post(`${INFRA_MANAGER_HOST}/clusters`, updatedClusterData)
   .then(
     response => {
       let cluster = response.data;
@@ -136,7 +136,7 @@ export const deleteClusterConfig = (clusterId, floorId) => (dispatch, getState) 
     type: 'DELETE_CLUSTER_CONFIG',
   });
 
-  return client.delete(`${INFRA_MANAGER_HOST}/api/clusters/${clusterId}`)
+  return client.delete(`${INFRA_MANAGER_HOST}/clusters/${clusterId}`)
   .then(
     response => {
       dispatch({

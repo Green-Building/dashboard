@@ -27,7 +27,7 @@ passport.use('local-login', localLoginStrategy);
 
 // pass the authorization checker middleware
 const authCheckMiddleware = require('./middleware/auth-check');
-app.use('/api', authCheckMiddleware);
+//app.use('/api', authCheckMiddleware);
 
 // routes
 const authRoutes = require('./routes/auth-routes');
@@ -36,7 +36,7 @@ const apiIntegrationRoutes = require('./routes/api-routes-integration');
 
 app.use('/auth', authRoutes);
 app.use('/api/v0', apiLocalRoutes);
-app.user('/api/v1', apiIntegrationRoutes);
+app.use('/api/v1', apiIntegrationRoutes);
 
 return Promise.all([
   mongoose.connect('mongodb://localhost/greenBuilding'),

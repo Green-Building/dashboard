@@ -26,7 +26,7 @@ const data02 = [
 export default class ScatterrChart extends Component {
 	render () {
   	return (
-    	<ScatterChart width={600} height={400} margin={{top: 20, right: 20, bottom: 20, left: 20}}>
+    	<ScatterChart width={500} height={400} margin={{top: 20, right: 20, bottom: 20, left: 20}}>
       	<XAxis type="number" dataKey={'x'} name='stature' unit='cm'/>
       	<CartesianGrid />
       	<YAxis yAxisId="left" type="number" dataKey="y" name='weight' unit='kg' stroke="#8884d8" />

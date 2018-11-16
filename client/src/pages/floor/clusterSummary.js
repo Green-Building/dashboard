@@ -2,14 +2,29 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import { Card, Image, List, Icon } from 'semantic-ui-react';
 
-import floorPlan from '../../assets/floorplan.jpg';
+import floor1 from '../../assets/floor_1.jpg';
+import floor2 from '../../assets/floor_2.jpg';
+import floor3 from '../../assets/floor_3.jpg';
+
+function generateRandFloorPic() {
+  let rand = Math.round(Math.random() * 2);
+  let floors = [ floor1, floor2, floor3];
+  return floors[rand];
+}
 
 export default class ClusterSummary extends Component {
+  state = {
+    floorPic: ''
+  }
+  componentDidMount() {
+    let floorPic = generateRandFloorPic();
+    this.setState({floorPic});
+  }
   render() {
     const { cluster, nodes, rooms, floorStats } = this.props;
     return (
-      <Card className="centered">
-        <Image src={floorPlan} alt="floor Plan"/>
+      <Card className="centered" style={{boxShadow: '2px 3px 4px #666'}}>
+        <Image src={this.state.floorPic} alt="floor picture"/>
         <Card.Content>
           <Card.Header>Floor # {_.get(cluster, 'floor.floor_number', '')}</Card.Header>
         </Card.Content>

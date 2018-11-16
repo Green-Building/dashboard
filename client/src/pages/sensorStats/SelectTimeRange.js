@@ -36,7 +36,7 @@ class SelectTimeRange extends Component {
 
   render() {
     return (
-      <Segment>
+      <Segment style={{borderRadius: '2px', boxShadow: '2px 3px 4px #666'}}>
         <Form onSubmit={this.onSubmit}>
           <Form.Input
             label='StartTime'

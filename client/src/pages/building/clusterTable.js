@@ -9,7 +9,7 @@ import { mapStatusToColor } from '../../utils';
 
 export default function({ floors, params, addClusterConfig, updateClusterConfig, deleteClusterConfig }) {
   return (
-    <Table celled>
+    <Table celled style={{boxShadow: '2px 3px 4px #666'}}>
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell>Floor</Table.HeaderCell>
@@ -58,7 +58,7 @@ export default function({ floors, params, addClusterConfig, updateClusterConfig,
               <Table.Cell>
               { floor.cluster ?
                 (<Label>
-                  <Link to={`/sensor?type=cluster&id=${floor.cluster.id}`}>
+                  <Link to={`/sensor-data?type=cluster&id=${floor.cluster.id}`}>
                     <Icon name="chart area" />Sensor Data
                   </Link>
                 </Label>) : null

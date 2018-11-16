@@ -7,7 +7,7 @@ export default class SensorDataTable extends Component {
   render() {
     const { data, sensorId } = this.props;
     return (
-      <Table celled>
+      <Table celled style={{borderRadius: '2px', boxShadow: '2px 3px 4px #666'}}>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>#</Table.HeaderCell>

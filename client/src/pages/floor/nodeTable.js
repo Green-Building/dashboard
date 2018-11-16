@@ -12,7 +12,7 @@ class NodeTable extends Component {
     const { cluster, params, rooms, nodes, addNodeConfig, updateNodeConfig, deleteNodeConfig } = this.props;
     console.log("here>>>", updateNodeConfig)
     return (
-      <Table celled>
+      <Table celled style={{boxShadow: '2px 3px 4px #666'}}>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>Node ID</Table.HeaderCell>
@@ -43,7 +43,7 @@ class NodeTable extends Component {
                 </Table.Cell>
                 <Table.Cell>
                   <Label>
-                    <Link to={`/sensor?type=node&id=${node.id}`}>
+                    <Link to={`/sensor-data?type=node&id=${node.id}`}>
                       <Icon name="chart area" />Sensor Data
                     </Link>
                   </Label>

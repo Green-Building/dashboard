@@ -40,7 +40,7 @@ export default function LineChart (props) {
   console.log("mdata is>>>", mData);
   return (
     <div>
-      <XYPlot width={400} height={400} margin={{left: 50, right: 10, top: 10, bottom: 60}} style={{'backgroundColor': 'white', 'boxShadow': '0 1px 2px 0 rgba(34,36,38,.15)'}}>
+      <XYPlot width={400} height={400} margin={{left: 50, right: 10, top: 10, bottom: 60}} style={{'backgroundColor': 'white', boxShadow: '2px 3px 4px #666'}}>
         <HorizontalGridLines />
         <VerticalGridLines />
         <XAxis title="Time" height={100} postition='start' tickFormat={v => moment(v).format('YY-MM-DD hh:ss')} tickLabelAngle={-35} style={{'fontSize': '8'}} />

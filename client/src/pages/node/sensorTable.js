@@ -12,7 +12,7 @@ export default class SensorTable extends Component {
     const { node, sensors, addSensorConfig, updateSensorConfig, deleteSensorConfig } = this.props;
     console.log("sensors>>>", sensors);
     return (
-      <Table celled>
+      <Table celled style={{boxShadow: '2px 3px 4px #666'}}>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>Sensor ID</Table.HeaderCell>
@@ -47,7 +47,7 @@ export default class SensorTable extends Component {
                 </Table.Cell>
                 <Table.Cell>
                   <Label>
-                    <Link to={`/sensor?type=sensor&id=${sensor.id}`}>
+                    <Link to={`/sensor-data?type=sensor&id=${sensor.id}`}>
                       <Icon name="chart area" />Sensor Data
                     </Link>
                   </Label>

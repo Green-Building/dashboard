@@ -1,45 +1,30 @@
 import React, { Component } from 'react';
-import {
-  XYPlot,
-  XAxis,
-  YAxis,
-  VerticalGridLines,
-  HorizontalGridLines,
-  VerticalBarSeries,
-  VerticalBarSeriesCanvas,
-  LabelSeries
-} from 'react-vis';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
-const greenData = [{x: 'A', y: 10}, {x: 'B', y: 5}, {x: 'C', y: 15}];
+const data = [
+  {name: 'Page A', uv: 4000, female: 2400, male: 2400},
+  {name: 'Page B', uv: 3000, female: 1398, male: 2210},
+  {name: 'Page C', uv: 2000, female: 9800, male: 2290},
+  {name: 'Page D', uv: 2780, female: 3908, male: 2000},
+  {name: 'Page E', uv: 1890, female: 4800, male: 2181},
+  {name: 'Page F', uv: 2390, female: 3800, male: 2500},
+  {name: 'Page G', uv: 3490, female: 4300, male: 2100},
+];
 
-const blueData = [{x: 'A', y: 12}, {x: 'B', y: 2}, {x: 'C', y: 11}];
-
-const labelData = greenData.map((d, idx) => ({
-  x: d.x,
-  y: Math.max(greenData[idx].y, blueData[idx].y)
-}));
-
-export default class BarChart extends Component {
-  state = {
-    useCanvas: false
-  };
-
-  render() {
-    const {useCanvas} = this.state;
-    const content = useCanvas ? 'TOGGLE TO SVG' : 'TOGGLE TO CANVAS';
-    const BarSeries = useCanvas ? VerticalBarSeriesCanvas : VerticalBarSeries;
+export default class BarrChart extends Component {
+  render () {
     return (
-      <div>
-        <XYPlot xType="ordinal" width={300} height={300} xDistance={100}>
-          <VerticalGridLines />
-          <HorizontalGridLines />
-          <XAxis />
-          <YAxis />
-          <BarSeries className="vertical-bar-series-example" data={greenData} />
-          <BarSeries data={blueData} />
-          <LabelSeries data={labelData} getLabel={d => d.x} />
-        </XYPlot>
-      </div>
+      <BarChart width={500} height={400} data={data}
+            margin={{top: 20, right: 30, left: 20, bottom: 5}}>
+      <CartesianGrid strokeDasharray="3 3"/>
+      <XAxis dataKey="name"/>
+      <YAxis/>
+      <Tooltip/>
+      <Legend />
+      <Bar dataKey="female" stackId="a" fill="#8884d8" />
+      <Bar dataKey="male" stackId="a" fill="#82ca9d" />
+      <Bar dataKey="uv" fill="#ffc658"/>
+      </BarChart>
     );
   }
 }

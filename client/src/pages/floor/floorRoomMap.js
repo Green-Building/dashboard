@@ -43,7 +43,7 @@ export default class FloorRoomMap extends Component {
         .domain([min, (min + max) / 2, max])
         .range(['orange', 'yellow', 'cyan']);
     return (
-      <div id="floorColorMap">
+      <div id="floorColorMap" style={{borderRadius: '2px', boxShadow: '2px 3px 4px #666'}}>
         <XYPlot
           xType="ordinal"
           xDomain={alphabet.map(letter => `${letter}1`)}
@@ -79,10 +79,15 @@ export default class FloorRoomMap extends Component {
         </XYPlot>
         <Modal
           style={{
+            overlay: {
+              backgroundColor: 'rgba(0,0,0,0.6)'
+            },
             content: {
               color: 'lightsteelblue',
               width: '60%',
-              height: '80%',
+              height: '90%',
+              align: 'center',
+              margin: 'auto',
             }
           }}
           isOpen={this.state.modalIsOpen}

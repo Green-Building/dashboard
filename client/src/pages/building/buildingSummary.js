@@ -10,7 +10,7 @@ export default class BuildingSummary extends Component {
   render() {
     const { building, buildingStats } = this.props;
     return (
-      <Card>
+      <Card style={{boxShadow: '2px 3px 4px #666'}}>
         <Image src={building.image_url} />
         <Card.Content>
           <Card.Header>{building.name}</Card.Header>

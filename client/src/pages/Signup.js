@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import { Container, Grid, Button, Form, Input, Segment, Header, Image, Message } from 'semantic-ui-react';
+import { Container, Grid, Button, Form, Input, Segment, Header, Image, Message, Dropdown } from 'semantic-ui-react';
 import client from '../client';
 import qs from 'qs';
 
@@ -43,12 +43,30 @@ class Signup extends Component {
     })
     .then(response => {
       console.log("response is>>>", response);
-      Auth.authenticateUser(response.data.token);
+      const { token, user } = response.data;
+      Auth.authenticateUser(token, user.user_type );
       this.props.router.replace('/');
     })
   }
 
   render() {
+    const options = [
+      {
+        key: "Admin",
+        value: "admin",
+        text: "Admin",
+      },
+      {
+        key: "Infrastructure Manager",
+        value: "infra",
+        text: "Infrastructure Manager",
+      },
+      {
+        key: "Client",
+        value: "client",
+        text: "Client",
+      },
+    ];
     return (
       <Container>
         <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
@@ -85,15 +103,15 @@ class Signup extends Component {
                   placeholder='Name'
                   onChange={this.handleChange}
                 />
-                <Form.Input
-                  fluid
-                  icon='user'
-                  name='user_type'
-                  iconPosition='left'
+                <Form.Field>
+                <Dropdown
                   placeholder='User Type'
-                  type='user_type'
+                  value={this.state.user_type}
+                  name='user_type'
+                  options={options}
                   onChange={this.handleChange}
                 />
+                </Form.Field>
                 <Button type="submit" color='teal' fluid size='large'>
                   Signup
                 </Button>

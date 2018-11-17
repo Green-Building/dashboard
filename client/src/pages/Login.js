@@ -39,7 +39,8 @@ class Login extends Component {
     })
     .then(response => {
       console.log("response is>>>", response);
-      Auth.authenticateUser(response.data.token);
+      const { token, user } = response.data;
+      Auth.authenticateUser(token, user.user_type );
       this.props.router.replace('/');
     })
   }

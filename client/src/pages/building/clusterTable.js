@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import _ from 'lodash';
 import { Link } from 'react-router';
 import { Table, Label, Icon } from 'semantic-ui-react';
@@ -6,6 +6,7 @@ import { Table, Label, Icon } from 'semantic-ui-react';
 import AddClusterModal from './addClusterModal';
 import UpdateClusterModal from './updateClusterModal';
 import { mapStatusToColor } from '../../utils';
+import Auth from '../../modules/Auth';
 
 export default function({ floors, params, addClusterConfig, updateClusterConfig, deleteClusterConfig }) {
   return (
@@ -15,7 +16,7 @@ export default function({ floors, params, addClusterConfig, updateClusterConfig,
           <Table.HeaderCell>Floor</Table.HeaderCell>
           <Table.HeaderCell>Cluster Name</Table.HeaderCell>
           <Table.HeaderCell>Status</Table.HeaderCell>
-          <Table.HeaderCell colSpan='2'>Operation</Table.HeaderCell>
+          {Auth.getUser()!=='client' && <Table.HeaderCell colSpan='2'>Operation</Table.HeaderCell> }
           <Table.HeaderCell>Data</Table.HeaderCell>
         </Table.Row>
       </Table.Header>
@@ -39,22 +40,26 @@ export default function({ floors, params, addClusterConfig, updateClusterConfig,
                 </Label>) : null
               }
               </Table.Cell>
-              <Table.Cell>
-              { floor.cluster ?
-                <UpdateClusterModal
-                  buildingId={params.building_id}
-                  floor={floor}
-                  cluster={floor.cluster}
-                  updateClusterConfig={updateClusterConfig}
-                /> : null
+              { Auth.getUser()!=='client' &&
+                <Fragment >
+                  <Table.Cell>
+                  { floor.cluster ?
+                    <UpdateClusterModal
+                      buildingId={params.building_id}
+                      floor={floor}
+                      cluster={floor.cluster}
+                      updateClusterConfig={updateClusterConfig}
+                    /> : null
+                  }
+                  </Table.Cell>
+                  <Table.Cell >
+                  { floor.cluster ?
+                    <Icon onClick={() => deleteClusterConfig(floor.cluster.id, floor.id)} name="trash alternate"/> :
+                    <AddClusterModal params={params} floor={floor} addClusterConfig={addClusterConfig} />
+                  }
+                  </Table.Cell>
+                </Fragment>
               }
-              </Table.Cell>
-              <Table.Cell >
-              { floor.cluster ?
-                <Icon onClick={() => deleteClusterConfig(floor.cluster.id, floor.id)} name="trash alternate"/> :
-                <AddClusterModal params={params} floor={floor} addClusterConfig={addClusterConfig} />
-              }
-              </Table.Cell>
               <Table.Cell>
               { floor.cluster ?
                 (<Label>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import { Link } from 'react-router';
 import { Table, Label, Button } from 'semantic-ui-react';
+import Auth from '../../modules/Auth';
 
 export default class SensorDataTable extends Component {
   render() {
@@ -29,11 +30,13 @@ export default class SensorDataTable extends Component {
             </Table.Row>
           )
         })}
-        <Table.Row>
-          <Table.Cell colSpan='4'>
-            <Link to={`/sensor-data-manager?sensor_id=${sensorId}`}><Button>Add Sensor Data</Button></Link>
-          </Table.Cell>
-        </Table.Row>
+        { Auth.getUser()!=='client' &&
+          <Table.Row>
+            <Table.Cell colSpan='4'>
+              <Link to={`/sensor-data-manager?sensor_id=${sensorId}`}><Button>Add Sensor Data</Button></Link>
+            </Table.Cell>
+          </Table.Row>
+        }
         </Table.Body>
       </Table>
     )

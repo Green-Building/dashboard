@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router';
 import _ from 'lodash';
 import { Container, Grid, Button, Card, Icon, Image, Dropdown, Table, Label } from 'semantic-ui-react';
@@ -6,6 +6,7 @@ import { Container, Grid, Button, Card, Icon, Image, Dropdown, Table, Label } fr
 import { mapStatusToColor } from '../../utils';
 import UpdateNodeModal from './updateNodeModal';
 import AddNodeModal from './addNodeModal';
+import Auth from '../../modules/Auth';
 
 class NodeTable extends Component {
   render() {
@@ -18,7 +19,9 @@ class NodeTable extends Component {
             <Table.HeaderCell>Node ID</Table.HeaderCell>
             <Table.HeaderCell>Node Name</Table.HeaderCell>
             <Table.HeaderCell>Status</Table.HeaderCell>
-            <Table.HeaderCell colSpan='2'>Operation</Table.HeaderCell>
+            { Auth.getUser()!=='client' &&
+              <Table.HeaderCell colSpan='2'>Operation</Table.HeaderCell>
+            }
             <Table.HeaderCell>Data</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
@@ -35,12 +38,16 @@ class NodeTable extends Component {
                     {node.status}
                   </Label>
                 </Table.Cell>
-                <Table.Cell>
-                 <UpdateNodeModal node={node} updateNodeConfig={updateNodeConfig}/>
-                </Table.Cell>
-                <Table.Cell>
-                  <Icon name="trash alternate" onClick={() => deleteNodeConfig(node.id)}/>
-                </Table.Cell>
+                { Auth.getUser()!=='client' &&
+                  <Fragment>
+                    <Table.Cell>
+                    <UpdateNodeModal node={node} updateNodeConfig={updateNodeConfig}/>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Icon name="trash alternate" onClick={() => deleteNodeConfig(node.id)}/>
+                    </Table.Cell>
+                  </Fragment>
+                }
                 <Table.Cell>
                   <Label>
                     <Link to={`/sensor-data?type=node&id=${node.id}`}>
@@ -51,11 +58,13 @@ class NodeTable extends Component {
               </Table.Row>
             )
           })}
-          <Table.Row>
-            <Table.Cell colSpan='6'>
-            <AddNodeModal params={params} cluster={cluster} rooms={rooms} addNodeConfig={addNodeConfig} />
-            </Table.Cell>
-          </Table.Row>
+          { Auth.getUser()!=='client' &&
+            <Table.Row>
+              <Table.Cell colSpan='6'>
+              <AddNodeModal params={params} cluster={cluster} rooms={rooms} addNodeConfig={addNodeConfig} />
+              </Table.Cell>
+            </Table.Row>
+          }
         </Table.Body>
       </Table>
     )

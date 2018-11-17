@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import _ from 'lodash';
 import { Link } from 'react-router';
 import { Table, Label, Icon } from 'semantic-ui-react';
@@ -6,6 +6,7 @@ import { mapStatusToColor } from '../../utils';
 
 import UpdateSensorModal from './updateSensorModal';
 import AddSensorModal from './addSensorModal';
+import Auth from '../../modules/Auth';
 
 export default class SensorTable extends Component {
   render() {
@@ -20,7 +21,9 @@ export default class SensorTable extends Component {
             <Table.HeaderCell>Sensor Type</Table.HeaderCell>
             <Table.HeaderCell>Instllation time</Table.HeaderCell>
             <Table.HeaderCell>Status</Table.HeaderCell>
-            <Table.HeaderCell colspan='2'>Operation</Table.HeaderCell>
+            { Auth.getUser()!=='client' &&
+              <Table.HeaderCell colspan='2'>Operation</Table.HeaderCell>
+            }
             <Table.HeaderCell>Data</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
@@ -39,12 +42,16 @@ export default class SensorTable extends Component {
                     {sensor.status}
                   </Label>
                 </Table.Cell>
-                <Table.Cell>
-                  <UpdateSensorModal sensor={sensor} updateSensorConfig={updateSensorConfig}/>
-                </Table.Cell>
-                <Table.Cell>
-                  <Icon name="trash alternate" onClick={() => deleteSensorConfig(sensor.id)}/>
-                </Table.Cell>
+                { Auth.getUser()!=='client' &&
+                  <Fragment>
+                    <Table.Cell>
+                      <UpdateSensorModal sensor={sensor} updateSensorConfig={updateSensorConfig}/>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Icon name="trash alternate" onClick={() => deleteSensorConfig(sensor.id)}/>
+                    </Table.Cell>
+                  </Fragment>
+                }
                 <Table.Cell>
                   <Label>
                     <Link to={`/sensor-data?type=sensor&id=${sensor.id}`}>
@@ -55,11 +62,13 @@ export default class SensorTable extends Component {
               </Table.Row>
             )
           })}
-          <Table.Row>
-            <Table.Cell colSpan='8'>
-              <AddSensorModal node={node} addSensorConfig={addSensorConfig} />
-            </Table.Cell>
-          </Table.Row>
+          { Auth.getUser()!=='client' &&
+            <Table.Row>
+              <Table.Cell colSpan='8'>
+                <AddSensorModal node={node} addSensorConfig={addSensorConfig} />
+              </Table.Cell>
+            </Table.Row>
+          }
         </Table.Body>
       </Table>
     )

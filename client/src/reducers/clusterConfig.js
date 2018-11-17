@@ -29,6 +29,10 @@ const GET_FLOOR_CONFIG = 'GET_FLOOR_CONFIG';
 const SUCCESS_GET_FLOOR_CONFIG = 'SUCCESS_GET_FLOOR_CONFIG';
 const ERROR_GET_FLOOR_CONFIG = 'ERROR_GET_FLOOR_CONFIG';
 
+const GET_FLOOR_STATISTICS = 'GET_FLOOR_STATISTICS';
+const SUCCESS_GET_FLOOR_STATISTICS = 'SUCCESS_GET_FLOOR_STATISTICS';
+const ERROR_GET_FLOOR_STATISTICS = 'ERROR_GET_FLOOR_STATISTICS';
+
 const ADD_NODE_CONFIG = 'ADD_NODE_CONFIG';
 const SUCCESS_ADD_NODE_CONFIG = 'SUCCESS_ADD_NODE_CONFIG';
 const ERROR_ADD_NODE_CONFIG = 'ERROR_ADD_NODE_CONFIG';
@@ -49,11 +53,9 @@ export const fetchFloorConfig = (floorId) => (dispatch, getState) => {
   dispatch({
     type: 'GET_FLOOR_CONFIG',
   });
-  return Promise.all([
-    client.get(`${INFRA_MANAGER_HOST}/floors/${floorId}?fetch_nested=floor,room,node,sensor`),
-    client.get(`${INFRA_MANAGER_HOST}/floors/statistics/${floorId}`),
-  ])
-  .spread((cluster, floorStats) => {
+
+  return client.get(`${INFRA_MANAGER_HOST}/floors/${floorId}?fetch_nested=floor,room,node,sensor`)
+  .then(cluster => {
     cluster = cluster.data;
     let rooms = cluster.floor.rooms;
     let nodes = cluster.nodes;
@@ -82,7 +84,6 @@ export const fetchFloorConfig = (floorId) => (dispatch, getState) => {
       rooms,
       nodes,
       roomMap,
-      floorStats: floorStats.data
     });
   })
   .catch(error => {
@@ -92,6 +93,25 @@ export const fetchFloorConfig = (floorId) => (dispatch, getState) => {
     });
   });
 };
+
+export const fetchFloorStats = (floorId) => (dispatch, getState) => {
+  dispatch({
+    type: 'GET_FLOOR_STATISTICS',
+  });
+  return client.get(`${INFRA_MANAGER_HOST}/floors/statistics/${floorId}`)
+  .then(floorStats => {
+    dispatch({
+      type: 'SUCCESS_GET_FLOOR_STATISTICS',
+      floorStats: floorStats.data,
+    });
+  })
+  .catch(error => {
+    dispatch({
+      type: 'ERROR_GET_FLOOR_STATISTICS',
+      message: error.message || 'Something went wrong.',
+    });
+  });
+}
 
 export const addNodeConfig = (newNodeData) => (dispatch, getState) => {
   dispatch({
@@ -167,7 +187,9 @@ const clusterConfig = (state = INITIAL_STATE, action) => {
   let node, nodeId, nodes;
   switch (action.type) {
     case SUCCESS_GET_FLOOR_CONFIG:
-      return _.assign({}, state, { cluster: action.cluster, floorStats: action.floorStats, rooms: action.rooms, nodes: action.nodes, roomMap: action.roomMap, isLoading: false});
+      return _.assign({}, state, { cluster: action.cluster, rooms: action.rooms, nodes: action.nodes, roomMap: action.roomMap, isLoading: false});
+    case SUCCESS_GET_FLOOR_STATISTICS:
+      return _.assign({}, state, { floorStats: action.floorStats, isLoading: false });
     case SUCCESS_ADD_NODE_CONFIG:
       node = action.node;
       nodes = state.nodes;
@@ -188,6 +210,7 @@ const clusterConfig = (state = INITIAL_STATE, action) => {
     case ERROR_ADD_NODE_CONFIG:
     case ERROR_UPDATE_NODE_CONFIG:
     case ERROR_DELETE_NODE_CONFIG:
+    case ERROR_GET_FLOOR_STATISTICS:
       return _.assign({}, state, { isLoading: false, errorMessage: action.message });
     default:
       return state;

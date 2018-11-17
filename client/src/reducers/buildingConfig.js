@@ -26,6 +26,10 @@ const GET_BUILDING_CONFIG = 'GET_BUILDING_CONFIG';
 const SUCCESS_GET_BUILDING_CONFIG = 'SUCCESS_GET_BUILDING_CONFIG';
 const ERROR_GET_BUILDING_CONFIG = 'ERROR_GET_BUILDING_CONFIG';
 
+const GET_BUILDING_STATISTICS = 'GET_BUILDING_STATISTICS';
+const SUCCESS_GET_BUILDING_STATISTICS = 'SUCCESS_GET_BUILDING_STATISTICS';
+const ERROR_GET_BUILDING_STATISTICS = 'ERROR_GET_BUILDING_STATISTICS';
+
 const ADD_BUILDING_CONFIG = 'ADD_BUILDING_CONFIG';
 const SUCCESS_ADD_BUILDING_CONFIG = 'SUCCESS_ADD_BUILDING_CONFIG';
 const ERROR_ADD_BUILDING_CONFIG = 'ERROR_ADD_BUILDING_CONFIG';
@@ -58,22 +62,17 @@ export const fetchBuildingConfig = (buildingId) => (dispatch, getState) => {
   dispatch({
     type: 'GET_BUILDING_CONFIG',
   });
-  return Promise.all([
-    client.get(`${INFRA_MANAGER_HOST}/buildings/${buildingId}?fetch_nested=floor,cluster`),
-    client.get(`${INFRA_MANAGER_HOST}/buildings/statistics/${buildingId}`)
-  ])
-  .spread((buildingConfig, buildingStats) => {
+  return client.get(`${INFRA_MANAGER_HOST}/buildings/${buildingId}?fetch_nested=floor,cluster`)
+  .then(buildingConfig => {
     let building = buildingConfig.data;
     _.forEach(building.floors, floor => {
       floor.cluster = _.find(building.clusters, {floor_id: floor.id}) || null;
     });
     let floors = _.sortBy(building.floors, ['floor_number']);
-    console.log("floors >>>", floors);
     dispatch({
       type: 'SUCCESS_GET_BUILDING_CONFIG',
       building,
       floors,
-      buildingStats: buildingStats.data,
     });
   })
   .catch( error => {
@@ -83,6 +82,25 @@ export const fetchBuildingConfig = (buildingId) => (dispatch, getState) => {
     });
   });
 };
+
+export const fetchBuildingStats = (buildingId) => (dispatch, getState) => {
+  dispatch({
+    type: 'GET_BUILDING_STATISTICS',
+  });
+  return client.get(`${INFRA_MANAGER_HOST}/buildings/statistics/${buildingId}`)
+  .then(buildingStats => {
+    dispatch({
+      type: 'SUCCESS_GET_BUILDING_STATISTICS',
+      buildingStats: buildingStats.data,
+    });
+  })
+  .catch(error => {
+    dispatch({
+      type: 'ERROR_GET_BUILDING_STATISTICS',
+      message: error.message || 'Something went wrong.',
+    });
+  });
+}
 
 export const addClusterConfig = (newClusterData) => (dispatch, getState) => {
   dispatch({
@@ -159,7 +177,9 @@ const buildingConfig = (state = INITIAL_STATE, action) => {
   let cluster, floors, floor, clusterId, floorId;
   switch (action.type) {
     case SUCCESS_GET_BUILDING_CONFIG:
-      return _.assign({}, state, {building: action.building, buildingStats: action.buildingStats, floors: action.floors, isLoading: false});
+      return _.assign({}, state, {building: action.building, floors: action.floors, isLoading: false});
+    case SUCCESS_GET_BUILDING_STATISTICS:
+      return _.assign({}, state, {buildingStats: action.buildingStats, isLoading: false});
     case SUCCESS_ADD_CLUSTER_CONFIG:
       cluster = action.cluster;
       floors = state.floors;
@@ -184,6 +204,7 @@ const buildingConfig = (state = INITIAL_STATE, action) => {
     case ERROR_ADD_CLUSTER_CONFIG:
     case ERROR_UPDATE_CLUSTER_CONFIG:
     case ERROR_DELETE_CLUSTER_CONFIG:
+    case ERROR_GET_BUILDING_STATISTICS:
       return _.assign({}, state, { isLoading: false, errorMessage: action.message });
     default:
       return state;

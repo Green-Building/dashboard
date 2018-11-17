@@ -5,7 +5,7 @@ import { withRouter } from 'react-router';
 import _ from 'lodash';
 import { Container, Grid, Button, Card, Icon, Image, Dropdown, Table, Label } from 'semantic-ui-react';
 import client from '../../client';
-import { fetchBuildingConfig, addClusterConfig, updateClusterConfig, deleteClusterConfig } from '../../reducers/buildingConfig';
+import { fetchBuildingStats, fetchBuildingConfig, addClusterConfig, updateClusterConfig, deleteClusterConfig } from '../../reducers/buildingConfig';
 
 import Loading from '../../component/Loading';
 import ClusterTable from './clusterTable';
@@ -18,9 +18,10 @@ import {
 class Building extends Component {
 
   componentDidMount() {
-    const { fetchBuildingConfig } = this.props;
+    const { fetchBuildingConfig, fetchBuildingStats } = this.props;
     const { building_id } = this.props.params;
-    return fetchBuildingConfig(building_id);
+    fetchBuildingConfig(building_id);
+    fetchBuildingStats(building_id);
   }
 
   render() {
@@ -59,6 +60,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     fetchBuildingConfig: (buildingId) => {
       dispatch(fetchBuildingConfig(buildingId));
+    },
+    fetchBuildingStats: (buildingId) => {
+      dispatch(fetchBuildingStats(buildingId));
     },
     addClusterConfig: (newClusterData) => {
       dispatch(addClusterConfig(newClusterData));

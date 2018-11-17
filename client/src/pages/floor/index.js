@@ -13,7 +13,7 @@ import NodeTable from './nodeTable';
 import {
   INFRA_MANAGER_HOST
 } from '../../api-config';
-import { fetchFloorConfig, addNodeConfig, updateNodeConfig, deleteNodeConfig } from '../../reducers/clusterConfig';
+import { fetchFloorStats, fetchFloorConfig, addNodeConfig, updateNodeConfig, deleteNodeConfig } from '../../reducers/clusterConfig';
 
 const alphabet = ['A', 'B', 'C', 'D', 'E'];
 class Floor extends Component {
@@ -21,11 +21,12 @@ class Floor extends Component {
   componentDidMount() {
     const  { floor_id } = this.props.params;
     console.log("here>>")
-    return this.props.fetchFloorConfig(floor_id);
+    this.props.fetchFloorConfig(floor_id);
+    this.props.fetchFloorStats(floor_id);
   }
 
   render() {
-    const { params, router, clusterConfig, addNodeConfig, updateNodeConfig, deleteNodeConfig } = this.props;
+    const { params, router, clusterConfig, addNodeConfig, updateNodeConfig, deleteNodeConfig, fetchFloorStats } = this.props;
     const { cluster, nodes, rooms, roomMap, floorStats } = clusterConfig;
     return (
       <Container>
@@ -70,6 +71,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     fetchFloorConfig: (floorId) => {
       dispatch(fetchFloorConfig(floorId));
+    },
+    fetchFloorStats: (floorId) => {
+      dispatch(fetchFloorStats(floorId));
     },
     addNodeConfig: (newNodeData) => {
       dispatch( addNodeConfig(newNodeData));

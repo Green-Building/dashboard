@@ -57,10 +57,13 @@ export const fetchFloorConfig = (floorId) => (dispatch, getState) => {
   return client.get(`${INFRA_MANAGER_HOST}/floors/${floorId}?fetch_nested=floor,room,node,sensor`)
   .then(cluster => {
     cluster = cluster.data;
-    let rooms = cluster.floor.rooms;
+    if (!cluster.rooms && cluster.floor.rooms) {
+      cluster.rooms = cluster.floor.rooms;
+    }
+    let rooms = cluster.rooms;//cluster.floor.rooms;
     let nodes = cluster.nodes;
     _.forEach(rooms, room => {
-      room.node = _.find(nodes, {id: room.id});
+      room.node = _.find(nodes, {id: room.id}) || {};
     })
 
     const roomMap = alphabet.reduce((acc, letter1, idx) => {

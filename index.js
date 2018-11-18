@@ -2,10 +2,10 @@ const express = require('express');
 const passport = require('passport');
 const bodyParser = require("body-parser");
 const logger = require('morgan');
-const mongoose = require('mongoose');
+//const mongoose = require('mongoose');
 const cors = require('cors');
-const Promise = require('bluebird');
-mongoose.Promise = Promise;
+//const Promise = require('bluebird');
+//mongoose.Promise = Promise;
 
 const db = require('./models');
 
@@ -39,7 +39,7 @@ app.use('/api/v0', apiLocalRoutes);
 app.use('/api/v1', apiIntegrationRoutes);
 
 return Promise.all([
-  mongoose.connect('mongodb://localhost/greenBuilding'),
+  //mongoose.connect('mongodb://localhost/greenBuilding'),
   db.sequelize.sync(),
 ])
 .then(() => {

@@ -32,8 +32,10 @@ router
   .post('/sensors', sensorConfig.upsertSensor)
   .delete('/sensors/:sensor_id', sensorConfig.deleteSensor)
 
+  /*
   .post('/sensor-data/add', sensorDataMgmt.insertSensorData)
   .post('/sensor-data/bulk-add', sensorDataMgmt.bulkInsertSensorData)
   .get('/sensor-data/search-data', sensorDataMgmt.searchSensorData)
+  */
 
 module.exports = router;

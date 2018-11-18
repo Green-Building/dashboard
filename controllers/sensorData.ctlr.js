@@ -1,12 +1,12 @@
 const _ = require('lodash');
-const SensorDataModel = require('../mongoModels/SensorData');
+const { SensorData2 } = require('../mongoModels/SensorData');
 
 const insertSensorData = (req, res) => {
   const sensorData = req.body.data;
 
   console.log("sensorData is >>>", sensorData);
   sensorData.timeStamp = new Date(sensorData.timeStamp);
-  return SensorDataModel.create(sensorData)
+  return SensorData2.create(sensorData)
   .then(response => {
     console.log("insert sensor data successful>>", response);
     res.json(response);
@@ -23,7 +23,7 @@ const bulkInsertSensorData = (req, res) => {
   });
   console.log("sensorData is >>>", sensorData);
 
-  return SensorDataModel.collection.insert(sensorData)
+  return SensorData2.collection.insert(sensorData)
   .then(response => {
     console.log("bulk insert sensor data successful>>", response);
     res.json(response);
@@ -51,7 +51,7 @@ const searchSensorData = (req, res) => {
     query.sensorID = id;
   }
   console.log("query is>>>", query);
-  return SensorDataModel.find(query).exec()
+  return SensorData2.find(query).exec()
   .then(sensorData => {
     console.log("getting sensor data is>>>", sensorData);
     res.json(sensorData);

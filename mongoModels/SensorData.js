@@ -47,4 +47,7 @@ const SensorDataSchema = new Schema({
 });
 
  // Export the model
-module.exports = mongoose.model('SensorData', SensorDataSchema);
+module.exports = {
+  SensorData1: mongoose.model('SensorData', SensorDataSchema),
+  SensorData2: mongoose.model('SensorDataTwo', SensorDataSchema),
+}

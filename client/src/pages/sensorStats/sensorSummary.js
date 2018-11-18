@@ -39,12 +39,13 @@ export default class SensorSummary extends Component {
     console.log("device is>>>", device);
     return (
       <Card className="centered" style={{boxShadow: '2px 3px 4px #666'}}>
-        <Image src={getDeviceImage(device, device_type)} />
+
         <Card.Content>
-          <Card.Header>{device.name}</Card.Header>
-          <Card.Meta>
+          <Image floated='right' size='tiny' src={getDeviceImage(device, device_type)} />
+          <Card.Meta>{device.name}</Card.Meta>
+          <Card.Description>
             Device Type {device_type}
-          </Card.Meta>
+          </Card.Description>
           <Card.Description>
             Install Time: <span className='date'>{device.install_time}</span>
           </Card.Description>

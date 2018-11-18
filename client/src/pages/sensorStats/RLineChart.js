@@ -41,7 +41,7 @@ export default class RLineChart extends Component {
     });
     console.log("mData is >>>", mData);
   	return (
-      <ScatterChart width={500} height={400} margin={{top: 20, right: 20, bottom: 20, left: 20}}>
+      <ScatterChart width={500} height={350} margin={{top: 20, right: 20, bottom: 20, left: 20}}>
       	<CartesianGrid />
         <XAxis type="number" dataKey={'time'} name='time' tickFormatter={v => moment(v).format('YY-MM-DD hh:ss')} domain={[minTime, maxTime ]} angle={-45} />
       	<YAxis type="number" dataKey={'y'} name='data'/>

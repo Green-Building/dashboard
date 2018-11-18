@@ -25,7 +25,7 @@ class sensorStats extends Component {
     const { sensorData, params } = this.props;
     return (
       <Container>
-        <Grid columns={2} celled style={{'backgroundColor': '#F2F6EB', boxShadow: '1px 2px 3px #666'}}>
+        <Grid columns={2} celled className="gb-container">
           <Grid.Row stretched>
             <Grid.Column width={8}>
               <SelectTimeRange params={params} />
@@ -35,7 +35,7 @@ class sensorStats extends Component {
             </Grid.Column>
           </Grid.Row>
         </Grid>
-        <Grid columns={2} celled  style={{'backgroundColor': '#F2F6EB', boxShadow: '1px 2px 3px #666'}}>
+        <Grid columns={2} celled  className="gb-container">
           <Grid.Row>
             <Grid.Column width={8}>
               <LineChart sensorData={sensorData} />
@@ -45,7 +45,7 @@ class sensorStats extends Component {
             </Grid.Column>
           </Grid.Row>
         </Grid>
-        <Grid columns={2} celled  style={{'backgroundColor': '#F2F6EB', boxShadow: '1px 2px 3px #666'}}>
+        <Grid columns={2} celled  className="gb-container">
           <Grid.Row>
             <Grid.Column width={8}>
               <PieChart sensorData={sensorData} />
@@ -55,7 +55,7 @@ class sensorStats extends Component {
             </Grid.Column>
           </Grid.Row>
         </Grid>
-        <Grid columns={2} celled style={{'backgroundColor': '#F2F6EB', boxShadow: '1px 2px 3px #666'}}>
+        <Grid columns={2} celled className="gb-container">
           <Grid.Row>
             <Grid.Column width={8}>
               <AreaChart />
@@ -65,7 +65,7 @@ class sensorStats extends Component {
             </Grid.Column>
           </Grid.Row>
         </Grid>
-        <Grid columns={1} celled  style={{'backgroundColor': '#F2F6EB', boxShadow: '1px 2px 3px #666'}}>
+        <Grid columns={1} celled  className="gb-container">
           <Grid.Row>
             <Grid.Column width={16}>
               <SensorDataTab sensorData={sensorData} />

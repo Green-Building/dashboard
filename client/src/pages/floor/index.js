@@ -30,7 +30,7 @@ class Floor extends Component {
     const { cluster, nodes, rooms, roomMap, floorStats } = clusterConfig;
     return (
       <Container>
-        <Grid columns={2} celled style={{'backgroundColor': '#F2F6EB', boxShadow: '1px 2px 3px #666'}}>
+        <Grid className="gb-container" columns={2} celled>
           <Grid.Row stretched>
             <Grid.Column width={6}>
               <ClusterSummary floorStats={floorStats} cluster={cluster} nodes={nodes} rooms={rooms} />
@@ -40,7 +40,7 @@ class Floor extends Component {
             </Grid.Column>
           </Grid.Row>
         </Grid>
-        <Grid columns={2} celled style={{'backgroundColor': '#F2F6EB', boxShadow: '1px 2px 3px #666'}}>
+        <Grid className="gb-container" columns={2} celled>
           <Grid.Row stretched>
             <Grid.Column width={16}>
               <NodeTable

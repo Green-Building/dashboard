@@ -28,7 +28,7 @@ class Node extends Component {
     const { node, sensors } = nodeConfig;
     return (
       <Container>
-        <Grid columns={2} celled style={{'backgroundColor': '#F2F6EB', boxShadow: '2px 3px 4px #666'}}>
+        <Grid columns={2} celled className="gb-container">
           <Grid.Row stretched>
             <Grid.Column width={6}>
               <NodeSummary node={node} />
@@ -38,7 +38,7 @@ class Node extends Component {
             </Grid.Column>
           </Grid.Row>
         </Grid>
-        <Grid columns={2} celled style={{'backgroundColor': '#F2F6EB', boxShadow: '2px 3px 4px #666'}}>
+        <Grid columns={2} celled className="gb-container">
           <Grid.Row stretched>
             <Grid.Column width={16}>
               <SensorTable

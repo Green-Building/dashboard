@@ -35,7 +35,9 @@ router
 
   .post('/sensor-data/add', sensorDataMgmt.insertSensorData)
   .post('/sensor-data/bulk-add', sensorDataMgmt.bulkInsertSensorData)
-  .get('/sensor-data/search-data', sensorDataMgmt.searchSensorData)
+  .get('/sensor_data/sensor/:sensor_id', sensorDataMgmt.searchSensorData)
+  .get('/sensor_data/cluster/:cluster_id', sensorDataMgmt.searchSensorDataByCluster)
+  .get('/sensor_data/node/:node_id', sensorDataMgmt.searchSensorDataByNode)
 
 
 module.exports = router;

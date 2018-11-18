@@ -34,22 +34,64 @@ const bulkInsertSensorData = (req, res) => {
 };
 
 const searchSensorData = (req, res) => {
-  let { id, idType, startTime, endTime } = req.query;
-  console.log("startTime>>>", startTime, endTime);
-  id = String(id);
+  let { startTime, endTime } = req.query;
+  let { sensor_id: sensorID } = req.params;
+  console.log("startTime>>>", startTime, endTime, sensorID);
+  sensorID = String(sensorID);
   let query = {
+    sensorID,
     timeStamp: {
       $gte: new Date(startTime),
       $lte: new Date(endTime),
     }
   };
-  if(idType === 'cluster') {
-    query.clusterID = id;
-  } else if (idType === 'node'){
-    query.nodeID = id;
-  } else {
-    query.sensorID = id;
-  }
+
+  console.log("query is>>>", query);
+  return SensorData2.find(query).exec()
+  .then(sensorData => {
+    console.log("getting sensor data is>>>", sensorData);
+    res.json(sensorData);
+  })
+  .catch(err => {
+    console.log("err getting sensor data is>>>", err);
+  });
+}
+
+const searchSensorDataByCluster = (req, res) => {
+  let { startTime, endTime } = req.query;
+  let { cluster_id: clusterID } = req.params;
+  clusterID = String(clusterID);
+  let query = {
+    clusterID,
+    timeStamp: {
+      $gte: new Date(startTime),
+      $lte: new Date(endTime),
+    }
+  };
+
+  console.log("query is>>>", query);
+  return SensorData2.find(query).exec()
+  .then(sensorData => {
+    console.log("getting sensor data is>>>", sensorData);
+    res.json(sensorData);
+  })
+  .catch(err => {
+    console.log("err getting sensor data is>>>", err);
+  });
+}
+
+const searchSensorDataByNode = (req, res) => {
+  let { startTime, endTime } = req.query;
+  let { node_id: nodeID } = req.params;
+  nodeID = String(nodeID);
+  let query = {
+    nodeID,
+    timeStamp: {
+      $gte: new Date(startTime),
+      $lte: new Date(endTime),
+    }
+  };
+
   console.log("query is>>>", query);
   return SensorData2.find(query).exec()
   .then(sensorData => {
@@ -65,4 +107,6 @@ module.exports = {
   insertSensorData,
   bulkInsertSensorData,
   searchSensorData,
+  searchSensorDataByCluster,
+  searchSensorDataByNode,
 }

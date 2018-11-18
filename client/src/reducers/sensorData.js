@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import client from '../client';
 
 import {
@@ -36,14 +36,13 @@ export const fetchSensorData = (type, id, startTime, endTime) => (dispatch, getS
   dispatch({
     type: 'FETCH_SENSOR_DATA',
   });
+  const tz = moment.tz.guess();
 
-  return client(`${DATA_MANAGER_HOST}/sensor-data/search-data`, {
+  return client(`${DATA_MANAGER_HOST}/sensor_data/${type}/id`, {
     method: 'GET',
     params: {
-      idType:type,
-      id: id,
-      startTime: new Date(startTime),
-      endTime: new Date(endTime)
+      startTime: moment(startTime).tz(tz).format("ddd MMM DD hh:mm:ss zz YYYY"),
+      endTime: moment(endTime).tz(tz).format("ddd MMM DD hh:mm:ss zz YYYY")
     },
   })
   .then(

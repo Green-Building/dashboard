@@ -34,15 +34,20 @@ const upsertSensor = (req, res) => {
   }
 }
 
-const addSensor = newSensor => {
+const addSensor = (req, res) => {
+  const newSensor = req.body;
   return db.sensor.create(newSensor)
+  .then(response => {
+    res.json(response);
+  })
   .catch(err => {
     console.log("error creating a new sensor>>", err);
   })
 }
 
-const updateSensor = updatedSensor => {
-  const { id: sensor_id } = updatedSensor;
+const updateSensor = (req, res) => {
+  const updatedSensor = req.body;
+  const { sensor_id } = req.params;
 
   return db.sensor.update(_.omit(updatedSensor, 'id'),{
     returning: true,
@@ -55,6 +60,9 @@ const updateSensor = updatedSensor => {
         id: sensor_id,
       }
     })
+  })
+  .then(response => {
+    res.json(response);
   })
   .catch(err => {
     console.log("err updating sensor is >>>", err);

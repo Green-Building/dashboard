@@ -17,7 +17,8 @@ router
   .get('/floors/:floor_id', floorConfig.getClusterFromFloor)
   .get('/floors/statistics/:floor_id', floorConfig.getFloorStats)
   .get('/clusters/:cluster_id', clusterConfig.getCluster)
-  .post('/clusters', clusterConfig.upsertCluster)
+  .put('/clusters/:clsuter_id', clusterConfig.updateCluster)
+  .post('/clusters', clusterConfig.addCluster)
   .delete('/clusters/:cluster_id', clusterConfig.deleteCluster)
 
   .get('/rooms/statistics/:room_id', roomConfig.getRoomStats)
@@ -25,11 +26,13 @@ router
   .post('/rooms/add', roomConfig.addRoom)
 
   .get('/nodes/:node_id', nodeConfig.getNode)
-  .post('/nodes', nodeConfig.upsertNode)
+  .put('/nodes/:node_id', nodeConfig.updateNode)
+  .post('/nodes', nodeConfig.addNode)
   .delete('/nodes/:node_id', nodeConfig.deleteNode)
 
   .get('/sensors/:sensor_id', sensorConfig.getSensor)
-  .post('/sensors', sensorConfig.upsertSensor)
+  .put('/sensors/:sensor_id', sensorConfig.updateSensor)
+  .post('/sensors', sensorConfig.addSensor)
   .delete('/sensors/:sensor_id', sensorConfig.deleteSensor)
 
 

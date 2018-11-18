@@ -144,7 +144,7 @@ export const updateNodeConfig = (nodeId, updatedNodeData) => (dispatch, getState
     type: 'UPDATE_NODE_CONFIG',
   });
 
-  return client.post(`${INFRA_MANAGER_HOST}/nodes`, updatedNodeData)
+  return client.put(`${INFRA_MANAGER_HOST}/nodes/${nodeId}`, _.omit(updatedNodeData, 'id'))
   .then(
     response => {
       let node = response.data;

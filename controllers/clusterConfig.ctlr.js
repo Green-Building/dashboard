@@ -38,7 +38,8 @@ const upsertCluster = (req, res) => {
     })
   }
 }
-const addCluster = newCluster => {
+const addCluster = (req, res) => {
+  const newCluster = req.body;
   return db.floor.findOne({
     where: {
       building_id: newCluster.building_id,
@@ -63,13 +64,17 @@ const addCluster = newCluster => {
     newCluster.floor_id = floor_id;
     return db.cluster.create(newCluster)
   })
+  .then(response => {
+    res.json(response);
+  })
   .catch(err => {
     console.log("error creating a new cluster>>", err);
   });
 }
 
-const updateCluster = updatedCluster => {
-  const { id: cluster_id } = updatedCluster;
+const updateCluster = (req, res) => {
+  let updatedCluster = req.body;
+  const { cluster_id } = req.params;
   return db.cluster.update(_.omit(updatedCluster, 'id'),{
     returning: true,
     plain: true,
@@ -81,6 +86,9 @@ const updateCluster = updatedCluster => {
         id: cluster_id,
       }
     })
+  })
+  .then(response => {
+    res.json(response);
   })
   .catch(err => {
     console.log("err updating cluster is >>>", err);

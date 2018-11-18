@@ -38,7 +38,7 @@ export const fetchSensorData = (type, id, startTime, endTime) => (dispatch, getS
   });
   const tz = moment.tz.guess();
 
-  return client(`${DATA_MANAGER_HOST}/sensor_data/${type}/id`, {
+  return client(`${DATA_MANAGER_HOST}/sensor_data/${type}/${id}`, {
     method: 'GET',
     params: {
       startTime: moment(startTime).tz(tz).format("ddd MMM DD hh:mm:ss zz YYYY"),

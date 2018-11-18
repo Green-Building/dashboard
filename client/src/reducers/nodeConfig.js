@@ -97,7 +97,7 @@ export const updateSensorConfig = (sensorId, updatedSensorData) => (dispatch, ge
     type: UPDATE_SENSOR_CONFIG,
   });
 
-  return client.post(`${INFRA_MANAGER_HOST}/sensors`, updatedSensorData)
+  return client.put(`${INFRA_MANAGER_HOST}/sensors/${sensorId}`, _.omit(updatedSensorData, 'id'))
   .then(
     response => {
       let sensor = response.data;

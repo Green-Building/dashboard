@@ -37,15 +37,20 @@ const upsertNode = (req, res) => {
   }
 }
 
-const addNode = newNode => {
+const addNode = (req, res) => {
+  const newNode = req.body;
   return db.node.create(newNode)
+  .then(response => {
+    res.json(response);
+  })
   .catch(err => {
     console.log("error creating a new node>>", err);
   })
 }
 
-const updateNode = updatedNode => {
-  const { id: node_id } = updatedNode;
+const updateNode = (req, res) => {
+  const updatedNode = req.body;
+  const { node_id } = req.params;
 
   return db.node.update(_.omit(updatedNode, 'id'),{
     returning: true,
@@ -58,6 +63,9 @@ const updateNode = updatedNode => {
         id: node_id,
       }
     });
+  })
+  .then(response => {
+    res.json(response);
   })
   .catch(err => {
     console.log("err updating node is >>>", err);

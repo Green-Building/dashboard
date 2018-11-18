@@ -1,4 +1,3 @@
-
 const request = require('request-promise');
 const INFRA_MANAGER_HOST = 'http://localhost:8080';
 const DATA_MANAGER_HOST = 'http://localhost:8080';
@@ -65,7 +64,7 @@ const getFloorStats = (req, res) => {
   req.pipe(request.get(`${INFRA_MANAGER_HOST}/floors/statistics/${floorId}`)).pipe(res);
 }
 
-getCluster = (req, res) => {
+const getCluster = (req, res) => {
   const { cluster_id } = req.params;
   const { fetch_nested } = req.query;
   let requestOptions = {};
@@ -77,12 +76,12 @@ getCluster = (req, res) => {
   req.pipe(request.get(`${INFRA_MANAGER_HOST}/clusters/${cluster_id}`, requestOptions)).pipe(res);
 }
 
-upsertCluster = (req, res) => {
+const addCluster = (req, res) => {
 
-  clusterToUpsert = req.body;
-  console.log("upserting>>>>", clusterToUpsert);
+  let clusterToAdd = req.body;
+  console.log("clusterToAdd>>>>", clusterToAdd);
   const options = {
-    json: clusterToUpsert
+    json: clusterToAdd
   }
 
   return request.post(`${INFRA_MANAGER_HOST}/clusters`, options)
@@ -94,12 +93,28 @@ upsertCluster = (req, res) => {
   })
 }
 
-deleteCluster = (req, res) => {
+const updateCluster = (req, res) => {
+  let cluster = req.body;
+  const { cluster_id } = req.params;
+  const options = {
+    json: cluster
+  }
+
+  return request.put(`${INFRA_MANAGER_HOST}/clusters/${cluster_id}`, options)
+  .then(response => {
+    res.json(response);
+  })
+  .catch(err => {
+    console.log("error updating cluster>>>", err);
+  })
+}
+
+const deleteCluster = (req, res) => {
   const { cluster_id } = req.params;
   req.pipe(request.delete(`${INFRA_MANAGER_HOST}/clusters/${cluster_id}`)).pipe(res);
 }
 
-getNode = (req, res) => {
+const getNode = (req, res) => {
   const { node_id } = req.params;
   const { fetch_nested } = req.query;
   let requestOptions = {};
@@ -111,11 +126,11 @@ getNode = (req, res) => {
   req.pipe(request.get(`${INFRA_MANAGER_HOST}/nodes/${node_id}`, requestOptions)).pipe(res);
 }
 
-upsertNode = (req, res) => {
-  let nodeToUpsert = req.body;
-  console.log("upserting>>>>", nodeToUpsert);
+const addNode = (req, res) => {
+  let newNode = req.body;
+  console.log("newNode>>>>", newNode);
   const options = {
-    json: nodeToUpsert
+    json: newNode
   }
 
   return request.post(`${INFRA_MANAGER_HOST}/nodes`, options)
@@ -127,21 +142,37 @@ upsertNode = (req, res) => {
   })
 }
 
-deleteNode = (req, res) => {
+const updateNode = (req, res) => {
+  let node = req.body;
+  const { node_id } = req.params;
+  const options = {
+    json: node
+  }
+
+  return request.put(`${INFRA_MANAGER_HOST}/nodes/${node_id}`, options)
+  .then(response => {
+    res.json(response);
+  })
+  .catch(err => {
+    console.log("error updating node>>>", err);
+  })
+}
+
+const deleteNode = (req, res) => {
   const { node_id } = req.params;
   req.pipe(request.delete(`${INFRA_MANAGER_HOST}/nodes/${node_id}`)).pipe(res);
 }
 
-getSensor = (req, res) => {
+const getSensor = (req, res) => {
   const { sensor_id } = req.params;
   req.pipe(request.get(`${INFRA_MANAGER_HOST}/sensor/${sensor_id}`)).pipe(res);
 }
 
-upsertSensor = (req, res) => {
-  let sensorToUpsert = req.body;
-  console.log("upserting>>>>", sensorToUpsert);
+const addSensor = (req, res) => {
+  let newSensor = req.body;
+  console.log("newSensor>>>>", newSensor);
   const options = {
-    json: sensorToUpsert
+    json: newSensor
   };
   return request.post(`${INFRA_MANAGER_HOST}/sensors`, options)
   .then(response => {
@@ -152,7 +183,23 @@ upsertSensor = (req, res) => {
   })
 }
 
-deleteSensor = (req, res) => {
+const updateSensor = (req, res) => {
+  let sensor = req.body;
+  const { sensor_id } = req.params;
+  const options = {
+    json: node
+  }
+
+  return request.put(`${INFRA_MANAGER_HOST}/sensors/${sensor_id}`, options)
+  .then(response => {
+    res.json(response);
+  })
+  .catch(err => {
+    console.log("error updating sensor>>>", err);
+  })
+}
+
+const deleteSensor = (req, res) => {
   const { sensor_id } = req.params;
   req.pipe(request.delete(`${INFRA_MANAGER_HOST}/sensors/${sensor_id}`)).pipe(res);
 }
@@ -165,12 +212,15 @@ module.exports = {
   getClusterFromFloor,
   getFloorStats,
   getCluster,
-  upsertCluster,
+  addCluster,
+  updateCluster,
   deleteCluster,
   getNode,
-  upsertNode,
+  addNode,
+  updateNode,
   deleteNode,
   getSensor,
-  upsertSensor,
+  addSensor,
+  updateSensor,
   deleteSensor,
 };

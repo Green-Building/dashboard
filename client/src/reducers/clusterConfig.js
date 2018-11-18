@@ -45,7 +45,7 @@ const DELETE_NODE_CONFIG = 'DELETE_NODE_CONFIG';
 const SUCCESS_DELETE_NODE_CONFIG = 'SUCCESS_DELETE_NODE_CONFIG';
 const ERROR_DELETE_NODE_CONFIG = 'ERROR_DELETE_NODE_CONFIG';
 
-const alphabet = ['A', 'B', 'C', 'D', 'E'];
+const alphabet = ['A', 'B', 'C', 'D'];
 //
 // ACTIONS
 //

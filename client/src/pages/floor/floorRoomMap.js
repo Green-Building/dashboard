@@ -8,7 +8,7 @@ import Modal from 'react-modal';
 
 import RoomNodeNetwork from './roomNodeNetwork';
 
-const alphabet = ['A', 'B', 'C', 'D', 'E'];
+const alphabet = ['A', 'B', 'C', 'D'];
 export default class FloorRoomMap extends Component {
   state = {
     modalIsOpen: false,
@@ -40,7 +40,7 @@ export default class FloorRoomMap extends Component {
 
     const exampleColorScale = scaleLinear()
         .domain([min, (min + max) / 2, max])
-        .range(['orange', 'yellow', 'cyan']);
+        .range(['#e6f4ff', 'cyan', '#00ff99']);
     return (
       <div id="floorColorMap" style={{borderRadius: '2px', boxShadow: '2px 3px 4px #666'}}>
         <XYPlot
@@ -52,8 +52,6 @@ export default class FloorRoomMap extends Component {
           height={250}
           style={{display: 'inline-block'}}
         >
-          <XAxis orientation="top" />
-          <YAxis />
           <HeatmapSeries
             colorType="literal"
             getColor={d => exampleColorScale(d.color)}
@@ -61,8 +59,8 @@ export default class FloorRoomMap extends Component {
               stroke: 'white',
               strokeWidth: '2px',
               rectStyle: {
-                rx: 10,
-                ry: 10
+                rx: 15,
+                ry: 15,
               }
             }}
             className="heatmap-series-example"

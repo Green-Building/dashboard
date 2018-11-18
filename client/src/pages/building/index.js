@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import _ from 'lodash';
-import { Container, Grid, Button, Card, Icon, Image, Dropdown, Table, Label } from 'semantic-ui-react';
+import { Divider, Container, Grid, Button, Card, Icon, Image, Dropdown, Table, Label } from 'semantic-ui-react';
 import client from '../../client';
 import { fetchBuildingStats, fetchBuildingConfig, addClusterConfig, updateClusterConfig, deleteClusterConfig } from '../../reducers/buildingConfig';
 
@@ -29,12 +29,27 @@ class Building extends Component {
     return isLoading ? <Loading /> :
       (
         <Container>
-          <Grid className="gb-container" celled verticalAlign='middle' style={{'minHeight': '80vh'}}>
-            <Grid.Row>
+          <Grid className="gb-container" celled columns={2}>
+            <Grid.Row stretched>
               <Grid.Column width={4}>
                 <BuildingSummary building={building} buildingStats={buildingStats}/>
               </Grid.Column>
               <Grid.Column width={12}>
+              <Image.Group>
+                <Image floated="left" src="http://www.sjsu.edu/cies/pics/tower_hall_02.jpg" width="300" height="150"/>
+                <Image floated="right" src="http://l-vis.univ-lyon1.fr/files/2018/05/statues-02.jpg" width="300" height="150"/>
+              </Image.Group>
+              <Divider />
+              <Image.Group>
+                <Image floated="left" src="http://www.sjsu.edu/clfsa/pics/Website%20Banner2.jpg" width="300" height="150"/>
+                <Image floated="right" src="http://aba-arch.com/images/properties/MLK_Library/ext_bldg_4thst-lr-large.jpg" width="300" height="150"/>
+              </Image.Group>
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+          <Grid className="gb-container" celled columns={1}>
+            <Grid.Row stretched>
+              <Grid.Column width={16}>
                 <ClusterTable
                   params={this.props.params}
                   addClusterConfig={this.props.addClusterConfig}

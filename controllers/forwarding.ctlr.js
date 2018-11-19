@@ -98,6 +98,7 @@ const addCluster = (req, res) => {
 const updateCluster = (req, res) => {
   let cluster = req.body;
   const { cluster_id } = req.params;
+  console.log("cluster_id is>>>", cluster_id);
   const options = {
     json: cluster
   }
@@ -107,7 +108,7 @@ const updateCluster = (req, res) => {
     res.json(response);
   })
   .catch(err => {
-    console.log("error updating cluster>>>", err);
+    //console.log("error updating cluster>>>", err);
   })
 }
 
@@ -167,7 +168,7 @@ const deleteNode = (req, res) => {
 
 const getSensor = (req, res) => {
   const { sensor_id } = req.params;
-  req.pipe(request.get(`${INFRA_MANAGER_HOST}/sensor/${sensor_id}`)).pipe(res);
+  req.pipe(request.get(`${INFRA_MANAGER_HOST}/sensors/${sensor_id}`)).pipe(res);
 }
 
 const addSensor = (req, res) => {
@@ -189,7 +190,7 @@ const updateSensor = (req, res) => {
   let sensor = req.body;
   const { sensor_id } = req.params;
   const options = {
-    json: node
+    json: sensor
   }
 
   return request.put(`${INFRA_MANAGER_HOST}/sensors/${sensor_id}`, options)

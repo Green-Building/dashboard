@@ -137,7 +137,7 @@ export const updateClusterConfig = (clusterId, updatedClusterData) => (dispatch,
       dispatch({
         type: 'SUCCESS_UPDATE_CLUSTER_CONFIG',
         clusterId,
-        cluster: cluster,
+        cluster: updatedClusterData,
       });
     },
     error => {
@@ -190,7 +190,11 @@ const buildingConfig = (state = INITIAL_STATE, action) => {
       cluster = action.cluster;
       clusterId = action.clusterId;
       floors = state.floors;
+      console.log("floors >>>", floors);
+      console.log("cluster>>", cluster);
+
       floor = _.find(floors, { id: cluster.floor_id });
+      console.log("floor>>>", floor);
       floor.cluster = cluster;
       return _.assign({}, state, { floors: floors, isLoading: false });
     case SUCCESS_DELETE_CLUSTER_CONFIG:

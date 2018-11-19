@@ -11,7 +11,7 @@ router
   .get('/floors/statistics/:floor_id', forwardingConfig.getFloorStats)
   .get('/clusters/:cluster_id', forwardingConfig.getCluster)
   .post('/clusters', forwardingConfig.addCluster)
-  .put('/clusters/:clsuter_id', forwardingConfig.updateCluster)
+  .put('/clusters/:cluster_id', forwardingConfig.updateCluster)
   .delete('/clusters/:cluster_id', forwardingConfig.deleteCluster)
 
   .get('/nodes/:node_id', forwardingConfig.getNode)

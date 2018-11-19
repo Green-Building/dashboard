@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import moment from 'moment-timezone';
 import CSVReader from 'react-csv-reader';
@@ -62,7 +63,7 @@ class AddSensorData extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const tz = moment.tz.guess();
-    return client.post(`${DATA_MANAGER_HOST}/sensor-data/add`, {
+    return client.post(`${DATA_MANAGER_HOST}/sensor_data`, [{
       sensorId: this.state.sensorId,
       unit: this.state.unit,
       model: this.state.model,
@@ -75,7 +76,7 @@ class AddSensorData extends Component {
       roomId: this.state.roomId,
       floorId: this.state.floorId,
       buildingId: this.state.buildingId,
-    })
+    }])
     .then(response => {
       console.log("response from adding sensor data is >>>", response);
     })
@@ -86,8 +87,19 @@ class AddSensorData extends Component {
 
   handleBulkSubmit = (event) => {
     event.preventDefault();
-
-    return client.post(`${DATA_MANAGER_HOST}/sensor-data/bulk-add`, this.state.sensorData)
+    const tz = moment.tz.guess();
+    let processedData = this.state.sensorData;
+    _.forEach(processedData, d => {
+      d.sensorId = +d.sensorId;
+      d.nodeId = +d.nodeId;
+      d.clusterId = +d.clusterId;
+      d.roomId = +d.roomId;
+      d.floorId = +d.floorId;
+      d.buildingId = +d.buildingId;
+      d.data = +d.data;
+      d.date = moment(d.date).tz(tz).format("ddd MMM DD hh:mm:ss zz YYYY");
+    })
+    return client.post(`${DATA_MANAGER_HOST}/sensor_data`, this.state.sensorData)
     .then(response => {
       console.log("response from adding sensor data is >>>", response);
     })

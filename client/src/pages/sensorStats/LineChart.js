@@ -31,7 +31,7 @@ export default function LineChart (props) {
     _.forEach(values, value => {
       mData[key].push(
         {
-          x: new Date(value.timeStamp),
+          x: new Date(value.date),
           y: value.data
         }
       );

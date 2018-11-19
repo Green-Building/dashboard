@@ -3,7 +3,6 @@ import { Container, Grid } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import { updateTime } from '../../reducers/sensorData';
 import SelectTimeRange from './SelectTimeRange';
 import BarChart from './BarChart';
 import LineChart from './RLineChart';
@@ -14,7 +13,7 @@ import AreaChart from './AreaChart';
 import SensorDataTab from './sensorDataTab';
 import SensorSummary from './sensorSummary';
 
-import { fetchDevice } from '../../reducers/sensorData';
+import { fetchDevice, deleteSensorData } from '../../reducers/sensorData';
 
 class sensorStats extends Component {
   componentDidMount() {
@@ -22,7 +21,7 @@ class sensorStats extends Component {
     this.props.fetchDevice(type, id);
   }
   render() {
-    const { sensorData, params } = this.props;
+    const { sensorData, params, deleteSensorData } = this.props;
     return (
       <Container>
         <Grid columns={2} celled className="gb-container">
@@ -68,7 +67,7 @@ class sensorStats extends Component {
         <Grid columns={1} celled  className="gb-container">
           <Grid.Row>
             <Grid.Column width={16}>
-              <SensorDataTab sensorData={sensorData} />
+              <SensorDataTab sensorData={sensorData} deleteSensorData={deleteSensorData} />
             </Grid.Column>
           </Grid.Row>
         </Grid>
@@ -88,6 +87,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     fetchDevice: (type, id) => {
       dispatch(fetchDevice(type, id))
     },
+    deleteSensorData: (sensorData) => {
+      dispatch(deleteSensorData(sensorData));
+    }
   }
 }
 

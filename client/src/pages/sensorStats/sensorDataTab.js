@@ -15,7 +15,7 @@ export default class SensorDataTab extends Component {
   }
 
   render() {
-    const {sensorData } = this.props;
+    const {sensorData, deleteSensorData } = this.props;
     const data = sensorData.data;
     const panes = _.reduce(data, (result, sData, sensorId) => {
       let pane = {
@@ -30,7 +30,11 @@ export default class SensorDataTab extends Component {
     return (
       <div>
         <Tab panes={panes} onTabChange={this.handleChange} />
-        <SensorDataTable data={data[this.state.sensorId]} sensorId={this.state.sensorId} />
+        <SensorDataTable
+          data={data[this.state.sensorId]}
+          sensorId={this.state.sensorId}
+          deleteSensorData={deleteSensorData}
+        />
       </div>
     )
   }

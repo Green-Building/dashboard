@@ -100,10 +100,23 @@ const searchSensorDataByNode = (req, res) => {
   });
 }
 
+const deleteSensorData = (req, res) => {
+  let { id } = req.params;
+  console.log("id is>>>", id);
+  return SensorData2.remove({_id: id}).exec()
+  .then(sensorData => {
+    res.json('ok');
+  })
+  .catch(err => {
+    console.log("err deleting sensor data >>>", err);
+  });
+}
+
 module.exports = {
   insertSensorData,
   bulkInsertSensorData,
   searchSensorData,
   searchSensorDataByCluster,
   searchSensorDataByNode,
+  deleteSensorData,
 }

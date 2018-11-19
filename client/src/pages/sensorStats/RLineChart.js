@@ -24,7 +24,7 @@ export default class RLineChart extends Component {
     _.forEach(data, (values, key) => {
       console.log("datum is>>>", values);
       _.forEach(values, value => {
-        let time = moment(value.timeStamp).valueOf();
+        let time = moment(value.date).valueOf();
         mData[key].push(
           {
             time: time,

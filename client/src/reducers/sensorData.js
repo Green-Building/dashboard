@@ -28,6 +28,10 @@ const FETCH_DEVICE = 'FETCH_DEVICE';
 const SUCCESS_DEVICE  = 'SUCCESS_DEVICE';
 const ERROR_DEVICE  = 'ERROR_DEVICE';
 
+const DELETE_SENSOR_DATA = 'DELETE_SENSOR_DATA';
+const SUCCESS_DELETE_SENSOR_DATA = 'SUCCESS_DELETE_SENSOR_DATA';
+const ERROR_DELETE_SENSOR_DATA = 'ERROR_DELETE_SENSOR_DATA';
+
 //
 // ACTIONS
 //
@@ -92,6 +96,30 @@ export const fetchDevice = (type, id) => (dispatch, getState) => {
   );
 };
 
+export const deleteSensorData = (sensorData) => (dispatch, getState) => {
+
+  console.log("sensorData is >>>", sensorData);
+  let id = sensorData.id || sensorData._id;
+  dispatch({
+    type: DELETE_SENSOR_DATA,
+  });
+  return client.delete(`${DATA_MANAGER_HOST}/sensor_data/${id}`)
+  .then(
+    response => {
+      dispatch({
+        type: SUCCESS_DELETE_SENSOR_DATA,
+        sensorData,
+      });
+    },
+    error => {
+      dispatch({
+        type: ERROR_DELETE_SENSOR_DATA,
+        message: error.message || 'Something went wrong.',
+      });
+    }
+  );
+}
+
 function groupSensorData(sensorData) {
   return _.groupBy(sensorData, 'sensorId');
 }
@@ -101,10 +129,20 @@ const sensorData = (state = INITIAL_STATE, action) => {
     case SUCCESS_SENSOR_DATA:
       let groupedSensorData = groupSensorData(action.result);
       return _.assign({}, state, { data: groupedSensorData, isLoading: false });
-    case ERROR_SENSOR_DATA:
-      return INITIAL_STATE;
     case SUCCESS_DEVICE:
       return _.assign({}, state, { device: action.device, device_type: action.device_type });
+    case SUCCESS_DELETE_SENSOR_DATA:
+      let data = state.data;
+      let deletedData = action.sensorData;
+      let sensorId = deletedData.sensorId;
+      if (deletedData.id) {
+        data[sensorId] = _.remove(data[sensorId], {id: deletedData.id});
+      } else if (deletedData._id) {
+        data[sensorId] = _.remove(data[sensorId], {id: deletedData._id});
+      }
+      return _.assign({}, state, { data });
+    case ERROR_DELETE_SENSOR_DATA:
+    case ERROR_SENSOR_DATA:
     case ERROR_DEVICE:
       return INITIAL_STATE;
     default:

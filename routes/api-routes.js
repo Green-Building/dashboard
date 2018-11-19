@@ -35,9 +35,8 @@ router
   .post('/sensors', sensorConfig.addSensor)
   .delete('/sensors/:sensor_id', sensorConfig.deleteSensor)
 
-
-  .post('/sensor-data/add', sensorDataMgmt.insertSensorData)
-  .post('/sensor-data/bulk-add', sensorDataMgmt.bulkInsertSensorData)
+  .post('/sensor_data', sensorDataMgmt.bulkInsertSensorData)
+  .delete('/sensor_data/:id', sensorDataMgmt.deleteSensorData)
   .get('/sensor_data/sensor/:sensor_id', sensorDataMgmt.searchSensorData)
   .get('/sensor_data/cluster/:cluster_id', sensorDataMgmt.searchSensorDataByCluster)
   .get('/sensor_data/node/:node_id', sensorDataMgmt.searchSensorDataByNode)

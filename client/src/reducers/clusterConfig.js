@@ -53,8 +53,14 @@ export const fetchFloorConfig = (floorId) => (dispatch, getState) => {
   dispatch({
     type: 'GET_FLOOR_CONFIG',
   });
+  let url;
+  if (INFRA_MANAGER_HOST.indexOf('v0') !== -1) {
+    url = `${INFRA_MANAGER_HOST}/floors/${floorId}?fetch_nested=floor,room,node,sensor`;
+  } else {
+    url = `${INFRA_MANAGER_HOST}/floors/${floorId}?fetch_nested=room,node,sensor`;
+  }
 
-  return client.get(`${INFRA_MANAGER_HOST}/floors/${floorId}?fetch_nested=room,node,sensor`)
+  return client.get(url)
   .then(cluster => {
     cluster = cluster.data;
     if (!cluster.rooms && cluster.floor.rooms) {

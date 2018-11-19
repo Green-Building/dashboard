@@ -54,7 +54,7 @@ export const fetchFloorConfig = (floorId) => (dispatch, getState) => {
     type: 'GET_FLOOR_CONFIG',
   });
 
-  return client.get(`${INFRA_MANAGER_HOST}/floors/${floorId}?fetch_nested=floor,room,node,sensor`)
+  return client.get(`${INFRA_MANAGER_HOST}/floors/${floorId}?fetch_nested=room,node,sensor`)
   .then(cluster => {
     cluster = cluster.data;
     if (!cluster.rooms && cluster.floor.rooms) {

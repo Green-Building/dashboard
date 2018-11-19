@@ -164,7 +164,7 @@ export const updateNodeConfig = (nodeId, updatedNodeData) => (dispatch, getState
       dispatch({
         type: 'SUCCESS_UPDATE_NODE_CONFIG',
         nodeId,
-        node: node,
+        node: updatedNodeData,
       });
     },
     error => {

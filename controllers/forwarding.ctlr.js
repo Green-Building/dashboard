@@ -91,7 +91,7 @@ const addCluster = (req, res) => {
     res.json(response);
   })
   .catch(err => {
-    console.log("error upserting cluster>>>", err);
+    console.log("error adding cluster>>>", err);
   })
 }
 

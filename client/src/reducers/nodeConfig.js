@@ -104,7 +104,7 @@ export const updateSensorConfig = (sensorId, updatedSensorData) => (dispatch, ge
       dispatch({
         type: SUCCESS_UPDATE_SENSOR_CONFIG,
         sensorId,
-        sensor: sensor
+        sensor: updatedSensorData
       });
     },
     error => {

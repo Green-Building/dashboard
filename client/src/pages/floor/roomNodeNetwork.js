@@ -8,6 +8,7 @@ export default class RoomNodeNetwork extends Component {
 
   render() {
     const { router, room } = this.props;
+    console.log("room is >>>", room);
     let node = room.node;
     return <NodeNetwork node={node} router={router}/>
   }

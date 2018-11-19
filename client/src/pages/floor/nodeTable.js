@@ -11,7 +11,8 @@ import Auth from '../../modules/Auth';
 class NodeTable extends Component {
   render() {
     const { cluster, params, rooms, nodes, addNodeConfig, updateNodeConfig, deleteNodeConfig } = this.props;
-    console.log("here>>>", updateNodeConfig)
+    console.log("here>>>", updateNodeConfig);
+    console.log("nodes is >>>", nodes);
     return (
       <Table celled style={{boxShadow: '2px 3px 4px #666'}}>
         <Table.Header>

@@ -21,12 +21,12 @@ export default class ClusterSummary extends Component {
     this.setState({floorPic});
   }
   render() {
-    const { cluster, rooms, floorStats } = this.props;
+    const { floor, cluster, rooms, floorStats } = this.props;
     return (
       <Card className="centered" style={{boxShadow: '2px 3px 4px #666'}}>
         <Image src={this.state.floorPic} alt="floor picture"/>
         <Card.Content>
-          <Card.Header>Floor # {_.get(cluster, 'floor.floor_number', '')}</Card.Header>
+          <Card.Header>Floor # {floor.floor_number}</Card.Header>
         </Card.Content>
         <Card.Content extra>
           <a>

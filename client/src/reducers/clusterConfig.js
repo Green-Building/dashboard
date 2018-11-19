@@ -12,6 +12,7 @@ import {
 // INITIAL STATE
 //
 const INITIAL_STATE = {
+  floor: {},
   cluster: {},
   floorStats: {},
   nodes: [],
@@ -61,15 +62,19 @@ export const fetchFloorConfig = (floorId) => (dispatch, getState) => {
   }
 
   return client.get(url)
-  .then(cluster => {
-    cluster = cluster.data;
-    if (!cluster.rooms && cluster.floor.rooms) {
-      cluster.rooms = cluster.floor.rooms;
-    }
-    let rooms = cluster.rooms;//cluster.floor.rooms;
-    let nodes = cluster.nodes;
+  .then(response => {
+    let floor = response.data;
+    let cluster = floor.cluster;
+    let rooms = floor.rooms;//cluster.floor.rooms;
+    let nodes = _.compact(floor.nodes);
+    console.log("nodes is >>>", nodes);
+    let sensors = _.compact(floor.sensors);
+    console.log("floor is >>>", floor);
+    _.forEach(nodes, node => {
+      node.sensors = _.filter(sensors, {node_id: node.id}) || {};
+    })
     _.forEach(rooms, room => {
-      room.node = _.find(nodes, {id: room.id}) || {};
+      room.node = _.find(nodes, {room_id: room.id}) || {};
     })
 
     const roomMap = alphabet.reduce((acc, letter1, idx) => {
@@ -86,9 +91,11 @@ export const fetchFloorConfig = (floorId) => (dispatch, getState) => {
       roomMap[i].color = _.get(room.node, 'sensors', []).length;
       roomMap[i].label = room.room_number;
     })
-    console.log("here>>>", cluster, rooms, nodes, roomMap)
+    console.log("here>>>", cluster);
+    console.log("rooms>>>", rooms);
     dispatch({
       type: 'SUCCESS_GET_FLOOR_CONFIG',
+      floor,
       cluster,
       rooms,
       nodes,
@@ -196,7 +203,7 @@ const clusterConfig = (state = INITIAL_STATE, action) => {
   let node, nodeId, nodes;
   switch (action.type) {
     case SUCCESS_GET_FLOOR_CONFIG:
-      return _.assign({}, state, { cluster: action.cluster, rooms: action.rooms, nodes: action.nodes, roomMap: action.roomMap, isLoading: false});
+      return _.assign({}, state, { floor: action.floor, cluster: action.cluster, rooms: action.rooms, nodes: action.nodes, roomMap: action.roomMap, isLoading: false});
     case SUCCESS_GET_FLOOR_STATISTICS:
       return _.assign({}, state, { floorStats: action.floorStats, isLoading: false });
     case SUCCESS_ADD_NODE_CONFIG:

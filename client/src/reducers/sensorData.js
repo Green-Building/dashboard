@@ -93,7 +93,7 @@ export const fetchDevice = (type, id) => (dispatch, getState) => {
 };
 
 function groupSensorData(sensorData) {
-  return _.groupBy(sensorData, 'sensorID');
+  return _.groupBy(sensorData, 'sensorId');
 }
 
 const sensorData = (state = INITIAL_STATE, action) => {

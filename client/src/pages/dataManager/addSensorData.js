@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import moment from 'moment-timezone';
 import CSVReader from 'react-csv-reader';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import { Container, Form, Input, Button, Dropdown, Icon, Segment, Label } from 'semantic-ui-react';
 
 import client from '../../client';
@@ -23,6 +25,29 @@ class AddSensorData extends Component {
     roomId: null,
     floorId: null,
     buildingId: null,
+  }
+
+  componentDidMount() {
+    const { buildingConfig, clusterConfig, nodeConfig, sensorData} = this.props;
+    let buildingId = buildingConfig.building.id;
+    let clusterId = clusterConfig.cluster.id;
+    let floorId = clusterConfig.cluster.floor_id;
+    let nodeId = nodeConfig.node.id;
+    let roomId = nodeConfig.node.room_id;
+    let sensorId;
+    console.log("sensorData.device.device_type>>>", sensorData.device.device_type);
+    if(sensorData.device_type === 'sensor') {
+      sensorId = sensorData.device.id;
+    }
+
+    this.setState({
+      buildingId,
+      clusterId,
+      floorId,
+      roomId,
+      nodeId,
+      sensorId,
+    });
   }
 
   handleUpload = data => {
@@ -126,7 +151,7 @@ class AddSensorData extends Component {
               </Form.Field>
               <Form.Field>
                 <label>Building ID</label>
-                <Input name='buildingId' value={this.state.buildingID} placeholder='Building ID' onChange={this.handleChange} />
+                <Input name='buildingId' value={this.state.buildingId} placeholder='Building ID' onChange={this.handleChange} />
               </Form.Field>
             </Form.Group>
             <Form.Field control={Button}>Submit</Form.Field>
@@ -152,5 +177,19 @@ class AddSensorData extends Component {
     )
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    buildingConfig: state.buildingConfig,
+    clusterConfig: state.clusterConfig,
+    nodeConfig: state.nodeConfig,
+    sensorData: state.sensorData,
+  };
+};
+
+AddSensorData = withRouter(connect(
+  mapStateToProps,
+  null
+)(AddSensorData));
 
 export default AddSensorData;

@@ -1,4 +1,6 @@
+const _ = require('lodash');
 const request = require('request-promise');
+const moment = require('moment-timezone');
 const INFRA_MANAGER_HOST = 'http://localhost:3006';
 const DATA_MANAGER_HOST = 'http://localhost:8080';
 const SIMULATOR_HOST = 'http://localhost:8080';
@@ -224,19 +226,38 @@ const deleteSensorData = (req, res) => {
 }
 
 const searchSensorData = (req, res) => {
+  const { startTime, endTime } = req.query;
+  let requestOptions = {};
+  requestOptions.qs = {
+    startTime,
+    endTime
+  }
+
   const { sensor_id } = req.params;
-  req.pipe(request.get(`${DATA_MANAGER_HOST}/sensor_data/sensor/${sensor_id}`)).pipe(res);
+  req.pipe(request.get(`${DATA_MANAGER_HOST}/sensor_data/sensor/${sensor_id}`, requestOptions)).pipe(res);
 }
 
 const searchSensorDataByCluster = (req, res) => {
+  const { startTime, endTime } = req.query;
   const { cluster_id } = req.params;
-  req.pipe(request.get(`${DATA_MANAGER_HOST}/sensor_data/cluster/${cluster_id}`)).pipe(res);
+  let requestOptions = {};
+  requestOptions.qs = {
+    startTime,
+    endTime,
+  }
+  req.pipe(request.get(`${DATA_MANAGER_HOST}/sensor_data/cluster/${cluster_id}`, requestOptions)).pipe(res);
 }
 
 
 const searchSensorDataByNode = (req, res) => {
+  const { startTime, endTime } = req.query;
   const { node_id } = req.params;
-  req.pipe(request.get(`${DATA_MANAGER_HOST}/sensor_data/node/${node_id}`)).pipe(res);
+  let requestOptions = {};
+  requestOptions.qs = {
+    startTime,
+    endTime,
+  }
+  req.pipe(request.get(`${DATA_MANAGER_HOST}/sensor_data/node/${node_id}`, requestOptions)).pipe(res);
 }
 
 module.exports = {

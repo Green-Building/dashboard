@@ -70,7 +70,7 @@ class AddSensorData extends Component {
       seriesNum: this.state.seriesNum,
       data: +this.state.data,
       type: this.state.type,
-      date: moment(this.state.date).tz(tz).format("ddd MMM DD hh:mm:ss zz YYYY"),
+      date: new Date(this.state.date).toISOString(),
       nodeId: this.state.nodeId,
       clusterId: this.state.clusterId,
       roomId: this.state.roomId,

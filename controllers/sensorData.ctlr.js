@@ -2,10 +2,10 @@ const _ = require('lodash');
 const { SensorData2 } = require('../mongoModels/SensorData');
 
 const insertSensorData = (req, res) => {
-  const sensorData = req.body.data;
+  const sensorData = req.body;
 
   console.log("sensorData is >>>", sensorData);
-  sensorData.timeStamp = new Date(sensorData.timeStamp);
+  sensorData.date = new Date(sensorData.date);
   return SensorData2.create(sensorData)
   .then(response => {
     console.log("insert sensor data successful>>", response);
@@ -17,9 +17,9 @@ const insertSensorData = (req, res) => {
 };
 
 const bulkInsertSensorData = (req, res) => {
-  const sensorData = req.body.data;
+  const sensorData = req.body;
   _.forEach(sensorData, datum => {
-    datum.timeStamp = new Date(datum.timeStamp)
+    datum.date = new Date(datum.date)
   });
   console.log("sensorData is >>>", sensorData);
 
@@ -35,12 +35,11 @@ const bulkInsertSensorData = (req, res) => {
 
 const searchSensorData = (req, res) => {
   let { startTime, endTime } = req.query;
-  let { sensor_id: sensorID } = req.params;
-  console.log("startTime>>>", startTime, endTime, sensorID);
-  sensorID = String(sensorID);
+  let { sensor_id: sensorId } = req.params;
+  console.log("startTime>>>", startTime, endTime);
   let query = {
-    sensorID,
-    timeStamp: {
+    sensorId,
+    date: {
       $gte: new Date(startTime),
       $lte: new Date(endTime),
     }
@@ -59,11 +58,10 @@ const searchSensorData = (req, res) => {
 
 const searchSensorDataByCluster = (req, res) => {
   let { startTime, endTime } = req.query;
-  let { cluster_id: clusterID } = req.params;
-  clusterID = String(clusterID);
+  let { cluster_id: clusterId } = req.params;
   let query = {
-    clusterID,
-    timeStamp: {
+    clusterId,
+    date: {
       $gte: new Date(startTime),
       $lte: new Date(endTime),
     }
@@ -82,11 +80,10 @@ const searchSensorDataByCluster = (req, res) => {
 
 const searchSensorDataByNode = (req, res) => {
   let { startTime, endTime } = req.query;
-  let { node_id: nodeID } = req.params;
-  nodeID = String(nodeID);
+  let { node_id: nodeId } = req.params;
   let query = {
-    nodeID,
-    timeStamp: {
+    nodeId,
+    date: {
       $gte: new Date(startTime),
       $lte: new Date(endTime),
     }

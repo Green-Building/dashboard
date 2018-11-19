@@ -5,44 +5,44 @@ const Schema = mongoose.Schema;
 
 // Define Article schema
 const SensorDataSchema = new Schema({
-  sensorID: {
-    type: String,
-    required: true,
+  sensorId: {
+    type: Number,
   },
   unit: {
     type: String,
     required: true,
   },
+  model: {
+    type: String,
+  },
+  seriesNum:{
+    type: String,
+  },
   data: {
     type: Number,
+    required: true,
+  },
+  type: {
+    type: String,
   },
   date: {
     type: Date,
     default: Date.now,
   },
-  timeStamp: {
-    type: Date,
-    default: Date.now,
+  nodeId: {
+    type: Number,
   },
-  clusterID: {
-    type: String,
-    required: true,
+  clusterId: {
+    type: Number,
   },
-  roomID: {
-    type: String,
-    required: true,
+  roomId: {
+    type: Number,
   },
-  floor: {
-    type: String,
-    required: true,
+  floorId: {
+    type: Number,
   },
-  buildingID: {
-    type: String,
-    required: true,
-  },
-  zipcode: {
-    type: String,
-    required: true,
+  buildingId: {
+    type: Number,
   }
 });
 

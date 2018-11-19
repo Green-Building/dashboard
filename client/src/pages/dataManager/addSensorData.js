@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import client from '../../client';
+import moment from 'moment-timezone';
 import CSVReader from 'react-csv-reader';
 import { Container, Form, Input, Button, Dropdown, Icon, Segment, Label } from 'semantic-ui-react';
 
+import client from '../../client';
 import {
   DATA_MANAGER_HOST
 } from '../../api-config';
@@ -10,15 +11,18 @@ import {
 class AddSensorData extends Component {
   state = {
     sensorData: null,
-    sensorID: null,
+    sensorId: null,
     unit: null,
+    model: null,
+    seriesNum: null,
     data: null,
-    timeStamp: null,
-    clusterID: null,
-    floor: null,
-    roomID: null,
-    buildingID: null,
-    zipcode: null,
+    type: null,
+    date: null,
+    nodeId: null,
+    clusterId: null,
+    roomId: null,
+    floorId: null,
+    buildingId: null,
   }
 
   handleUpload = data => {
@@ -32,20 +36,20 @@ class AddSensorData extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-
+    const tz = moment.tz.guess();
     return client.post(`${DATA_MANAGER_HOST}/sensor-data/add`, {
-      data: {
-        sensorID: this.state.sensorID,
-        unit: this.state.unit,
-        data: +this.state.data,
-        timeStamp: new Date(this.state.timeStamp),
-        date: new Date(this.state.timeStamp),
-        clusterID: this.state.clusterID,
-        floor: this.state.floor,
-        roomID: this.state.roomID,
-        buildingID: this.state.buildingID,
-        zipcode: this.state.zipcode,
-      }
+      sensorId: this.state.sensorId,
+      unit: this.state.unit,
+      model: this.state.model,
+      seriesNum: this.state.seriesNum,
+      data: +this.state.data,
+      type: this.state.type,
+      date: moment(this.state.date).tz(tz).format("ddd MMM DD hh:mm:ss zz YYYY"),
+      nodeId: this.state.nodeId,
+      clusterId: this.state.clusterId,
+      roomId: this.state.roomId,
+      floorId: this.state.floorId,
+      buildingId: this.state.buildingId,
     })
     .then(response => {
       console.log("response from adding sensor data is >>>", response);
@@ -58,9 +62,7 @@ class AddSensorData extends Component {
   handleBulkSubmit = (event) => {
     event.preventDefault();
 
-    return client.post(`${DATA_MANAGER_HOST}/sensor-data/bulk-add`, {
-      data: this.state.sensorData,
-    })
+    return client.post(`${DATA_MANAGER_HOST}/sensor-data/bulk-add`, this.state.sensorData)
     .then(response => {
       console.log("response from adding sensor data is >>>", response);
     })
@@ -84,32 +86,47 @@ class AddSensorData extends Component {
                 <Input name='data' value={this.state.data} placeholder='Data' onChange={this.handleChange} />
               </Form.Field>
               <Form.Field>
-                <label>Timestamp</label>
-                <Input name='timeStamp' value={this.state.timeStamp} type='datetime-local' placeholder='Timestamp' onChange={this.handleChange} />
+                <label>Date</label>
+                <Input name='date' value={this.state.date} type='datetime-local' placeholder='Date' onChange={this.handleChange} />
+              </Form.Field>
+            </Form.Group>
+            <Form.Group widths='equal'>
+              <Form.Field>
+                <label>Model</label>
+                <Input name='model' value={this.state.model} placeholder='Model' onChange={this.handleChange} />
+              </Form.Field>
+              <Form.Field>
+                <label>Series Number</label>
+                <Input name='seriesNum' value={this.state.seriesNum} placeholder='Series Number' onChange={this.handleChange} />
+              </Form.Field>
+              <Form.Field>
+                <label>Type</label>
+                <Input name='type' value={this.state.type}  placeholder='type' onChange={this.handleChange} />
               </Form.Field>
             </Form.Group>
             <Form.Group widths='equal'>
               <Form.Field>
                 <label>Sensor ID</label>
-                <Input name='sensorID' value={this.state.sensorID} placeholder='Sensor ID' onChange={this.handleChange} />
+                <Input name='sensorId' value={this.state.sensorId} placeholder='Sensor ID' onChange={this.handleChange} />
               </Form.Field>
               <Form.Field>
                 <label>Cluster ID</label>
-                <Input name='clusterID' value={this.state.clusterID} placeholder='Cluster ID' onChange={this.handleChange} />
+                <Input name='clusterId' value={this.state.clusterId} placeholder='Cluster ID' onChange={this.handleChange} />
               </Form.Field>
-              <Form.Field>
-                <label>Room ID</label>
-                <Input name='roomID' value={this.state.roomID} placeholder='Room ID' onChange={this.handleChange} />
-              </Form.Field>
+
             </Form.Group>
             <Form.Group widths='equal'>
               <Form.Field>
-                <label>Building ID</label>
-                <Input name='buildingID' value={this.state.buildingID} placeholder='Building ID' onChange={this.handleChange} />
+                <label>Room ID</label>
+                <Input name='roomId' value={this.state.roomId} placeholder='Room ID' onChange={this.handleChange} />
               </Form.Field>
               <Form.Field>
-                <label>Zipcode</label>
-                <Input name='zipcode' value={this.state.zipcode} placeholder='Zipcode' onChange={this.handleChange} />
+                <label>Floor ID</label>
+                <Input name='floorId' value={this.state.floorId} placeholder='Floor ID' onChange={this.handleChange} />
+              </Form.Field>
+              <Form.Field>
+                <label>Building ID</label>
+                <Input name='buildingId' value={this.state.buildingID} placeholder='Building ID' onChange={this.handleChange} />
               </Form.Field>
             </Form.Group>
             <Form.Field control={Button}>Submit</Form.Field>
@@ -126,8 +143,9 @@ class AddSensorData extends Component {
               />
             </Form.Field>
           </Form.Group>
-
-            <Form.Button type="submit" color='green'><Icon name='upload' />Upload</Form.Button>
+            {this.state.sensorData &&
+              <Form.Button type="submit" color='green'><Icon name='upload' />Upload</Form.Button>
+            }
           </Form>
         </Segment>
       </Container>

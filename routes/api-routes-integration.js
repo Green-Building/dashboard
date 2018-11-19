@@ -24,4 +24,10 @@ router
   .put('/sensors/:sensor_id', forwardingConfig.updateSensor)
   .delete('/sensors/:sensor_id', forwardingConfig.deleteSensor)
 
+  .post('/sensor_data', forwardingConfig.bulkInsertSensorData)
+  .delete('/sensor_data/:id', forwardingConfig.deleteSensorData)
+  .get('/sensor_data/sensor/:sensor_id', forwardingConfig.searchSensorData)
+  .get('/sensor_data/cluster/:cluster_id', forwardingConfig.searchSensorDataByCluster)
+  .get('/sensor_data/node/:node_id', forwardingConfig.searchSensorDataByNode)
+
 module.exports = router;

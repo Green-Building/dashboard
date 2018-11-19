@@ -1,5 +1,5 @@
 const request = require('request-promise');
-const INFRA_MANAGER_HOST = 'http://localhost:8080';
+const INFRA_MANAGER_HOST = 'http://localhost:3006';
 const DATA_MANAGER_HOST = 'http://localhost:8080';
 const SIMULATOR_HOST = 'http://localhost:8080';
 
@@ -204,6 +204,41 @@ const deleteSensor = (req, res) => {
   req.pipe(request.delete(`${INFRA_MANAGER_HOST}/sensors/${sensor_id}`)).pipe(res);
 }
 
+const bulkInsertSensorData = (req, res) => {
+  let sensorData = req.body;
+  const options = {
+    json: sensorData
+  };
+  return request.post(`${DATA_MANAGER_HOST}/sensor_data`, options)
+  .then(response => {
+    res.json(response);
+  })
+  .catch(err => {
+    console.log("error bulk upserting sensor data>>>", err);
+  })
+}
+
+const deleteSensorData = (req, res) => {
+  const { id } = req.params;
+  req.pipe(request.delete(`${DATA_MANAGER_HOST}/sensor_data/${id}`)).pipe(res);
+}
+
+const searchSensorData = (req, res) => {
+  const { sensor_id } = req.params;
+  req.pipe(request.get(`${DATA_MANAGER_HOST}/sensor_data/sensor/${sensor_id}`)).pipe(res);
+}
+
+const searchSensorDataByCluster = (req, res) => {
+  const { cluster_id } = req.params;
+  req.pipe(request.get(`${DATA_MANAGER_HOST}/sensor_data/cluster/${cluster_id}`)).pipe(res);
+}
+
+
+const searchSensorDataByNode = (req, res) => {
+  const { node_id } = req.params;
+  req.pipe(request.get(`${DATA_MANAGER_HOST}/sensor_data/node/${node_id}`)).pipe(res);
+}
+
 module.exports = {
   getBuilding,
   searchBuildingByCity,
@@ -223,4 +258,9 @@ module.exports = {
   addSensor,
   updateSensor,
   deleteSensor,
+  bulkInsertSensorData,
+  deleteSensorData,
+  searchSensorData,
+  searchSensorDataByCluster,
+  searchSensorDataByNode,
 };

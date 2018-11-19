@@ -22,7 +22,8 @@ class AddClusterModal extends Component {
   event.preventDefault();
     const { params, floor, addClusterConfig } = this.props;
     const building_id = +params.building_id;
-    let newClusterData = _.assign({}, this.state.cluster, { building_id, floor_id: floor.id });
+    let cluster = this.state.cluster;
+    let newClusterData = _.assign({}, cluster, { building_id, floor_id: floor.id });
     console.log("newClusterData is>>>", newClusterData);
     return addClusterConfig(newClusterData);
   }
@@ -42,6 +43,12 @@ class AddClusterModal extends Component {
                 <Form.Field>
                   <label>Status</label>
                   <Input name='status' placeholder='Status' value={this.state.cluster.status} onChange={this.handleChange} />
+                </Form.Field>
+              </Form.Group>
+              <Form.Group>
+                <Form.Field>
+                  <label>Series Number</label>
+                  <Input name='series_number' placeholder='Series Number' value={this.state.cluster.series_number} onChange={this.handleChange} />
                 </Form.Field>
               </Form.Group>
               <Form.Field control={Button}>Submit</Form.Field>

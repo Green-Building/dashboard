@@ -21,7 +21,8 @@ class AddSensorModal extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const { addSensorConfig, node } = this.props;
-
+    let sensor = this.state.sensor;
+    //sensor.install_time = new Date(sensor.install_time).toISOString();
     let newSensorData = _.assign({}, this.state.sensor, { node_id: node.id, cluster_id: node.cluster_id});
     console.log("newSensorData is>>>", newSensorData);
     return addSensorConfig(newSensorData);
@@ -46,6 +47,12 @@ class AddSensorModal extends Component {
                 <Form.Field>
                   <label>Status</label>
                   <Input name='status' placeholder='Status' value={this.state.sensor.status} onChange={this.handleChange} />
+                </Form.Field>
+              </Form.Group>
+              <Form.Group>
+                <Form.Field>
+                  <label>Series Number</label>
+                  <Input name='series_number' placeholder='Series Number' value={this.state.sensor.series_number} onChange={this.handleChange} />
                 </Form.Field>
               </Form.Group>
               <Form.Field control={Button}>Submit</Form.Field>

@@ -23,8 +23,9 @@ class AddNodeModal extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const { params, cluster, addNodeConfig, rooms } = this.props;
-
-    let newNodeData = _.assign({}, this.state.node, { cluster_id: cluster.id});
+    let node = this.state.node;
+    //node.install_time = new Date(node.install_time).toISOString();
+    let newNodeData = _.assign({}, node, { cluster_id: cluster.id});
     return addNodeConfig(newNodeData);
   }
   render() {
@@ -60,6 +61,12 @@ class AddNodeModal extends Component {
                 <Form.Field>
                   <label>Status</label>
                   <Input name='status' placeholder='Status' value={this.state.node.status} onChange={this.handleChange} />
+                </Form.Field>
+              </Form.Group>
+              <Form.Group>
+                <Form.Field>
+                  <label>Series Number</label>
+                  <Input name='series_number' placeholder='Series Number' value={this.state.node.series_number} onChange={this.handleChange} />
                 </Form.Field>
               </Form.Group>
               <Form.Field control={Button}>Submit</Form.Field>

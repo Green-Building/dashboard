@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Link, IndexLink } from 'react-router';
 import { Menu, Button } from 'semantic-ui-react';
 

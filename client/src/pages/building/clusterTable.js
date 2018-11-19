@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import _ from 'lodash';
 import { Link } from 'react-router';
 import { Table, Label, Icon } from 'semantic-ui-react';

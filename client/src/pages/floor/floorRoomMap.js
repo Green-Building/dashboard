@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
 import _ from 'lodash';
 import { scaleLinear } from 'd3-scale';
 import {XYPlot, XAxis, YAxis, HeatmapSeries, LabelSeries} from 'react-vis';

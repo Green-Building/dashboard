@@ -21,7 +21,7 @@ export default class ClusterSummary extends Component {
     this.setState({floorPic});
   }
   render() {
-    const { cluster, nodes, rooms, floorStats } = this.props;
+    const { cluster, rooms, floorStats } = this.props;
     return (
       <Card className="centered" style={{boxShadow: '2px 3px 4px #666'}}>
         <Image src={this.state.floorPic} alt="floor picture"/>

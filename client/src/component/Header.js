@@ -12,7 +12,12 @@ export default ({ children }) => {
           <Menu.Item position="left">
             <IndexLink to="/">Home</IndexLink>
           </Menu.Item>
-          { Auth.getUser()!=='client' &&
+          { Auth.getUser()!=='client' ?
+            <Fragment>
+              <Menu.Item position="left">
+                <Link>Client</Link>
+              </Menu.Item>
+            </Fragment>
             <Fragment>
               <Menu.Item position="left">
                 <Link to="/infra-manager">Infra Manager</Link>

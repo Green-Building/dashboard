@@ -54,16 +54,18 @@ class sensorStats extends Component {
             </Grid.Column>
           </Grid.Row>
         </Grid>
-        <Grid columns={2} celled className="gb-container">
-          <Grid.Row>
-            <Grid.Column width={8}>
-              <AreaChart />
-            </Grid.Column>
-            <Grid.Column width={8}>
-              <BarChart />
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
+        {sensorData.data &&
+          <Grid columns={2} celled className="gb-container">
+            <Grid.Row>
+              <Grid.Column width={8}>
+                <AreaChart />
+              </Grid.Column>
+              <Grid.Column width={8}>
+                <BarChart />
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+        }
         <Grid columns={1} celled  className="gb-container">
           <Grid.Row>
             <Grid.Column width={16}>

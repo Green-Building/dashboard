@@ -14,28 +14,16 @@ module.exports = {
     */
     return queryInterface.bulkInsert('cluster', [
       {
-        floor_id: 1,
-        name: "cluster floor 2 SJSU",
+        floor_id: 4,
+        name: "cluster 1",
         status: "active",
         building_id: 1,
       },
       {
-        floor_id: 2,
-        name: "cluster floor 3 SJSU",
+        floor_id: 5,
+        name: "cluster 2",
         status: "inactive",
         building_id: 1,
-      },
-      {
-        floor_id: 3,
-        name: "cluster floor 7 SJSU",
-        status: "active",
-        building_id: 1,
-      },
-      {
-        floor_id: 4,
-        name: "cluster floor 2 SCU",
-        status: "active",
-        building_id: 2,
       },
     ], {});
   },

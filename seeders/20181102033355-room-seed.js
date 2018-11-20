@@ -14,24 +14,49 @@ module.exports = {
     */
     return queryInterface.bulkInsert('room', [
       {
-        room_number: '202',
-        building_id:1,
-        floor_id: 1,
-      },
-      {
-        room_number: '291',
-        building_id:1,
-        floor_id: 1,
-      },
-      {
-        room_number: '705',
-        building_id:1,
-        floor_id: 3,
-      },
-      {
-        room_number: '30A',
+        room_number: '101',
         building_id:2,
         floor_id: 4,
+      },
+      {
+        room_number: '102',
+        building_id:2,
+        floor_id: 4,
+      },
+      {
+        room_number: '103',
+        building_id:2,
+        floor_id: 4,
+      },
+      {
+        room_number: '104',
+        building_id:2,
+        floor_id: 4,
+      },
+      {
+        room_number: '105',
+        building_id:2,
+        floor_id: 4,
+      },
+      {
+        room_number: '106',
+        building_id:2,
+        floor_id: 4,
+      },
+      {
+        room_number: '107',
+        building_id:2,
+        floor_id: 4,
+      },
+      {
+        room_number: '201',
+        building_id:2,
+        floor_id: 5,
+      },
+      {
+        room_number: '202',
+        building_id:2,
+        floor_id: 5,
       },
     ], {});
   },

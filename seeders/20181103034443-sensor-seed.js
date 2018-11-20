@@ -14,75 +14,33 @@ module.exports = {
     */
     return queryInterface.bulkInsert('sensor', [
       {
-        name: "temperature sensor from node room 202 floor 2 SJSU",
+        name: "temperature sensor",
         status: "active",
         type: "temperature",
         node_id: 1,
         cluster_id: 1,
       },
       {
-        name: "motion sensor from node room 202 floor 2 SJSU",
+        name: "motion sensor",
         status: "active",
         type: "motion",
         node_id: 1,
         cluster_id: 1,
       },
       {
-        name: "light sensor from node room 202 floor 2 SJSU",
+        name: "light sensor",
         status: "maintenance",
         type: "light",
         node_id: 1,
         cluster_id: 1,
       },
       {
-        name: "motion sensor from node room 291 floor 2 SJSU",
-        status: "inactive",
-        type: "motion",
+        name: "temperature sensor",
+        status: "maintenance",
+        type: "temperature",
         node_id: 2,
         cluster_id: 1,
-      },
-      {
-        name: "light sensor from node room 291 floor 2 SJSU",
-        status: "active",
-        type: "light",
-        node_id: 2,
-        cluster_id: 1,
-      },
-      {
-        name: "light sensor from node room 705 floor 7 SJSU",
-        status: "active",
-        type: "light",
-        node_id: 3,
-        cluster_id: 3,
-      },
-      {
-        name: "temperature sensor from node room 705 floor 7 SJSU",
-        status: "active",
-        type: "temperature",
-        node_id: 3,
-        cluster_id: 3,
-      },
-      {
-        name: "motion sensor from node room 30A floor 3 SCU",
-        status: "active",
-        type: "motion",
-        node_id: 4,
-        cluster_id: 4,
-      },
-      {
-        name: "light sensor from node room 30A floor 3 SCU",
-        status: "turn-on",
-        type: "light",
-        node_id: 4,
-        cluster_id: 4,
-      },
-      {
-        name: "temperature sensor from node room 30A floor 3 SCU",
-        status: "active",
-        type: "temperature",
-        node_id: 4,
-        cluster_id: 4,
-      },
+      }
     ], {});
   },
 

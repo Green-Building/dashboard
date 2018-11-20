@@ -19,15 +19,55 @@ module.exports = {
       },
       {
         building_id: 1,
-        floor_number: 3,
+        floor_number: 2,
       },
       {
         building_id: 1,
-        floor_number: 7,
+        floor_number: 3,
+      },
+      {
+        building_id: 2,
+        floor_number: 1,
+      },
+      {
+        building_id: 2,
+        floor_number: 2,
       },
       {
         building_id: 2,
         floor_number: 3,
+      },
+      {
+        building_id: 2,
+        floor_number: 4,
+      },
+      {
+        building_id: 2,
+        floor_number: 5,
+      },
+      {
+        building_id: 2,
+        floor_number: 6,
+      },
+      {
+        building_id: 2,
+        floor_number: 7,
+      },
+      {
+        building_id: 3,
+        floor_number: 1,
+      },
+      {
+        building_id: 3,
+        floor_number: 2,
+      },
+      {
+        building_id: 3,
+        floor_number: 3,
+      },
+      {
+        building_id: 3,
+        floor_number: 4,
       },
     ], {});
   },

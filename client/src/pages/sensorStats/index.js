@@ -40,7 +40,7 @@ class sensorStats extends Component {
               <LineChart sensorData={sensorData} />
             </Grid.Column>
             <Grid.Column width={8}>
-              <BarChart />
+              <ScatterChart sensorData={sensorData} />
             </Grid.Column>
           </Grid.Row>
         </Grid>
@@ -60,7 +60,7 @@ class sensorStats extends Component {
               <AreaChart />
             </Grid.Column>
             <Grid.Column width={8}>
-              <ScatterChart />
+              <BarChart />
             </Grid.Column>
           </Grid.Row>
         </Grid>

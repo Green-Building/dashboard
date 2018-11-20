@@ -22,7 +22,7 @@ const MapWithASearchBox = compose(
   withProps({
     googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyBR8audAZcde2CziPeIvxy5n75kvGst41k&v=3.exp&libraries=geometry,drawing,places",
     loadingElement: <div style={{ height: `100%` }} />,
-    containerElement: <div style={{ height: `600px` }} />,
+    containerElement: <div style={{ height: `540px` }} />,
     mapElement: <div style={{ height: `100%` }} />,
   }),
   lifecycle({
@@ -168,10 +168,12 @@ const MapWithASearchBox = compose(
             <label>Default Radius</label>
             <Input name='radius' value={props.radius} placeholder='Radius' onChange={props.onFormUpdate} />
           </Form.Field>
+          <Form.Field>
+            <label>Submit</label>
+            <Button type="submit">Submit</Button>
+          </Form.Field>
         </Form.Group>
-        <Form.Field control={Button}>Submit</Form.Field>
       </Form>
-
     </Grid.Row>
     <Grid.Row>
       <GoogleMap

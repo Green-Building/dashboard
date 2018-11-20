@@ -110,15 +110,16 @@ export const addClusterConfig = (newClusterData) => (dispatch, getState) => {
   return client.post(`${INFRA_MANAGER_HOST}/clusters`, newClusterData)
   .then(
     response => {
+      console.log("response from adding cluster is >>>", cluster);
       let cluster = response.data;
       dispatch({
-        type: 'SUCCESS_ADD_CLUSTER_CONFIG',
+        type: SUCCESS_ADD_CLUSTER_CONFIG,
         cluster,
       });
     },
     error => {
       dispatch({
-        type: 'ERROR_ADD_CLUSTER_CONFIG',
+        type: ERROR_ADD_CLUSTER_CONFIG,
         message: error.message || 'Something went wrong.',
       });
     }
@@ -181,6 +182,8 @@ const buildingConfig = (state = INITIAL_STATE, action) => {
     case SUCCESS_GET_BUILDING_STATISTICS:
       return _.assign({}, state, {buildingStats: action.buildingStats, isLoading: false});
     case SUCCESS_ADD_CLUSTER_CONFIG:
+      console.log("here>>>", state);
+      console.log("here>>>", action);
       cluster = action.cluster;
       floors = state.floors;
       floor = _.find(floors, {id: cluster.floor_id});

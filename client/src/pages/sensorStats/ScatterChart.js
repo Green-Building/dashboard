@@ -1,39 +1,48 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
+import moment from 'moment';
 import { ScatterChart, Scatter, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
-const data01 = [
-  {x: 100, y: 200, z: 200},
-  {x: 120, y: 100, z: 260},
-  {x: 170, y: 300, z: 400},
-  {x: 140, y: 250, z: 280},
-  {x: 150, y: 400, z: 500},
-  {x: 110, y: 280, z: 200},
-];
-const data02 = [
-  {x: 300, y: 300, z: 200},
-  {x: 400, y: 500, z: 260},
-  {x: 200, y: 700, z: 400},
-  {x: 340, y: 350, z: 280},
-  {x: 560, y: 500, z: 500},
-  {x: 230, y: 780, z: 200},
-  {x: 500, y: 400, z: 200},
-  {x: 300, y: 500, z: 260},
-  {x: 240, y: 300, z: 400},
-  {x: 320, y: 550, z: 280},
-  {x: 500, y: 400, z: 500},
-  {x: 420, y: 280, z: 200},
-];
+import { getRandomColor, getRandomShape } from '../../utils';
+
 export default class ScatterrChart extends Component {
 	render () {
+    const { sensorData } = this.props;
+    const data = sensorData.data;
+    console.log("data is>>>", data);
+    let mData = {};
+    _.forEach(data, (value, key) => {
+      mData[key] = [];
+    });
+    let minTime = moment().valueOf();
+    let maxTime = 0;
+    _.forEach(data, (values, key) => {
+      _.forEach(values, value => {
+        let time = moment(value.date).valueOf();
+        mData[key].push(
+          {
+            time: time,
+            y: value.data
+          }
+        );
+        if(time < minTime ) {
+          minTime = time;
+        }
+        if( time > maxTime) {
+          maxTime = time;
+        }
+      })
+    });
   	return (
-    	<ScatterChart width={500} height={400} margin={{top: 20, right: 20, bottom: 20, left: 20}}>
-      	<XAxis type="number" dataKey={'x'} name='stature' unit='cm'/>
+    	<ScatterChart width={500} height={350} margin={{top: 20, right: 20, bottom: 20, left: 20}}>
       	<CartesianGrid />
-      	<YAxis yAxisId="left" type="number" dataKey="y" name='weight' unit='kg' stroke="#8884d8" />
-        <YAxis yAxisId="right" type="number" dataKey="y" name='weight' unit='kg' orientation="right" stroke="#82ca9d"/>
+        <XAxis type="number" dataKey={'time'} name='time' tickFormatter={v => moment(v).format('YY-MM-DD hh:ss')} domain={[minTime, maxTime ]} angle={-45} />
+      	<YAxis type="number" dataKey={'y'} name='data'/>
       	<Tooltip cursor={{strokeDasharray: '3 3'}}/>
-        <Scatter yAxisId="left" name='A school' data={data01} fill='#8884d8'/>
-        <Scatter yAxisId="right" name='A school' data={data02} fill='#82ca9d'/>
+        <Legend verticalAlign="top" formatter={this.formatTime} />
+        {_.map(mData, (s, key) => (
+          <Scatter name={key} data={s} fill={getRandomColor()} shape={getRandomShape()} />
+        ))}
       </ScatterChart>
     );
   }

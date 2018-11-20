@@ -62,6 +62,11 @@ class Signup extends Component {
         text: "Infrastructure Manager",
       },
       {
+        key: "Maintenance People",
+        value: "maintenance",
+        text: "Maintenance People",
+      },
+      {
         key: "Client",
         value: "client",
         text: "Client",

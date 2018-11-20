@@ -190,11 +190,11 @@ const MapWithASearchBox = compose(
         >
           <Input
             type="text"
-            placeholder="Customized your placeholder"
+            placeholder={`Search green building within ${props.radius} miles`}
             style={{
               boxSizing: `border-box`,
               border: `1px solid transparent`,
-              width: `240px`,
+              width: `300px`,
               height: `32px`,
               marginTop: `27px`,
               padding: `0 12px`,

@@ -17,13 +17,19 @@ module.exports = {
         floor_id: 4,
         name: "cluster 1",
         status: "active",
-        building_id: 1,
+        building_id: 2,
       },
       {
         floor_id: 5,
         name: "cluster 2",
         status: "inactive",
-        building_id: 1,
+        building_id: 2,
+      },
+      {
+        floor_id: 6,
+        name: "cluster 3",
+        status: "active",
+        building_id: 2,
       },
     ], {});
   },

@@ -54,7 +54,7 @@ class sensorStats extends Component {
             </Grid.Column>
           </Grid.Row>
         </Grid>
-        {sensorData.data &&
+        {sensorData.data.length > 0 &&
           <Grid columns={2} celled className="gb-container">
             <Grid.Row>
               <Grid.Column width={8}>

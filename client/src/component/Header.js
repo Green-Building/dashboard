@@ -22,7 +22,6 @@ export default ({ children }) => {
               </Menu.Item>
             </Fragment>
           }
-
           <Menu.Item position="right">
             <Link to="/logout"><Button primary>Logout</Button></Link>
           </Menu.Item>

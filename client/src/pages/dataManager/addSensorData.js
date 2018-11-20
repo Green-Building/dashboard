@@ -97,7 +97,7 @@ class AddSensorData extends Component {
       d.floorId = +d.floorId;
       d.buildingId = +d.buildingId;
       d.data = +d.data;
-      d.date = moment(d.date).tz(tz).format("ddd MMM DD hh:mm:ss zz YYYY");
+      d.date = new Date(d.date).toISOString();
     })
     return client.post(`${DATA_MANAGER_HOST}/sensor_data`, this.state.sensorData)
     .then(response => {

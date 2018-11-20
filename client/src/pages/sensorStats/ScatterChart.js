@@ -8,8 +8,7 @@ import { getRandomColor, getRandomShape } from '../../utils';
 export default class ScatterrChart extends Component {
 	render () {
     const { sensorData } = this.props;
-    const data = sensorData.data;
-    console.log("data is>>>", data);
+    let data = sensorData.data;
     let mData = {};
     _.forEach(data, (value, key) => {
       mData[key] = [];

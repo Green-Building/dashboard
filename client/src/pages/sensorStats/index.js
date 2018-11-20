@@ -21,7 +21,8 @@ class sensorStats extends Component {
     this.props.fetchDevice(type, id);
   }
   render() {
-    const { sensorData, params, deleteSensorData } = this.props;
+    const { data, sensorData, params, deleteSensorData } = this.props;
+    console.log("sensorData is >>", data);
     return (
       <Container>
         <Grid columns={2} celled className="gb-container">
@@ -54,18 +55,16 @@ class sensorStats extends Component {
             </Grid.Column>
           </Grid.Row>
         </Grid>
-        {sensorData.data.length > 0 &&
-          <Grid columns={2} celled className="gb-container">
-            <Grid.Row>
-              <Grid.Column width={8}>
-                <AreaChart />
-              </Grid.Column>
-              <Grid.Column width={8}>
-                <BarChart />
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
-        }
+        <Grid columns={2} celled className="gb-container">
+          <Grid.Row>
+            <Grid.Column width={8}>
+              <AreaChart />
+            </Grid.Column>
+            <Grid.Column width={8}>
+              <BarChart />
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
         <Grid columns={1} celled  className="gb-container">
           <Grid.Row>
             <Grid.Column width={16}>
@@ -80,7 +79,8 @@ class sensorStats extends Component {
 
 const mapStateToProps = state => {
   return {
-    sensorData: state.sensorData
+    sensorData: state.sensorData,
+    data: state.sensorData.data
   };
 };
 

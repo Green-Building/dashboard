@@ -46,7 +46,7 @@ export default class SensorDataTable extends Component {
         { Auth.getUser()!=='client' &&
           <Table.Row>
             <Table.Cell colSpan='4'>
-              <Link to={`/sensor-data-manager?sensor_id=${sensorId}`}><Button>Add Sensor Data</Button></Link>
+              <Link to={`/sensor-data-manager`}><Button>Add Sensor Data</Button></Link>
             </Table.Cell>
           </Table.Row>
         }

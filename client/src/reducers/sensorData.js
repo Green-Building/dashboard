@@ -130,6 +130,12 @@ const sensorData = (state = INITIAL_STATE, action) => {
       let groupedSensorData = groupSensorData(action.result);
       return _.assign({}, state, { data: groupedSensorData, isLoading: false });
     case SUCCESS_DEVICE:
+      let device = action.device;
+      if (action.device_type === 'cluster' && device.sensors) {
+        _.forEach(device.nodes, node => {
+          node.sensors = _.filter(device.sensors, {node_id: node.id});
+        })
+      }
       return _.assign({}, state, { device: action.device, device_type: action.device_type });
     case SUCCESS_DELETE_SENSOR_DATA:
       let data = state.data;

@@ -63,16 +63,25 @@ export const fetchFloorConfig = (floorId) => (dispatch, getState) => {
 
   return client.get(url)
   .then(response => {
-    let floor = response.data;
-    let cluster = floor.cluster;
-    let rooms = floor.rooms;//cluster.floor.rooms;
-    let nodes = _.compact(floor.nodes);
-    console.log("nodes is >>>", nodes);
-    let sensors = _.compact(floor.sensors);
-    console.log("floor is >>>", floor);
-    _.forEach(nodes, node => {
-      node.sensors = _.filter(sensors, {node_id: node.id}) || {};
-    })
+    let floor, cluster, rooms, nodes, sensors;
+    if (INFRA_MANAGER_HOST.indexOf('v0') !== -1) {
+      cluster = response.data;
+      floor = cluster.floor;
+      rooms = floor.rooms;
+      nodes = cluster.nodes;
+    } else {
+      floor = response.data;
+      cluster = floor.cluster;
+      rooms = floor.rooms;//cluster.floor.rooms;
+      nodes = _.compact(floor.nodes);
+      console.log("nodes is >>>", nodes);
+      sensors = _.compact(floor.sensors);
+      console.log("floor is >>>", floor);
+      _.forEach(nodes, node => {
+        node.sensors = _.filter(sensors, {node_id: node.id}) || {};
+      })
+    }
+
     _.forEach(rooms, room => {
       room.node = _.find(nodes, {room_id: room.id}) || {};
     })

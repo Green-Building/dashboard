@@ -39,7 +39,6 @@ export default class SensorSummary extends Component {
     console.log("device is>>>", device);
     return (
       <Card className="centered" style={{boxShadow: '2px 3px 4px #666'}}>
-
         <Card.Content>
           <Image floated='right' size='tiny' src={getDeviceImage(device, device_type)} />
           <Card.Meta>{device.name}</Card.Meta>
@@ -51,9 +50,11 @@ export default class SensorSummary extends Component {
           </Card.Description>
         </Card.Content>
         <Card.Content>
-          <Modal trigger={<Button>See {device_type} Network</Button>}>
-            <DeviceNetwork device={device} device_type={device_type} />
-          </Modal>
+          {/*
+            <Modal trigger={<Button>See {device_type} Network</Button>}>
+              <DeviceNetwork device={device} device_type={device_type} />
+            </Modal>
+          */}
         </Card.Content>
       </Card>
     )

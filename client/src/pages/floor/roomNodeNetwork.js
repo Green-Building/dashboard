@@ -10,6 +10,6 @@ export default class RoomNodeNetwork extends Component {
     const { router, room } = this.props;
     console.log("room is >>>", room);
     let node = room.node;
-    return <NodeNetwork node={node} router={router}/>
+    return <NodeNetwork room={room} node={node} router={router}/>
   }
 }

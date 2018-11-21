@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 import _ from 'lodash';
 import Tree from 'react-d3-tree';
+import { Button } from 'semantic-ui-react';
 
 export default class NodeNetwork extends Component {
 
   handleClick = (nodeData, evt) => {
-    console.log("nodeData>>", nodeData);
-    console.log("evt>>>", evt);
     const { router } = this.props;
     if(nodeData.sensor_id) {
       router.push(`/sensor-data?type=sensor&id=${nodeData.sensor_id}`);
@@ -16,7 +16,7 @@ export default class NodeNetwork extends Component {
   }
   render() {
     let treeDataWrapper = [];
-    const { node } = this.props;
+    const { node, room } = this.props;
     let treeData = {
       name: `node:${node.id}`,
       node_id: node.id,
@@ -82,6 +82,7 @@ export default class NodeNetwork extends Component {
           textLayout={{transform: 'rotate(-20 70 100)'}}
           orientation="vertical"
         />
+        {room && <Link to={`/sensor-data?type=room&id=${room.id}`}><Button>Chceck sensor data</Button></Link>}
       </div>
     );
   }

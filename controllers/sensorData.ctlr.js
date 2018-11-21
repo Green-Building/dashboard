@@ -112,6 +112,18 @@ const deleteSensorData = (req, res) => {
   });
 }
 
+const updateSensorData = (req, res) => {
+  let {id } = req.params;
+  let data = req.body;
+  return SensorData2.update({_id: id}, data)
+  .then(response =>{
+    res.json(response);
+  })
+  .catch(err =>{
+    console.log("err updating data", err);
+  })
+}
+
 module.exports = {
   insertSensorData,
   bulkInsertSensorData,
@@ -119,4 +131,5 @@ module.exports = {
   searchSensorDataByCluster,
   searchSensorDataByNode,
   deleteSensorData,
+  updateSensorData,
 }

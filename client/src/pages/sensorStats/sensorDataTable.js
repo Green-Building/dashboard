@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { Link } from 'react-router';
 import { Table, Label, Button, Icon } from 'semantic-ui-react';
 import Auth from '../../modules/Auth';
+import UpdateSensorDataModal from './updateSensorDataModal';
 
 export default class SensorDataTable extends Component {
   render() {
@@ -33,7 +34,7 @@ export default class SensorDataTable extends Component {
               { Auth.getUser()!=='client' &&
                 <Fragment>
                   <Table.Cell>
-                    <Icon name="edit" />
+                    <UpdateSensorDataModal sensorData={datum}/>
                   </Table.Cell>
                   <Table.Cell>
                     <Icon name="trash alternate" onClick={() => {deleteSensorData(datum)}}/>

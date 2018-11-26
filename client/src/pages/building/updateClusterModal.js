@@ -30,17 +30,21 @@ class UpdateClusterModal extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const { updateClusterConfig } = this.props;
-    console.log("this.state.cluster is >>>", this.state.cluster);
     return Promise.resolve(updateClusterConfig(this.state.cluster.id, this.state.cluster))
     .then(() => {
       this.handleClose();
       toast.info("🔔 Cluster successfully updated");
     })
   }
+
   render() {
     const { cluster } = this.props;
     return (
-      <Modal trigger={<Icon name="edit" onClick={this.handleOpen} />}>
+      <Modal
+        trigger={<Icon name="edit" onClick={this.handleOpen} />}
+        open={this.state.modalOpen}
+        onClose={this.handleClose}
+      >
         <Modal.Header>Update a Cluster Config</Modal.Header>
         <Modal.Content>
           <Modal.Description>

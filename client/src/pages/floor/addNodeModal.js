@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import Promise from 'bluebird';
 import _ from 'lodash';
-import client from '../../client';
+import { toast } from 'react-toastify';
 import { Form, Button, Header, Image, Modal, Input, Dropdown, Icon } from 'semantic-ui-react';
 
 import {
@@ -12,7 +13,11 @@ class AddNodeModal extends Component {
     node: {
       room_id: null,
     },
+    modalOpen: false,
   }
+
+  handleOpen = () => this.setState({ modalOpen: true })
+  handleClose = () => this.setState({ modalOpen: false })
 
   handleChange = (event, data) => {
     let node = this.state.node;
@@ -26,7 +31,12 @@ class AddNodeModal extends Component {
     let node = this.state.node;
     //node.install_time = new Date(node.install_time).toISOString();
     let newNodeData = _.assign({}, node, { cluster_id: cluster.id});
-    return addNodeConfig(newNodeData);
+    return Promise.resolve(addNodeConfig(newNodeData))
+    .then(() => {
+      this.handleClose();
+      toast.info("🔔 Node successfully added");
+    })
+
   }
   render() {
     const{ rooms } = this.props;
@@ -38,7 +48,11 @@ class AddNodeModal extends Component {
       }
     })
     return (
-      <Modal trigger={<Button>Add Node</Button>}>
+      <Modal
+        trigger={<Button onClick={this.handleOpen}>Add Node</Button>}
+        open={this.state.modalOpen}
+        onClose={this.handleClose}
+      >
         <Modal.Header>Add a Node Config</Modal.Header>
         <Modal.Content>
           <Modal.Description>

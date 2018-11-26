@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router';
+import { toast } from 'react-toastify';
 import _ from 'lodash';
 import { Container, Grid, Button, Card, Icon, Image, Dropdown, Table, Label } from 'semantic-ui-react';
 
@@ -11,8 +12,6 @@ import Auth from '../../modules/Auth';
 class NodeTable extends Component {
   render() {
     const { cluster, params, rooms, nodes, addNodeConfig, updateNodeConfig, deleteNodeConfig } = this.props;
-    console.log("here>>>", updateNodeConfig);
-    console.log("nodes is >>>", nodes);
     return (
       <Table celled style={{boxShadow: '2px 3px 4px #666'}}>
         <Table.Header>
@@ -45,7 +44,7 @@ class NodeTable extends Component {
                     <UpdateNodeModal node={node} updateNodeConfig={updateNodeConfig}/>
                     </Table.Cell>
                     <Table.Cell>
-                      <Icon name="trash alternate" onClick={() => deleteNodeConfig(node.id)}/>
+                      <Icon name="trash alternate" onClick={() => {deleteNodeConfig(node.id);toast.info("🔔 Node successfully deleted"); }}/>
                     </Table.Cell>
                   </Fragment>
                 }

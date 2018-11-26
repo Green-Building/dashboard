@@ -39,7 +39,11 @@ class AddClusterModal extends Component {
   render() {
     const { floor } = this.props;
     return (
-      <Modal trigger={<Icon name="add" onClick={this.handleOpen} />}>
+      <Modal
+        trigger={<Icon name="add" onClick={this.handleOpen} />}
+        open={this.state.modalOpen}
+        onClose={this.handleClose}
+      >
         <Modal.Header>Add a Cluster Config</Modal.Header>
         <Modal.Content>
           <Modal.Description>

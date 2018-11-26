@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { List, Card, Image, Button, Modal } from 'semantic-ui-react';
+import { Card, Image } from 'semantic-ui-react';
 
-import DeviceNetwork from './deviceNetwork';
 import clusterImg from '../../assets/cluster_1.jpg';
 import nodeImg from '../../assets/node_1.jpg';
 import sensorHvacImg from '../../assets/sensor_hvac.jpg';
@@ -36,7 +35,6 @@ export default class SensorSummary extends Component {
     const { sensorData } = this.props;
     const device = sensorData.device;
     const device_type = sensorData.device_type;
-    console.log("device is>>>", device);
     return (
       <Card className="centered" style={{boxShadow: '2px 3px 4px #666'}}>
         <Card.Content>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import { scaleLinear } from 'd3-scale';
-import {XYPlot, XAxis, YAxis, HeatmapSeries, LabelSeries} from 'react-vis';
+import { XYPlot, HeatmapSeries, LabelSeries } from 'react-vis';
 import { Segment, Label } from 'semantic-ui-react';
 import Modal from 'react-modal';
 
@@ -14,7 +14,7 @@ export default class FloorRoomMap extends Component {
     selectedRoom: {},
   }
   handleValueClick(d, event) {
-    const { rooms, router, roomMap } = this.props;
+    const { rooms } = this.props;
     let room = _.find(rooms, {room_number: d.label});
     //router.push(`/node/${room.node.id}`);
     this.setState({
@@ -28,7 +28,7 @@ export default class FloorRoomMap extends Component {
   }
 
   render() {
-    const { roomMap, rooms, router } = this.props;
+    const { roomMap, router } = this.props;
     const {min, max} = roomMap.reduce(
       (acc, row) => ({
         min: Math.min(acc.min, row.color),

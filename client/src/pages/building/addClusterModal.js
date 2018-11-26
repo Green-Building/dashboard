@@ -2,11 +2,8 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import Promise from 'bluebird';
 import { toast } from 'react-toastify';
-import { Form, Button, Header, Image, Modal, Input, Dropdown, Icon } from 'semantic-ui-react';
+import { Form, Button, Modal, Input, Icon } from 'semantic-ui-react';
 
-import {
-  INFRA_MANAGER_HOST
-} from '../../api-config';
 
 class AddClusterModal extends Component {
   state = {
@@ -37,7 +34,6 @@ class AddClusterModal extends Component {
     })
   }
   render() {
-    const { floor } = this.props;
     return (
       <Modal
         trigger={<Icon name="add" onClick={this.handleOpen} />}

@@ -1,32 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import client from '../../client';
-import _ from 'lodash';
-import { Container, Button, Grid, Form, Input } from 'semantic-ui-react';
+import { Container, Grid } from 'semantic-ui-react';
 
 import ClusterSummary from './clusterSummary';
 import FloorRoomMap from './floorRoomMap';
-import ClusterNetwork from './clusterNetwork';
 import NodeTable from './nodeTable';
 
-import {
-  INFRA_MANAGER_HOST
-} from '../../api-config';
 import { fetchFloorStats, fetchFloorConfig, addNodeConfig, updateNodeConfig, deleteNodeConfig } from '../../reducers/clusterConfig';
 
-const alphabet = ['A', 'B', 'C', 'D', 'E'];
 class Floor extends Component {
 
   componentDidMount() {
     const  { floor_id } = this.props.params;
-    console.log("here>>")
     this.props.fetchFloorConfig(floor_id);
     this.props.fetchFloorStats(floor_id);
   }
 
   render() {
-    const { params, router, clusterConfig, addNodeConfig, updateNodeConfig, deleteNodeConfig, fetchFloorStats } = this.props;
+    const { params, router, clusterConfig, addNodeConfig, updateNodeConfig, deleteNodeConfig } = this.props;
     const { floor, cluster, nodes, rooms, roomMap, floorStats } = clusterConfig;
     return (
       <Container>

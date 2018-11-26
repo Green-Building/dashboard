@@ -2,11 +2,7 @@ import React, { Component } from 'react';
 import Promise from 'bluebird';
 import _ from 'lodash';
 import { toast } from 'react-toastify';
-import { Form, Button, Header, Image, Modal, Input, Dropdown, Icon } from 'semantic-ui-react';
-
-import {
-  INFRA_MANAGER_HOST
-} from '../../api-config';
+import { Form, Button, Modal, Input, Dropdown } from 'semantic-ui-react';
 
 class AddNodeModal extends Component {
   state = {
@@ -27,9 +23,8 @@ class AddNodeModal extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const { params, cluster, addNodeConfig, rooms } = this.props;
+    const { cluster, addNodeConfig } = this.props;
     let node = this.state.node;
-    //node.install_time = new Date(node.install_time).toISOString();
     let newNodeData = _.assign({}, node, { cluster_id: cluster.id});
     return Promise.resolve(addNodeConfig(newNodeData))
     .then(() => {

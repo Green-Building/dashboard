@@ -1,17 +1,8 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 
-import { Radar, RadarChart, PolarGrid, Legend,
+import { Radar, RadarChart, PolarGrid,
   PolarAngleAxis, PolarRadiusAxis } from 'recharts';
-
-const data = [
-  { subject: 'Math', A: 120, B: 110, fullMark: 150 },
-  { subject: 'Chinese', A: 98, B: 130, fullMark: 150 },
-  { subject: 'English', A: 86, B: 130, fullMark: 150 },
-  { subject: 'Geography', A: 99, B: 100, fullMark: 150 },
-  { subject: 'Physics', A: 85, B: 90, fullMark: 150 },
-  { subject: 'History', A: 65, B: 85, fullMark: 150 },
-];
 
 const formatData = ({ device_type, device }) => {
   let sensorInfos = {};
@@ -29,7 +20,6 @@ const formatData = ({ device_type, device }) => {
     sensorInfos[device.type] = sensorInfos[device.type] ? sensorInfos[device.type] + 1 : 1;
   }
   let max = _.max(_.values(sensorInfos));
-  console.log("max is >>>", max);
   let info = _.reduce(sensorInfos, (memo, value, key) => {
     let newInfo = {
       subject: key,

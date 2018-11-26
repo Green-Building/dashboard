@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
 import { Card, Image, List, Icon } from 'semantic-ui-react';
 
 import floor1 from '../../assets/floor_1.jpg';
@@ -29,16 +28,12 @@ export default class ClusterSummary extends Component {
           <Card.Header>Floor # {floor.floor_number}</Card.Header>
         </Card.Content>
         <Card.Content extra>
-          <a>
-            <Icon name='cogs' />
-            {cluster.name}
-          </a>
+          <Icon name='cogs' />
+          {cluster.name}
         </Card.Content>
         <Card.Content extra>
-          <a>
-            <Icon name='warehouse' />
-            {rooms.length} rooms
-          </a>
+          <Icon name='warehouse' />
+          {rooms.length} rooms
         </Card.Content>
         <Card.Content extra>
           <List>

@@ -20,9 +20,8 @@ const INITIAL_STATE = {
 //
 // CONSTANTS
 //
-const UPDATE_TIME = 'UPDATE_TIME';
 const FETCH_SENSOR_DATA = 'FETCH_SENSOR_DATA';
-const SUCCESS_SENSOR_DATA = 'SUCCESS_SENOSR_DATA';
+const SUCCESS_SENSOR_DATA = 'SUCCESS_SENSOR_DATA';
 const ERROR_SENSOR_DATA = 'ERROR_SENSOR_DATA';
 const FETCH_DEVICE = 'FETCH_DEVICE';
 const SUCCESS_DEVICE  = 'SUCCESS_DEVICE';
@@ -38,7 +37,7 @@ const ERROR_DELETE_SENSOR_DATA = 'ERROR_DELETE_SENSOR_DATA';
 
 export const fetchSensorData = (type, id, startTime, endTime) => (dispatch, getState) => {
   dispatch({
-    type: 'FETCH_SENSOR_DATA',
+    type: FETCH_SENSOR_DATA,
   });
   const tz = moment.tz.guess();
 
@@ -51,15 +50,14 @@ export const fetchSensorData = (type, id, startTime, endTime) => (dispatch, getS
   })
   .then(
     response => {
-      console.log("response is >>>", response)
       dispatch({
-        type: 'SUCCESS_SENOSR_DATA',
+        type: SUCCESS_SENSOR_DATA,
         result: response.data,
       });
     },
     error => {
       dispatch({
-        type: 'ERROR_SENSOR_DATA',
+        type: ERROR_SENSOR_DATA,
         message: error.message || 'Something went wrong.',
       });
     }
@@ -68,7 +66,7 @@ export const fetchSensorData = (type, id, startTime, endTime) => (dispatch, getS
 
 export const fetchDevice = (type, id) => (dispatch, getState) => {
   dispatch({
-    type: 'FETCH_DEVICE',
+    type: FETCH_DEVICE,
   });
   let fetchDeviceUrl;
   if(type === "floor") {
@@ -97,8 +95,6 @@ export const fetchDevice = (type, id) => (dispatch, getState) => {
 };
 
 export const deleteSensorData = (sensorData) => (dispatch, getState) => {
-
-  console.log("sensorData is >>>", sensorData);
   let id = sensorData.id || sensorData._id;
   dispatch({
     type: DELETE_SENSOR_DATA,

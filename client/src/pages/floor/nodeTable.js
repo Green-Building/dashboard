@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router';
 import { toast } from 'react-toastify';
 import _ from 'lodash';
-import { Container, Grid, Button, Card, Icon, Image, Dropdown, Table, Label } from 'semantic-ui-react';
+import { Icon, Table, Label } from 'semantic-ui-react';
 
 import { mapStatusToColor } from '../../utils';
 import UpdateNodeModal from './updateNodeModal';

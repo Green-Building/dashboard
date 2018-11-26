@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
 import { Card, Image, List, Icon } from 'semantic-ui-react';
-
-import {
-  INFRA_MANAGER_HOST
-} from '../../api-config';
 
 export default class BuildingSummary extends Component {
   render() {
@@ -20,10 +15,8 @@ export default class BuildingSummary extends Component {
           </Card.Meta>
         </Card.Content>
         <Card.Content extra>
-          <a>
-            <Icon name='building' />
-            {building.num_of_floors} floors
-          </a>
+          <Icon name='building' />
+          {building.num_of_floors} floors
         </Card.Content>
         {buildingStats &&
           <Card.Content extra>

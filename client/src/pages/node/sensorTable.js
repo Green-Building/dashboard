@@ -12,7 +12,6 @@ import Auth from '../../modules/Auth';
 export default class SensorTable extends Component {
   render() {
     const { node, sensors, addSensorConfig, updateSensorConfig, deleteSensorConfig } = this.props;
-    console.log("sensors>>>", sensors);
     return (
       <Table celled style={{boxShadow: '2px 3px 4px #666'}}>
         <Table.Header>

@@ -1,10 +1,7 @@
 import _ from 'lodash';
-import Promise from 'bluebird';
-import moment from 'moment';
 import client from '../client';
 
 import {
-  DATA_MANAGER_HOST,
   INFRA_MANAGER_HOST,
 } from '../api-config';
 
@@ -52,7 +49,7 @@ const alphabet = ['A', 'B', 'C', 'D'];
 //
 export const fetchFloorConfig = (floorId) => (dispatch, getState) => {
   dispatch({
-    type: 'GET_FLOOR_CONFIG',
+    type: GET_FLOOR_CONFIG,
   });
   let url;
   if (INFRA_MANAGER_HOST.indexOf('v0') !== -1) {
@@ -74,9 +71,7 @@ export const fetchFloorConfig = (floorId) => (dispatch, getState) => {
       cluster = floor.cluster;
       rooms = floor.rooms;//cluster.floor.rooms;
       nodes = _.compact(floor.nodes);
-      console.log("nodes is >>>", nodes);
       sensors = _.compact(floor.sensors);
-      console.log("floor is >>>", floor);
       _.forEach(nodes, node => {
         node.sensors = _.filter(sensors, {node_id: node.id}) || {};
       })
@@ -121,7 +116,7 @@ export const fetchFloorConfig = (floorId) => (dispatch, getState) => {
 
 export const fetchFloorStats = (floorId) => (dispatch, getState) => {
   dispatch({
-    type: 'GET_FLOOR_STATISTICS',
+    type: GET_FLOOR_STATISTICS,
   });
   return client.get(`${INFRA_MANAGER_HOST}/floors/statistics/${floorId}`)
   .then(floorStats => {
@@ -140,7 +135,7 @@ export const fetchFloorStats = (floorId) => (dispatch, getState) => {
 
 export const addNodeConfig = (newNodeData) => (dispatch, getState) => {
   dispatch({
-    type: 'ADD_NODE_CONFIG',
+    type: ADD_NODE_CONFIG,
   });
 
   return client.post(`${INFRA_MANAGER_HOST}/nodes`, newNodeData)
@@ -148,13 +143,13 @@ export const addNodeConfig = (newNodeData) => (dispatch, getState) => {
     response => {
       let node = response.data;
       dispatch({
-        type: 'SUCCESS_ADD_NODE_CONFIG',
+        type: SUCCESS_ADD_NODE_CONFIG,
         node,
       });
     },
     error => {
       dispatch({
-        type: 'ERROR_ADD_NODE_CONFIG',
+        type: ERROR_ADD_NODE_CONFIG,
         message: error.message || 'Something went wrong.',
       });
     }
@@ -163,22 +158,21 @@ export const addNodeConfig = (newNodeData) => (dispatch, getState) => {
 
 export const updateNodeConfig = (nodeId, updatedNodeData) => (dispatch, getState) => {
   dispatch({
-    type: 'UPDATE_NODE_CONFIG',
+    type: UPDATE_NODE_CONFIG,
   });
 
   return client.put(`${INFRA_MANAGER_HOST}/nodes/${nodeId}`, _.omit(updatedNodeData, 'id'))
   .then(
     response => {
-      let node = response.data;
       dispatch({
-        type: 'SUCCESS_UPDATE_NODE_CONFIG',
+        type: SUCCESS_UPDATE_NODE_CONFIG,
         nodeId,
         node: updatedNodeData,
       });
     },
     error => {
       dispatch({
-        type: 'ERROR_UPDATE_NODE_CONFIG',
+        type: ERROR_UPDATE_NODE_CONFIG,
         message: error.message || 'Something went wrong.',
       });
     }
@@ -187,20 +181,20 @@ export const updateNodeConfig = (nodeId, updatedNodeData) => (dispatch, getState
 
 export const deleteNodeConfig = (nodeId) => (dispatch, getState) => {
   dispatch({
-    type: 'DELETE_NODE_CONFIG',
+    type: DELETE_NODE_CONFIG,
   });
 
   return client.delete(`${INFRA_MANAGER_HOST}/nodes/${nodeId}`)
   .then(
     response => {
       dispatch({
-        type: 'SUCCESS_DELETE_NODE_CONFIG',
+        type: SUCCESS_DELETE_NODE_CONFIG,
         nodeId,
       });
     },
     error => {
       dispatch({
-        type: 'ERROR_DELETE_NODE_CONFIG',
+        type: ERROR_DELETE_NODE_CONFIG,
         message: error.message || 'Something went wrong.',
       });
     }

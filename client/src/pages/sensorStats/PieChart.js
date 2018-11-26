@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 
-import { PieChart, Pie, Sector, Cell } from 'recharts';
-const data = [{name: 'Group A', value: 400}, {name: 'Group B', value: 300},
-                  {name: 'Group C', value: 300}, {name: 'Group D', value: 200}];
+import { PieChart, Pie, Cell } from 'recharts';
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = (pieData) => {
-  const { name, cx, cy, midAngle, innerRadius, outerRadius, percent, index } = pieData;
+  const { name, cx, cy, midAngle, innerRadius, outerRadius, percent } = pieData;
  	const radius = innerRadius + (outerRadius - innerRadius) * 1;
   const x  = cx + radius * Math.cos(-midAngle * RADIAN);
   const y = cy  + radius * Math.sin(-midAngle * RADIAN);
@@ -50,7 +48,6 @@ export default class PieeChart extends Component {
 	render () {
     const { sensorData } = this.props;
     const data = formatData(sensorData);
-    console.log("data is >>>", data);
   	return (
     	<PieChart width={500} height={400} onMouseEnter={this.onPieEnter}>
         <Pie

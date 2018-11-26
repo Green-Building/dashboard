@@ -1,10 +1,9 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import moment from 'moment-timezone';
 import CSVReader from 'react-csv-reader';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { Container, Form, Input, Button, Dropdown, Icon, Segment, Label } from 'semantic-ui-react';
+import { Container, Form, Input, Button, Icon, Segment } from 'semantic-ui-react';
 
 import client from '../../client';
 import {
@@ -36,7 +35,6 @@ class AddSensorData extends Component {
     let nodeId = nodeConfig.node.id;
     let roomId = nodeConfig.node.room_id;
     let sensorId;
-    console.log("sensorData.device.device_type>>>", sensorData.device.device_type);
     if(sensorData.device_type === 'sensor') {
       sensorId = sensorData.device.id;
     }
@@ -52,7 +50,6 @@ class AddSensorData extends Component {
   }
 
   handleUpload = data => {
-    console.log("data is >>>", data);
     this.setState({sensorData: data});
   }
 
@@ -62,7 +59,6 @@ class AddSensorData extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const tz = moment.tz.guess();
     return client.post(`${DATA_MANAGER_HOST}/sensor_data`, [{
       sensorId: this.state.sensorId,
       unit: this.state.unit,
@@ -87,7 +83,6 @@ class AddSensorData extends Component {
 
   handleBulkSubmit = (event) => {
     event.preventDefault();
-    const tz = moment.tz.guess();
     let processedData = this.state.sensorData;
     _.forEach(processedData, d => {
       d.sensorId = +d.sensorId;

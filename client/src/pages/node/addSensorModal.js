@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Promise from 'bluebird';
 import _ from 'lodash';
 import { toast } from 'react-toastify';
-import { Form, Button, Header, Image, Modal, Input, Dropdown, Icon } from 'semantic-ui-react';
+import { Form, Button, Modal, Input } from 'semantic-ui-react';
 
 class AddSensorModal extends Component {
   state = {
@@ -22,7 +22,6 @@ class AddSensorModal extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const { addSensorConfig, node } = this.props;
-    let sensor = this.state.sensor;
     //sensor.install_time = new Date(sensor.install_time).toISOString();
     let newSensorData = _.assign({}, this.state.sensor, { node_id: node.id, cluster_id: node.cluster_id});
     return Promise.resolve(addSensorConfig(newSensorData))
@@ -33,7 +32,6 @@ class AddSensorModal extends Component {
   }
 
   render() {
-    const{ node } = this.props;
     return (
       <Modal
         trigger={<Button onClick={this.handleOpen}>Add Sensor</Button>}

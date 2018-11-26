@@ -1,20 +1,13 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import client from '../../client';
-import {ForceGraph, ForceGraphNode, ForceGraphLink} from 'react-vis-force';
-import { Container, Button, Grid, Form, Input } from 'semantic-ui-react';
+import { Container, Grid } from 'semantic-ui-react';
 
 import NodeNetwork from './nodeNetwork';
 import NodeSummary from './nodeSummary';
 import SensorTable from './sensorTable';
 
 import { fetchNodeConfig, addSensorConfig, updateSensorConfig, deleteSensorConfig } from '../../reducers/nodeConfig';
-
-import {
-  INFRA_MANAGER_HOST
-} from '../../api-config';
 
 class Node extends Component {
 

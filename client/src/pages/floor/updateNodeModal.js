@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
 import Promise from 'bluebird';
-import _ from 'lodash';
 import { toast } from 'react-toastify';
-import { Form, Button, Header, Image, Modal, Input, Icon } from 'semantic-ui-react';
-
-import {
-  INFRA_MANAGER_HOST
-} from '../../api-config';
+import { Form, Button, Modal, Input, Icon } from 'semantic-ui-react';
 
 class UpdateNodeModal extends Component {
   state = {
@@ -34,7 +29,6 @@ class UpdateNodeModal extends Component {
     })
   }
   render() {
-    const { node } = this.props;
     return (
       <Modal
         trigger={<Icon name="edit" onClick={this.handleOpen} />}

@@ -1,10 +1,7 @@
 import _ from 'lodash';
-import Promise from 'bluebird';
-import moment from 'moment';
 import client from '../client';
 
 import {
-  DATA_MANAGER_HOST,
   INFRA_MANAGER_HOST,
 } from '../api-config';
 
@@ -30,6 +27,7 @@ const GET_BUILDING_STATISTICS = 'GET_BUILDING_STATISTICS';
 const SUCCESS_GET_BUILDING_STATISTICS = 'SUCCESS_GET_BUILDING_STATISTICS';
 const ERROR_GET_BUILDING_STATISTICS = 'ERROR_GET_BUILDING_STATISTICS';
 
+/*
 const ADD_BUILDING_CONFIG = 'ADD_BUILDING_CONFIG';
 const SUCCESS_ADD_BUILDING_CONFIG = 'SUCCESS_ADD_BUILDING_CONFIG';
 const ERROR_ADD_BUILDING_CONFIG = 'ERROR_ADD_BUILDING_CONFIG';
@@ -41,6 +39,7 @@ const ERROR_UPDATE_BUILDING_CONFIG = 'ERROR_UPDATE_BUILDING_CONFIG';
 const DELETE_BUILDING_CONFIG = 'DELETE_BUILDING_CONFIG';
 const SUCCESS_DELETE_BUILDING_CONFIG = 'SUCCESS_DELETE_BUILDING_CONFIG';
 const ERROR_DELETE_BUILDING_CONFIG = 'ERROR_DELETE_BUILDING_CONFIG';
+*/
 
 const ADD_CLUSTER_CONFIG = 'ADD_CLUSTER_CONFIG';
 const SUCCESS_ADD_CLUSTER_CONFIG = 'SUCCESS_ADD_CLUSTER_CONFIG';
@@ -60,7 +59,7 @@ const ERROR_DELETE_CLUSTER_CONFIG = 'ERROR_DELETE_CLUSTER_CONFIG';
 
 export const fetchBuildingConfig = (buildingId) => (dispatch, getState) => {
   dispatch({
-    type: 'GET_BUILDING_CONFIG',
+    type: GET_BUILDING_CONFIG,
   });
   return client.get(`${INFRA_MANAGER_HOST}/buildings/${buildingId}?fetch_nested=floor,cluster`)
   .then(buildingConfig => {
@@ -70,14 +69,14 @@ export const fetchBuildingConfig = (buildingId) => (dispatch, getState) => {
     });
     let floors = _.sortBy(building.floors, ['floor_number']);
     dispatch({
-      type: 'SUCCESS_GET_BUILDING_CONFIG',
+      type: SUCCESS_GET_BUILDING_CONFIG,
       building,
       floors,
     });
   })
   .catch( error => {
     dispatch({
-      type: 'ERROR_GET_BUILDING_CONFIG',
+      type: ERROR_GET_BUILDING_CONFIG,
       message: error.message || 'Something went wrong.',
     });
   });
@@ -85,18 +84,18 @@ export const fetchBuildingConfig = (buildingId) => (dispatch, getState) => {
 
 export const fetchBuildingStats = (buildingId) => (dispatch, getState) => {
   dispatch({
-    type: 'GET_BUILDING_STATISTICS',
+    type: GET_BUILDING_STATISTICS,
   });
   return client.get(`${INFRA_MANAGER_HOST}/buildings/statistics/${buildingId}`)
   .then(buildingStats => {
     dispatch({
-      type: 'SUCCESS_GET_BUILDING_STATISTICS',
+      type: SUCCESS_GET_BUILDING_STATISTICS,
       buildingStats: buildingStats.data,
     });
   })
   .catch(error => {
     dispatch({
-      type: 'ERROR_GET_BUILDING_STATISTICS',
+      type: ERROR_GET_BUILDING_STATISTICS,
       message: error.message || 'Something went wrong.',
     });
   });
@@ -104,13 +103,12 @@ export const fetchBuildingStats = (buildingId) => (dispatch, getState) => {
 
 export const addClusterConfig = (newClusterData) => (dispatch, getState) => {
   dispatch({
-    type: 'ADD_CLUSTER_CONFIG',
+    type: ADD_CLUSTER_CONFIG,
   });
 
   return client.post(`${INFRA_MANAGER_HOST}/clusters`, newClusterData)
   .then(
     response => {
-      console.log("response from adding cluster is >>>", cluster);
       let cluster = response.data;
       dispatch({
         type: SUCCESS_ADD_CLUSTER_CONFIG,
@@ -128,22 +126,21 @@ export const addClusterConfig = (newClusterData) => (dispatch, getState) => {
 
 export const updateClusterConfig = (clusterId, updatedClusterData) => (dispatch, getState) => {
   dispatch({
-    type: 'UPDATE_CLUSTER_CONFIG',
+    type: UPDATE_CLUSTER_CONFIG,
   });
 
   return client.put(`${INFRA_MANAGER_HOST}/clusters/${clusterId}`, _.omit(updatedClusterData, 'id'))
   .then(
     response => {
-      let cluster = response.data;
       dispatch({
-        type: 'SUCCESS_UPDATE_CLUSTER_CONFIG',
+        type: SUCCESS_UPDATE_CLUSTER_CONFIG,
         clusterId,
         cluster: updatedClusterData,
       });
     },
     error => {
       dispatch({
-        type: 'ERROR_UPDATE_CLUSTER_CONFIG',
+        type: ERROR_UPDATE_CLUSTER_CONFIG,
         message: error.message || 'Something went wrong.',
       });
     }
@@ -152,21 +149,21 @@ export const updateClusterConfig = (clusterId, updatedClusterData) => (dispatch,
 
 export const deleteClusterConfig = (clusterId, floorId) => (dispatch, getState) => {
   dispatch({
-    type: 'DELETE_CLUSTER_CONFIG',
+    type: DELETE_CLUSTER_CONFIG,
   });
 
   return client.delete(`${INFRA_MANAGER_HOST}/clusters/${clusterId}`)
   .then(
     response => {
       dispatch({
-        type: 'SUCCESS_DELETE_CLUSTER_CONFIG',
+        type: SUCCESS_DELETE_CLUSTER_CONFIG,
         clusterId,
         floorId,
       });
     },
     error => {
       dispatch({
-        type: 'ERROR_DELETE_CLUSTER_CONFIG',
+        type: ERROR_DELETE_CLUSTER_CONFIG,
         message: error.message || 'Something went wrong.',
       });
     }
@@ -175,15 +172,13 @@ export const deleteClusterConfig = (clusterId, floorId) => (dispatch, getState) 
 
 
 const buildingConfig = (state = INITIAL_STATE, action) => {
-  let cluster, floors, floor, clusterId, floorId;
+  let cluster, floors, floor, floorId;
   switch (action.type) {
     case SUCCESS_GET_BUILDING_CONFIG:
       return _.assign({}, state, {building: action.building, floors: action.floors, isLoading: false});
     case SUCCESS_GET_BUILDING_STATISTICS:
       return _.assign({}, state, {buildingStats: action.buildingStats, isLoading: false});
     case SUCCESS_ADD_CLUSTER_CONFIG:
-      console.log("here>>>", state);
-      console.log("here>>>", action);
       cluster = action.cluster;
       floors = state.floors;
       floor = _.find(floors, {id: cluster.floor_id});
@@ -191,17 +186,11 @@ const buildingConfig = (state = INITIAL_STATE, action) => {
       return _.assign({}, state, { floors: floors, isLoading: false });
     case SUCCESS_UPDATE_CLUSTER_CONFIG:
       cluster = action.cluster;
-      clusterId = action.clusterId;
       floors = state.floors;
-      console.log("floors >>>", floors);
-      console.log("cluster>>", cluster);
-
       floor = _.find(floors, { id: cluster.floor_id });
-      console.log("floor>>>", floor);
       floor.cluster = cluster;
       return _.assign({}, state, { floors: floors, isLoading: false });
     case SUCCESS_DELETE_CLUSTER_CONFIG:
-      clusterId = action.clusterId;
       floorId = action.floorId;
       floors = state.floors;
       floor = _.find(floors, { id: floorId });

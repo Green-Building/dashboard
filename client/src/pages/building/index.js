@@ -1,18 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import _ from 'lodash';
-import { Divider, Container, Grid, Button, Card, Icon, Image, Dropdown, Table, Label } from 'semantic-ui-react';
-import client from '../../client';
+import { Divider, Container, Grid, Image } from 'semantic-ui-react';
 import { fetchBuildingStats, fetchBuildingConfig, addClusterConfig, updateClusterConfig, deleteClusterConfig } from '../../reducers/buildingConfig';
 
 import Loading from '../../component/Loading';
 import ClusterTable from './clusterTable';
 import BuildingSummary from './buildingSummary';
-
-import {
-  INFRA_MANAGER_HOST
-} from '../../api-config';
 
 class Building extends Component {
 

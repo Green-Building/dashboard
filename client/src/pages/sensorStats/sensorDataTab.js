@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { Table, Label, Tab } from 'semantic-ui-react';
+import { Tab } from 'semantic-ui-react';
 import SensorDataTable from './sensorDataTable';
 
 export default class SensorDataTab extends Component {

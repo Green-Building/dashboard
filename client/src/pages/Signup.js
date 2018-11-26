@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import { Container, Grid, Button, Form, Input, Segment, Header, Image, Message, Dropdown } from 'semantic-ui-react';
+import { Container, Grid, Button, Form, Segment, Header, Message, Dropdown } from 'semantic-ui-react';
 import client from '../client';
 import qs from 'qs';
 
@@ -8,7 +8,6 @@ import Auth from '../modules/Auth';
 
 import {
   AUTH_HOST,
-  INFRA_MANAGER_HOST
 } from '../api-config';
 
 class Signup extends Component {
@@ -25,7 +24,6 @@ class Signup extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    console.log("this.state >>", this.state);
     const requestBody = {
       email: this.state.email,
       password: this.state.password,
@@ -42,7 +40,6 @@ class Signup extends Component {
       }
     })
     .then(response => {
-      console.log("response is>>>", response);
       const { token, user } = response.data;
       Auth.authenticateUser(token, user.user_type );
       this.props.router.replace('/');

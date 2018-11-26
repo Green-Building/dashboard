@@ -1,9 +1,7 @@
 import _ from 'lodash';
-import moment from 'moment';
 import client from '../client';
 
 import {
-  DATA_MANAGER_HOST,
   INFRA_MANAGER_HOST,
 } from '../api-config';
 
@@ -24,10 +22,6 @@ const INITIAL_STATE = {
 const GET_NODE_CONFIG = 'GET_NODE_CONFIG';
 const SUCCESS_GET_NODE_CONFIG = 'SUCCESS_GET_NODE_CONFIG';
 const ERROR_GET_NODE_CONFIG  = 'ERROR_GET_NODE_CONFIG';
-
-const GET_NODE_STATISTICS = 'GET_NODE_STATISTICS';
-const SUCCESS_GET_NODE_STATISTICS = 'SUCCESS_GET_NODE_STATISTICS';
-const ERROR_GET_NODE_STATISTICS = 'ERROR_GET_NODE_STATISTICS';
 
 const ADD_SENSOR_CONFIG = 'ADD_SENSOR_CONFIG';
 const SUCCESS_ADD_SENSOR_CONFIG = 'SUCCESS_ADD_SENSOR_CONFIG';
@@ -71,7 +65,7 @@ export const fetchNodeConfig = (nodeId) => (dispatch, getState) => {
 
 export const addSensorConfig = (newSensorData) => (dispatch, getState) => {
   dispatch({
-    type: 'ADD_SENSOR_CONFIG',
+    type: ADD_SENSOR_CONFIG,
   });
 
   return client.post(`${INFRA_MANAGER_HOST}/sensors`, newSensorData)
@@ -100,7 +94,6 @@ export const updateSensorConfig = (sensorId, updatedSensorData) => (dispatch, ge
   return client.put(`${INFRA_MANAGER_HOST}/sensors/${sensorId}`, _.omit(updatedSensorData, 'id'))
   .then(
     response => {
-      let sensor = response.data;
       dispatch({
         type: SUCCESS_UPDATE_SENSOR_CONFIG,
         sensorId,
@@ -109,7 +102,7 @@ export const updateSensorConfig = (sensorId, updatedSensorData) => (dispatch, ge
     },
     error => {
       dispatch({
-        type: 'ERROR_UPDATE_SENSOR_CONFIG',
+        type: ERROR_UPDATE_SENSOR_CONFIG,
         message: error.message || 'Something went wrong.',
       });
     }
@@ -140,7 +133,7 @@ export const deleteSensorConfig = (sensorId) => (dispatch, getState) => {
 
 
 const nodeConfig = (state = INITIAL_STATE, action) => {
-  let node, sensors, sensor, sensorId;
+  let sensors, sensor, sensorId;
   switch (action.type) {
     case SUCCESS_GET_NODE_CONFIG:
       return _.assign({}, state, { node: action.node, sensors: action.sensors, isLoading: false});

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Grid, Button } from 'semantic-ui-react';
+import { Container, Grid } from 'semantic-ui-react';
 
 import MapWithASearchBox from '../component/Map';
 

@@ -1,18 +1,15 @@
 import React from 'react';
 import _ from 'lodash';
 import client from '../client';
-import { Link } from 'react-router';
 import { Form, Input, Button, Grid } from 'semantic-ui-react';
 import {
   INFRA_MANAGER_HOST
 } from '../api-config';
-import { compose, withProps, lifecycle, withStateHandlers } from 'recompose';
+import { compose, withProps, lifecycle } from 'recompose';
 import {
   withScriptjs,
   withGoogleMap,
   GoogleMap,
-  Marker,
-  InfoWindow,
 } from 'react-google-maps';
 import { SearchBox } from 'react-google-maps/lib/components/places/SearchBox';
 
@@ -44,8 +41,6 @@ const MapWithASearchBox = compose(
         },
         onSubmitForm: event => {
           event.preventDefault();
-          console.log("form submitted!!!");
-          console.log("this.state is>>", this.state);
           let locationParams = {};
           if(this.state.zipcode) {
             locationParams.zipcode = this.state.zipcode;
@@ -57,7 +52,6 @@ const MapWithASearchBox = compose(
             params: locationParams,
           })
           .then(response => {
-            console.log("response is >>>", response);
             let buildings = response.data;
             if(buildings.length >= 1) {
               _.forEach(buildings, building => {
@@ -132,7 +126,6 @@ const MapWithASearchBox = compose(
               }
               building.clicked = false;
             });
-            console.log("buildings is >>>", buildings);
             this.setState({
               center: {lat: place.geometry.location.lat(), lng:  place.geometry.location.lng()},
               markers: buildings,
@@ -207,7 +200,6 @@ const MapWithASearchBox = compose(
           />
         </SearchBox>
         {_.map(props.markers,(marker, index) => {
-        console.log("marker is >>>", marker);
         return <MarkerWithInfoWindow position={marker.position} building={marker} router={props.router} />
         })}
       </GoogleMap>

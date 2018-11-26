@@ -7,7 +7,7 @@ import UpdateSensorDataModal from './updateSensorDataModal';
 
 export default class SensorDataTable extends Component {
   render() {
-    const { data, sensorId, deleteSensorData } = this.props;
+    const { data, deleteSensorData } = this.props;
     return (
       <Table celled style={{borderRadius: '2px', boxShadow: '2px 3px 4px #666'}}>
         <Table.Header>

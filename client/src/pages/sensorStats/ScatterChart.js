@@ -5,7 +5,7 @@ import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, Legend } f
 
 import { getRandomColor, getRandomShape } from '../../utils';
 
-export default class ScatterrChart extends Component {
+export default class GScatterChart extends Component {
 	render () {
     const { sensorData } = this.props;
     let data = sensorData.data;

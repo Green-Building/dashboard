@@ -44,7 +44,7 @@ const formatData = ({ device_type, device }) => {
   return info;
 }
 
-export default class PieeChart extends Component {
+export default class GPieChart extends Component {
 	render () {
     const { sensorData } = this.props;
     const data = formatData(sensorData);

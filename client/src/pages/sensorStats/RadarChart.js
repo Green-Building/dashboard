@@ -32,7 +32,7 @@ const formatData = ({ device_type, device }) => {
   return info;
 }
 
-export default class RaadarChart extends Component {
+export default class GRadarChart extends Component {
 	render () {
     const { sensorData } = this.props;
     const data = formatData(sensorData);

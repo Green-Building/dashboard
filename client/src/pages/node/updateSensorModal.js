@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import Promise from 'bluebird';
 import _ from 'lodash';
-import client from '../../client';
+import { toast } from 'react-toastify';
 import { Form, Button, Header, Image, Modal, Input, Icon } from 'semantic-ui-react';
 
 import {
@@ -10,11 +11,13 @@ import {
 class UpdateSensorModal extends Component {
   state = {
     sensor: this.props.sensor,
+    modalOpen: false,
   }
 
-  handleChange = (event, data) => {
-    console.log("data is>>>", data);
+  handleOpen = () => this.setState({ modalOpen: true })
+  handleClose = () => this.setState({ modalOpen: false })
 
+  handleChange = (event, data) => {
     let sensor = this.state.sensor;
     sensor[data.name] = data.value;
     this.setState({sensor});
@@ -23,13 +26,20 @@ class UpdateSensorModal extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const { updateSensorConfig } = this.props;
-    console.log("updateSensorConfig is >>", updateSensorConfig);
-    return updateSensorConfig(this.props.sensor.id, this.state.sensor);
+    return Promise.resolve(updateSensorConfig(this.props.sensor.id, this.state.sensor))
+    .then(() => {
+      this.handleClose();
+      toast.info("🔔 Sensor successfully updated");
+    })
   }
   render() {
     const { sensor } = this.props;
     return (
-      <Modal trigger={<Icon name="edit" />}>
+      <Modal
+        trigger={<Icon name="edit" onClick={this.handleOpen} />}
+        open={this.state.modalOpen}
+        onClose={this.handleClose}
+      >
         <Modal.Header>Update a Sensor Config</Modal.Header>
         <Modal.Content>
           <Modal.Description>

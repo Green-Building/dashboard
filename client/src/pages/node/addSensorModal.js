@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
+import Promise from 'bluebird';
 import _ from 'lodash';
-import client from '../../client';
+import { toast } from 'react-toastify';
 import { Form, Button, Header, Image, Modal, Input, Dropdown, Icon } from 'semantic-ui-react';
-
-import {
-  INFRA_MANAGER_HOST
-} from '../../api-config';
 
 class AddSensorModal extends Component {
   state = {
     sensor: {},
+    modalOpen: false,
   }
+
+  handleOpen = () => this.setState({ modalOpen: true })
+  handleClose = () => this.setState({ modalOpen: false })
 
   handleChange = (event, data) => {
     let sensor = this.state.sensor;
@@ -24,13 +25,21 @@ class AddSensorModal extends Component {
     let sensor = this.state.sensor;
     //sensor.install_time = new Date(sensor.install_time).toISOString();
     let newSensorData = _.assign({}, this.state.sensor, { node_id: node.id, cluster_id: node.cluster_id});
-    console.log("newSensorData is>>>", newSensorData);
-    return addSensorConfig(newSensorData);
+    return Promise.resolve(addSensorConfig(newSensorData))
+    .then(() => {
+      this.handleClose();
+      toast.info("🔔 Sensor successfully added");
+    })
   }
+
   render() {
     const{ node } = this.props;
     return (
-      <Modal trigger={<Button>Add Sensor</Button>}>
+      <Modal
+        trigger={<Button onClick={this.handleOpen}>Add Sensor</Button>}
+        open={this.state.modalOpen}
+        onClose={this.handleClose}
+      >
         <Modal.Header>Add a Sensor Config</Modal.Header>
         <Modal.Content>
           <Modal.Description>

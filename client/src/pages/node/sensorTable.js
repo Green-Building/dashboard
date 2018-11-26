@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import _ from 'lodash';
 import { Link } from 'react-router';
 import { Table, Label, Icon } from 'semantic-ui-react';
+import { toast } from 'react-toastify';
 import { mapStatusToColor } from '../../utils';
 
 import UpdateSensorModal from './updateSensorModal';
@@ -48,7 +49,7 @@ export default class SensorTable extends Component {
                       <UpdateSensorModal sensor={sensor} updateSensorConfig={updateSensorConfig}/>
                     </Table.Cell>
                     <Table.Cell>
-                      <Icon name="trash alternate" onClick={() => deleteSensorConfig(sensor.id)}/>
+                      <Icon name="trash alternate" onClick={() => {deleteSensorConfig(sensor.id); toast.info("🔔 Sensor successfully deleted");}}/>
                     </Table.Cell>
                   </Fragment>
                 }

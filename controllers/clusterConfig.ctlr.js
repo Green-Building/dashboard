@@ -75,6 +75,7 @@ const addCluster = (req, res) => {
 const updateCluster = (req, res) => {
   let updatedCluster = req.body;
   const { cluster_id } = req.params;
+  console.log("cluster_id is>>>", cluster_id);
   return db.cluster.update(_.omit(updatedCluster, 'id'),{
     returning: true,
     plain: true,

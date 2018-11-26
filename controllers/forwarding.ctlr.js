@@ -3,7 +3,7 @@ const request = require('request-promise');
 const moment = require('moment-timezone');
 const INFRA_MANAGER_HOST = 'http://localhost:3006';
 const DATA_MANAGER_HOST = 'http://localhost:8080';
-const SIMULATOR_HOST = 'http://localhost:8080';
+const SIMULATOR_HOST = 'http://localhost:3005';
 
 const getBuilding = (req, res) => {
   const { building_id } = req.params;

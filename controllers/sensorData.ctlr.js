@@ -17,6 +17,7 @@ const insertSensorData = (req, res) => {
 };
 
 const bulkInsertSensorData = (req, res) => {
+  console.log("req.body is >>>>here>>>", req.body);
   const sensorData = req.body;
   _.forEach(sensorData, datum => {
     datum.date = new Date(datum.date)
@@ -113,7 +114,7 @@ const deleteSensorData = (req, res) => {
 }
 
 const updateSensorData = (req, res) => {
-  let {id } = req.params;
+  let {id} = req.params;
   let data = req.body;
   return SensorData2.update({_id: id}, data)
   .then(response =>{

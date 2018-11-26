@@ -130,6 +130,7 @@ export const updateClusterConfig = (clusterId, updatedClusterData) => (dispatch,
   dispatch({
     type: 'UPDATE_CLUSTER_CONFIG',
   });
+  console.log("clusterId is >>>>", clusterId);
 
   return client.put(`${INFRA_MANAGER_HOST}/clusters/${clusterId}`, _.omit(updatedClusterData, 'id'))
   .then(

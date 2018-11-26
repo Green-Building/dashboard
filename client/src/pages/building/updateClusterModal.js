@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import Promise from 'bluebird';
 import _ from 'lodash';
-import client from '../../client';
+import { toast } from 'react-toastify';
 import { Form, Button, Header, Image, Modal, Input, Icon } from 'semantic-ui-react';
 
 import {
@@ -10,10 +11,13 @@ import {
 class UpdateClusterModal extends Component {
   state = {
     cluster: this.props.cluster,
+    modalOpen: false,
   }
 
-  handleChange = (event, data) => {
-    console.log("data is>>>", data);
+  handleOpen = () => this.setState({ modalOpen: true })
+  handleClose = () => this.setState({ modalOpen: false })
+
+  handleChange = (event, data) => {;
     if(this.props.isNew) {
       this.props.cluster[data.name] = data.value;
     } else {
@@ -26,28 +30,32 @@ class UpdateClusterModal extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const { updateClusterConfig } = this.props;
-    console.log("this.props.cluster is>>>", this.props.cluster);
-    return updateClusterConfig(this.props.cluster.id, this.state.cluster);
+    console.log("this.state.cluster is >>>", this.state.cluster);
+    return Promise.resolve(updateClusterConfig(this.state.cluster.id, this.state.cluster))
+    .then(() => {
+      this.handleClose();
+      toast.info("🔔 Cluster successfully updated");
+    })
   }
   render() {
     const { cluster } = this.props;
     return (
-      <Modal trigger={<Icon name="edit" />}>
+      <Modal trigger={<Icon name="edit" onClick={this.handleOpen} />}>
         <Modal.Header>Update a Cluster Config</Modal.Header>
         <Modal.Content>
           <Modal.Description>
-          <Form onSubmit={this.handleSubmit}>
-            <Form.Group>
-              <Form.Field>
-                <label>Cluster Name</label>
-                <Input name='name' placeholder='Name' value={this.state.cluster.name} onChange={this.handleChange} />
-              </Form.Field>
-              <Form.Field>
-                <label>Status</label>
-                <Input name='status' placeholder='Status' value={this.state.cluster.status} onChange={this.handleChange} />
-              </Form.Field>
-            </Form.Group>
-            <Form.Field control={Button}>Submit</Form.Field>
+            <Form onSubmit={this.handleSubmit}>
+              <Form.Group>
+                <Form.Field>
+                  <label>Cluster Name</label>
+                  <Input name='name' placeholder='Name' value={this.state.cluster.name} onChange={this.handleChange} />
+                </Form.Field>
+                <Form.Field>
+                  <label>Status</label>
+                  <Input name='status' placeholder='Status' value={this.state.cluster.status} onChange={this.handleChange} />
+                </Form.Field>
+              </Form.Group>
+              <Form.Field control={Button}>Submit</Form.Field>
             </Form>
           </Modal.Description>
         </Modal.Content>

@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { Link, IndexLink } from 'react-router';
 import { Menu, Button } from 'semantic-ui-react';
+import { ToastContainer } from 'react-toastify';
 
 import Auth from '../modules/Auth';
 
@@ -32,6 +33,7 @@ export default ({ children }) => {
           </Menu.Item>
         </Menu>) : null
       }
+      <ToastContainer autoClose={2000}/>
       { /* child component will be rendered here */ }
       {children}
     </div>

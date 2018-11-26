@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import _ from 'lodash';
 import { Link } from 'react-router';
 import { Table, Label, Icon } from 'semantic-ui-react';
+import { toast } from 'react-toastify';
 
 import AddClusterModal from './addClusterModal';
 import UpdateClusterModal from './updateClusterModal';
@@ -54,7 +55,7 @@ export default function({ floors, params, addClusterConfig, updateClusterConfig,
                   </Table.Cell>
                   <Table.Cell >
                   { floor.cluster ?
-                    <Icon onClick={() => deleteClusterConfig(floor.cluster.id, floor.id)} name="trash alternate"/> :
+                    <Icon onClick={() => {deleteClusterConfig(floor.cluster.id, floor.id); toast.info("🔔 Cluster successfully deleted");}} name="trash alternate"/> :
                     <AddClusterModal params={params} floor={floor} addClusterConfig={addClusterConfig} />
                   }
                   </Table.Cell>

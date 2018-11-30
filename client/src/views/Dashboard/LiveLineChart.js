@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import moment from 'moment';
+import moment from 'moment-timezone';
+import Promise from 'bluebird';
+import _ from 'lodash';
 import { Bar, Line } from 'react-chartjs-2';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -7,6 +9,11 @@ import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities';
 
 import { fetchLiveSensorData } from '../../reducers/sensorData';
+import client from '../../client';
+import {
+  DATA_MANAGER_HOST,
+  INFRA_MANAGER_HOST,
+} from '../../api-config';
 
 const brandPrimary = getStyle('--primary');
 const brandSuccess = getStyle('--success');
@@ -25,18 +32,6 @@ for (var i = 0; i <= elements; i++) {
   data1.push(random(50, 200));
 }
 
-const mainChart = {
-  datasets: [
-    {
-      label: 'Live Sensor Data',
-      backgroundColor: hexToRgba(brandInfo, 10),
-      borderColor: brandInfo,
-      pointHoverBackgroundColor: '#fff',
-      borderWidth: 2,
-      data: data1,
-    },
-  ],
-};
 
 const mainChartOpts = {
   tooltips: {
@@ -85,6 +80,19 @@ const mainChartOpts = {
 class LiveLineChart extends Component {
   state = {
     currentCount: 10,
+    mainChart: {
+      label: [],
+      datasets: [
+        {
+          label: 'Sensor Data',
+          backgroundColor: hexToRgba(brandInfo, 10),
+          borderColor: brandInfo,
+          pointHoverBackgroundColor: '#fff',
+          borderWidth: 2,
+          data: [],
+        },
+      ]
+    }
   }
 
   componentDidMount() {
@@ -96,15 +104,60 @@ class LiveLineChart extends Component {
 
   timer = () => {
     const { fetchLiveSensorData, device, device_type } = this.props;
-    let tenSecEarly = moment().subtract(10, 'seconds').format("YYYY-MM-DDThh:mm:ss");
+    const tz = moment.tz.guess();
+    let tenSecEarly = moment().subtract(30, 'd').format("YYYY-MM-DDThh:mm:ss");
     let nowTime =  moment().format("YYYY-MM-DDThh:mm:ss");
-    return fetchLiveSensorData(device_type, device.id, tenSecEarly, nowTime);
+    return client(`${DATA_MANAGER_HOST}/sensor_data/${device_type}/${device.id}`, {
+      method: 'GET',
+      params: {
+        startTime: moment(tenSecEarly).tz(tz).format("ddd MMM DD hh:mm:ss zz YYYY"),
+        endTime: moment(nowTime).tz(tz).format("ddd MMM DD hh:mm:ss zz YYYY")
+      },
+    })
+    .then(response => {
+      let liveData = response.data;
+      const { currentCount} = this.state;
+      let pureData = _.map(liveData, d => {
+        return d.data;
+      });
+      let mainChart = _.cloneDeep(this.state.mainChart);
+      let oldData = mainChart.datasets[0].data;
+      console.log("oldData is >>>", oldData);
+      if(oldData.length >100) {
+        oldData = pureData;
+      } else {
+        oldData = oldData.concat(pureData)
+      }
+      let newMainChart = {
+        datasets: [
+          {
+            label: 'Sensor Data',
+            backgroundColor: hexToRgba(brandInfo, 10),
+            borderColor: brandInfo,
+            pointHoverBackgroundColor: '#fff',
+            borderWidth: 2,
+            data: oldData,
+          },
+        ],
+        labels: oldData,
+      }
+      console.log("now mainChart is >>>", mainChart);
+      this.setState({
+        currentCount: this.state.currentCount+10,
+        mainChart: _.assign({}, newMainChart),
+      });
+    })
+  }
+  reloadChart = () => {
+    return _.cloneDeep(this.state.mainChart);
   }
 
   render() {
+    console.log("this.state.mainChart>>>", this.state.mainChart.datasets[0].data.length);
     return (
       <div className="chart-wrapper" style={{ height: 300 + 'px', marginTop: 40 + 'px' }}>
-        <Line data={mainChart} options={mainChartOpts} height={300} />
+        <p1>{this.state.currentCount}</p1>
+        <Line data={this.state.mainChart} options={mainChartOpts} height={300} />
       </div>
     )
   }
@@ -114,7 +167,6 @@ const mapStateToProps = state => {
   return {
     device: state.sensorData.device,
     device_type: state.sensorData.device_type,
-    data: state.sensorData.data
   };
 };
 

@@ -423,7 +423,7 @@ class Dashboard extends Component {
   }
 
   render() {
-    const { data, sensorData, deleteSensorData, params } = this.props;
+    const { data, liveData, sensorData, deleteSensorData, params } = this.props;
     return (
       <div className="animated fadeIn">
         <Row>
@@ -534,7 +534,7 @@ class Dashboard extends Component {
                     <div className="small text-muted">{moment().format("MMM YYYY")}</div>
                   </Col>
                 </Row>
-                <LiveLineChart />
+                <LiveLineChart liveData={liveData}/>
               </CardBody>
               <CardFooter>
                 <Row className="text-center">
@@ -747,7 +747,8 @@ class Dashboard extends Component {
 const mapStateToProps = state => {
   return {
     sensorData: state.sensorData,
-    data: state.sensorData.data
+    data: state.sensorData.data,
+    liveData: state.sensorData.liveData,
   };
 };
 

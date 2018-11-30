@@ -154,11 +154,15 @@ function groupSensorData(sensorData) {
 }
 
 function combineSensorData(sensorData, liveData) {
-  _.forEach(liveData, (data, key)=>{
-    if (data.length >100) {
-      data = sensorData[key];
+  console.log(sensorData, liveData)
+  _.forEach(sensorData, (data, key) => {
+    if(!liveData[key]) {
+      liveData[key] = [];
+    }
+    if (liveData[key].length >100) {
+      liveData[key] = data;
     } else {
-      data = data.concat[sensorData[key]];
+      liveData[key] = liveData[key].concat(data);
     }
   })
   return liveData;

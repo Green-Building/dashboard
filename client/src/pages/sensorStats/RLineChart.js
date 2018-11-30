@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import _ from 'lodash';
 import moment from 'moment';
 import { ScatterChart, Scatter, XAxis, YAxis, ZAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
@@ -40,13 +40,16 @@ export default class RLineChart extends Component {
       })
     });
     console.log("mData is >>>", mData);
+    console.log("data.length is>>>", _.isEmpty(data));
   	return (
-      <ScatterChart width={500} height={350} margin={{top: 20, right: 20, bottom: 20, left: 20}}>
-      	<CartesianGrid />
-        <XAxis type="number" dataKey={'time'} name='time' tickFormatter={v => moment(v).format('YY-MM-DD hh:ss')} domain={[minTime, maxTime ]} angle={-45} />
-      	<YAxis type="number" dataKey={'y'} name='data'/>
+      <ScatterChart width={900} height={350} margin={{top: 20, right: 20, bottom: 20, left: 20}}>
+
+
+        <CartesianGrid />
+        {!_.isEmpty(data) &&<XAxis type="number" dataKey={'time'} name='time' tickFormatter={v => moment(v).format('YY-MM-DD hh:ss')} domain={[minTime, maxTime ]} angle={-45} /> }
+        {!_.isEmpty(data) && <YAxis type="number" dataKey={'y'} name='data'/> }
         <ZAxis range={[100]}/>
-      	<Tooltip cursor={{strokeDasharray: '3 3'}}/>
+        <Tooltip cursor={{strokeDasharray: '3 3'}}/>
         <Legend verticalAlign="top" formatter={this.formatTime} />
         {_.map(mData, (s, key) => (
           <Scatter name={key} data={s} fill={getRandomColor()} line shape={getRandomShape()} />

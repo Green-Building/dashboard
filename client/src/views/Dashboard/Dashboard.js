@@ -1,6 +1,10 @@
 import React, { Component, lazy, Suspense } from 'react';
+import moment from 'moment';
+import _ from 'lodash';
 import { Bar, Line } from 'react-chartjs-2';
 import { Container, Grid } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import {
   Badge,
   Button,
@@ -32,6 +36,9 @@ import SelectTimeRange from '../../pages/sensorStats/SelectTimeRange.js';
 import AreaChart from '../../pages/sensorStats/AreaChart.js';
 import BarChart from '../../pages/sensorStats/BarChart.js';
 import SensorDataTab from '../../pages/sensorStats/sensorDataTab.js';
+import SensorSummary from '../../pages/sensorStats/sensorSummary.js';
+
+import { fetchDevice, deleteSensorData } from '../../reducers/sensorData';
 
 const brandPrimary = getStyle('--primary');
 const brandSuccess = getStyle('--success');
@@ -398,6 +405,11 @@ class Dashboard extends Component {
     };
   }
 
+  componentDidMount() {
+    const { type, id } = this.props.location.query;
+    this.props.fetchDevice(type, id);
+  }
+
   toggle() {
     this.setState({
       dropdownOpen: !this.state.dropdownOpen,
@@ -411,6 +423,7 @@ class Dashboard extends Component {
   }
 
   render() {
+    const { data, sensorData, deleteSensorData, params } = this.props;
     return (
       <div className="animated fadeIn">
         <Row>
@@ -517,18 +530,8 @@ class Dashboard extends Component {
               <CardBody>
                 <Row>
                   <Col sm="5">
-                    <CardTitle className="mb-0">Traffic</CardTitle>
-                    <div className="small text-muted">November 2015</div>
-                  </Col>
-                  <Col sm="7" className="d-none d-sm-inline-block">
-                    <Button color="primary" className="float-right"><i className="icon-cloud-download"></i></Button>
-                    <ButtonToolbar className="float-right" aria-label="Toolbar with button groups">
-                      <ButtonGroup className="mr-3" aria-label="First group">
-                        <Button color="outline-secondary" onClick={() => this.onRadioBtnClick(1)} active={this.state.radioSelected === 1}>Day</Button>
-                        <Button color="outline-secondary" onClick={() => this.onRadioBtnClick(2)} active={this.state.radioSelected === 2}>Month</Button>
-                        <Button color="outline-secondary" onClick={() => this.onRadioBtnClick(3)} active={this.state.radioSelected === 3}>Year</Button>
-                      </ButtonGroup>
-                    </ButtonToolbar>
+                    <CardTitle className="mb-0">Live Sensor Data</CardTitle>
+                    <div className="small text-muted">{moment().format("MMM YYYY")}</div>
                   </Col>
                 </Row>
                 <LiveLineChart />
@@ -569,7 +572,7 @@ class Dashboard extends Component {
           <Col>
             <Card>
               <CardHeader>
-                Traffic {' & '} Sales
+                {_.capitalize(sensorData.device_type)} Summary
               </CardHeader>
               <CardBody>
                 <Row>
@@ -628,10 +631,13 @@ class Dashboard extends Component {
                       <Grid columns={2} celled>
                         <Grid.Row>
                           <Grid.Column width={8}>
-                            <PieChart sensorData={{device:{}, device_type: 'sensor'}} />
+                            <PieChart sensorData={sensorData} />
                           </Grid.Column>
                           <Grid.Column width={8}>
-                            <RadarChart sensorData={{device:{}, device_type: 'sensor'}} />
+                            {sensorData.device_type !== 'sensor' ?
+                              <RadarChart sensorData={sensorData} /> :
+                              <SensorSummary sensorData={sensorData} />
+                            }
                           </Grid.Column>
                         </Grid.Row>
                       </Grid>
@@ -648,24 +654,24 @@ class Dashboard extends Component {
           <Col>
             <Card>
               <CardHeader>
-                Traffic {' & '} Sales
+                Sensor Data From Time Range
               </CardHeader>
               <CardBody>
                 <Row>
                   <Col xs="12" md="12" xl="12">
                     <Row>
                       <Col sm="12">
-                        <SelectTimeRange />
+                        <SelectTimeRange params={params} />
                       </Col>
 
                     </Row>
                   </Col>
                   <Col xs="12" md="12" xl="12">
                     <Container>
-                      <Grid columns={1} celled>
+                      <Grid columns={1}>
                         <Grid.Row>
                           <Grid.Column width={16}>
-                            <RLineChart sensorData={{data: {}, device:{}, device_type: 'sensor'}} />
+                            <RLineChart sensorData={sensorData} />
                           </Grid.Column>
                         </Grid.Row>
                       </Grid>
@@ -682,7 +688,7 @@ class Dashboard extends Component {
           <Col>
             <Card>
               <CardHeader>
-                Traffic {' & '} Sales
+                Sensor Data Aggregation
               </CardHeader>
               <CardBody>
                 <Row>
@@ -711,16 +717,16 @@ class Dashboard extends Component {
           <Col>
             <Card>
               <CardHeader>
-                Traffic {' & '} Sales
+                Sensor Data Table
               </CardHeader>
               <CardBody>
                 <Row>
                   <Col xs="12" md="12" xl="12">
                     <Container>
-                      <Grid columns={1} celled>
+                      <Grid columns={1}>
                         <Grid.Row>
                           <Grid.Column width={16}>
-                          <SensorDataTab sensorData={{data:{}}} />
+                          <SensorDataTab sensorData={sensorData} deleteSensorData={deleteSensorData} />
                           </Grid.Column>
                         </Grid.Row>
                       </Grid>
@@ -737,5 +743,28 @@ class Dashboard extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    sensorData: state.sensorData,
+    data: state.sensorData.data
+  };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    fetchDevice: (type, id) => {
+      dispatch(fetchDevice(type, id))
+    },
+    deleteSensorData: (sensorData) => {
+      dispatch(deleteSensorData(sensorData));
+    }
+  }
+}
+
+Dashboard = withRouter(connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Dashboard));
 
 export default Dashboard;

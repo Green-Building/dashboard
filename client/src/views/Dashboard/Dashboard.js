@@ -27,7 +27,10 @@ import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities';
 import LiveLineChart from './LiveLineChart';
 import PieChart from '../../pages/sensorStats/PieChart.js';
 import RadarChart from '../../pages/sensorStats/RadarChart.js';
-
+import RLineChart from '../../pages/sensorStats/RLineChart.js';
+import SelectTimeRange from '../../pages/sensorStats/SelectTimeRange.js';
+import AreaChart from '../../pages/sensorStats/AreaChart.js';
+import BarChart from '../../pages/sensorStats/BarChart.js';
 
 const brandPrimary = getStyle('--primary');
 const brandSuccess = getStyle('--success');
@@ -628,6 +631,69 @@ class Dashboard extends Component {
                           </Grid.Column>
                           <Grid.Column width={8}>
                             <RadarChart sensorData={{device:{}, device_type: 'sensor'}} />
+                          </Grid.Column>
+                        </Grid.Row>
+                      </Grid>
+                    </Container>
+                  </Col>
+                </Row>
+                <br />
+
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Card>
+              <CardHeader>
+                Traffic {' & '} Sales
+              </CardHeader>
+              <CardBody>
+                <Row>
+                  <Col xs="12" md="12" xl="12">
+                    <Row>
+                      <Col sm="12">
+                        <SelectTimeRange />
+                      </Col>
+
+                    </Row>
+                  </Col>
+                  <Col xs="12" md="12" xl="12">
+                    <Container>
+                      <Grid columns={1} celled>
+                        <Grid.Row>
+                          <Grid.Column width={16}>
+                            <RLineChart sensorData={{data: {}, device:{}, device_type: 'sensor'}} />
+                          </Grid.Column>
+                        </Grid.Row>
+                      </Grid>
+                    </Container>
+                  </Col>
+                </Row>
+                <br />
+
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Card>
+              <CardHeader>
+                Traffic {' & '} Sales
+              </CardHeader>
+              <CardBody>
+                <Row>
+                  <Col xs="12" md="12" xl="12">
+                    <Container>
+                      <Grid columns={2} celled>
+                        <Grid.Row>
+                          <Grid.Column width={18}>
+                            <AreaChart />
+                          </Grid.Column>
+                          <Grid.Column width={18}>
+                            <BarChart />
                           </Grid.Column>
                         </Grid.Row>
                       </Grid>

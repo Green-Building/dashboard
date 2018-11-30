@@ -50,7 +50,7 @@ export default class GPieChart extends Component {
     console.log("sensorData is >>>", sensorData);
     const data = formatData(sensorData);
   	return (
-    	<PieChart width={500} height={400} onMouseEnter={this.onPieEnter}>
+    	<PieChart width={400} height={300} onMouseEnter={this.onPieEnter}>
         <Pie
           data={data}
           cx={200}

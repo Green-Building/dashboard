@@ -7,10 +7,11 @@ import sensorStats from './pages/sensorStats';
 import sensorNetwork from './pages/SensorNetwork';
 import addBuilding from './pages/configManager/addBuilding';
 import addSensorData from './pages/dataManager/addSensorData';
-import Dashboard from './pages/dashboard';
+import Dashboard from './views/Dashboard/Dashboard.js';
 
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+
 
 import Auth from './modules/Auth';
 

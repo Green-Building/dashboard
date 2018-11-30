@@ -37,7 +37,7 @@ export default class GRadarChart extends Component {
     const { sensorData } = this.props;
     const data = formatData(sensorData);
   	return (
-    	<RadarChart cx={300} cy={250} outerRadius={150} width={600} height={500} data={data}>
+    	<RadarChart cx={200} cy={250} outerRadius={150} width={600} height={500} data={data}>
         <PolarGrid />
         <PolarAngleAxis dataKey="subject" />
         <PolarRadiusAxis/>

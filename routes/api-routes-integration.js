@@ -14,6 +14,8 @@ router
   .put('/clusters/:cluster_id', forwardingConfig.updateCluster)
   .delete('/clusters/:cluster_id', forwardingConfig.deleteCluster)
 
+  .get('/rooms/:room_id', forwardingConfig.getRoom)
+
   .get('/nodes/:node_id', forwardingConfig.getNode)
   .post('/nodes', forwardingConfig.addNode)
   .put('/nodes/:node_id', forwardingConfig.updateNode)
@@ -29,5 +31,7 @@ router
   .get('/sensor_data/sensor/:sensor_id', forwardingConfig.searchSensorData)
   .get('/sensor_data/cluster/:cluster_id', forwardingConfig.searchSensorDataByCluster)
   .get('/sensor_data/node/:node_id', forwardingConfig.searchSensorDataByNode)
+  .get('/sensor_data/floor/:floor_id', forwardingConfig.searchSensorDataByFloor)
+  .get('/sensor_data/room/:room_id', forwardingConfig.searchSensorDataByRoom)
 
 module.exports = router;

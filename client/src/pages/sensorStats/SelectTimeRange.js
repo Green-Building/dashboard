@@ -34,23 +34,25 @@ class SelectTimeRange extends Component {
     return (
       <Segment style={{borderRadius: '2px', boxShadow: '2px 3px 4px #666'}}>
         <Form onSubmit={this.onSubmit}>
-          <Form.Input
-            label='StartTime'
-            type='datetime-local'
-            step="1"
-            onChange={this.handleChange}
-            name="startTime"
-            value={this.state.startTime}
-          />
-          <Form.Input
-            label='EndTime'
-            type='datetime-local'
-            step="1"
-            onChange={this.handleChange}
-            name="endTime"
-            value={this.state.endTime}
-          />
-          <Form.Button>Submit</Form.Button>
+          <Form.Group widths='equal'>
+            <Form.Input
+              label='StartTime'
+              type='datetime-local'
+              step="1"
+              onChange={this.handleChange}
+              name="startTime"
+              value={this.state.startTime}
+            />
+            <Form.Input
+              label='EndTime'
+              type='datetime-local'
+              step="1"
+              onChange={this.handleChange}
+              name="endTime"
+              value={this.state.endTime}
+            />
+            <Form.Button label='Submit'>Submit</Form.Button>
+          </Form.Group>
         </Form>
       </Segment>
     );

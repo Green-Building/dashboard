@@ -22,6 +22,7 @@ router
   .delete('/clusters/:cluster_id', clusterConfig.deleteCluster)
 
   .get('/rooms/statistics/:room_id', roomConfig.getRoomStats)
+  .get('/rooms/:room_id', roomConfig.getRoom)
   .post('/floors/add', floorConfig.addFloor)
   .post('/rooms/add', roomConfig.addRoom)
 
@@ -41,6 +42,8 @@ router
   .get('/sensor_data/sensor/:sensor_id', sensorDataMgmt.searchSensorData)
   .get('/sensor_data/cluster/:cluster_id', sensorDataMgmt.searchSensorDataByCluster)
   .get('/sensor_data/node/:node_id', sensorDataMgmt.searchSensorDataByNode)
+  .get('/sensor_data/floor/:floor_id', sensorDataMgmt.searchSensorDataByFloor)
+  .get('/sensor_data/room/:room_id', sensorDataMgmt.searchSensorDataByRoom)
 
 
 module.exports = router;

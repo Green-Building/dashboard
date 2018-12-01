@@ -14,6 +14,7 @@ const INITIAL_STATE = {
   device: {},
   device_type: null,
   data: {},
+  liveData: {},
   isLoading: true,
 };
 
@@ -23,6 +24,9 @@ const INITIAL_STATE = {
 const FETCH_SENSOR_DATA = 'FETCH_SENSOR_DATA';
 const SUCCESS_SENSOR_DATA = 'SUCCESS_SENSOR_DATA';
 const ERROR_SENSOR_DATA = 'ERROR_SENSOR_DATA';
+const FETCH_LIVE_SENSOR_DATA = 'FETCH_LIVE_SENSOR_DATA';
+const SUCCESS_LIVE_SENSOR_DATA = 'SUCCESS_LIVE_SENSOR_DATA';
+const ERROR_LIVE_SENSOR_DATA = 'ERROR_LIVE_SENSOR_DATA';
 const FETCH_DEVICE = 'FETCH_DEVICE';
 const SUCCESS_DEVICE  = 'SUCCESS_DEVICE';
 const ERROR_DEVICE  = 'ERROR_DEVICE';
@@ -64,13 +68,46 @@ export const fetchSensorData = (type, id, startTime, endTime) => (dispatch, getS
   );
 };
 
+export const fetchLiveSensorData = (type, id, startTime, endTime) => (dispatch, getState) => {
+  dispatch({
+    type: FETCH_LIVE_SENSOR_DATA,
+  });
+  const tz = moment.tz.guess();
+
+  return client(`${DATA_MANAGER_HOST}/sensor_data/${type}/${id}`, {
+    method: 'GET',
+    params: {
+      startTime: moment(startTime).tz(tz).format("ddd MMM DD hh:mm:ss zz YYYY"),
+      endTime: moment(endTime).tz(tz).format("ddd MMM DD hh:mm:ss zz YYYY")
+    },
+  })
+  .then(
+    response => {
+      dispatch({
+        type: SUCCESS_LIVE_SENSOR_DATA,
+        result: response.data,
+      });
+    },
+    error => {
+      dispatch({
+        type: ERROR_LIVE_SENSOR_DATA,
+        message: error.message || 'Something went wrong.',
+      });
+    }
+  );
+};
+
 export const fetchDevice = (type, id) => (dispatch, getState) => {
   dispatch({
     type: FETCH_DEVICE,
   });
   let fetchDeviceUrl;
   if(type === "floor") {
-    fetchDeviceUrl = `${INFRA_MANAGER_HOST}/floors/${id}`;
+    if (INFRA_MANAGER_HOST.indexOf('v0') !== -1) {
+      fetchDeviceUrl = `${INFRA_MANAGER_HOST}/floors/${id}?fetch_nested=floor`;
+    } else {
+      fetchDeviceUrl = `${INFRA_MANAGER_HOST}/floors/${id}?fetch_nested=floor`;
+    }
   } else if (type === "room") {
     fetchDeviceUrl = `${INFRA_MANAGER_HOST}/rooms/${id}`;
   } else {
@@ -79,15 +116,21 @@ export const fetchDevice = (type, id) => (dispatch, getState) => {
   return client.get(fetchDeviceUrl)
   .then(
     response => {
+      let device;
+      if (type === 'floor' && INFRA_MANAGER_HOST.indexOf('v0') !== -1) {
+        device = response.data.floor;
+      } else {
+        device = response.data;
+      }
       dispatch({
-        type: 'SUCCESS_DEVICE',
+        type: SUCCESS_DEVICE,
         device_type: type,
-        device: response.data,
+        device: device,
       });
     },
     error => {
       dispatch({
-        type: 'ERROR_DEVICE',
+        type: ERROR_DEVICE,
         message: error.message || 'Something went wrong.',
       });
     }
@@ -120,11 +163,31 @@ function groupSensorData(sensorData) {
   return _.groupBy(sensorData, 'sensorId');
 }
 
+function combineSensorData(sensorData, liveData) {
+  console.log(sensorData, liveData)
+  _.forEach(sensorData, (data, key) => {
+    if(!liveData[key]) {
+      liveData[key] = [];
+    }
+    if (liveData[key].length >100) {
+      liveData[key] = data;
+    } else {
+      liveData[key] = liveData[key].concat(data);
+    }
+  })
+  return liveData;
+}
+
 const sensorData = (state = INITIAL_STATE, action) => {
+  let groupedSensorData;
   switch (action.type) {
     case SUCCESS_SENSOR_DATA:
-      let groupedSensorData = groupSensorData(action.result);
+      groupedSensorData = groupSensorData(action.result);
       return _.assign({}, state, { data: groupedSensorData, isLoading: false });
+    case SUCCESS_LIVE_SENSOR_DATA:
+      groupedSensorData = groupSensorData(action.result);
+      let newLiveData = combineSensorData(groupedSensorData,state.liveData);
+      return _.assign({}, state, { liveData: newLiveData, isLoading: false });
     case SUCCESS_DEVICE:
       let device = action.device;
       if (action.device_type === 'cluster' && device.sensors) {
@@ -145,6 +208,7 @@ const sensorData = (state = INITIAL_STATE, action) => {
       return _.assign({}, state, { data });
     case ERROR_DELETE_SENSOR_DATA:
     case ERROR_SENSOR_DATA:
+    case ERROR_LIVE_SENSOR_DATA:
     case ERROR_DEVICE:
       return INITIAL_STATE;
     default:

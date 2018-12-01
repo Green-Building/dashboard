@@ -47,12 +47,13 @@ const formatData = ({ device_type, device }) => {
 export default class GPieChart extends Component {
 	render () {
     const { sensorData } = this.props;
+    console.log("sensorData is >>>", sensorData);
     const data = formatData(sensorData);
   	return (
-    	<PieChart width={500} height={400} onMouseEnter={this.onPieEnter}>
+    	<PieChart width={400} height={300} onMouseEnter={this.onPieEnter}>
         <Pie
           data={data}
-          cx={300}
+          cx={200}
           cy={200}
           labelLine={false}
           label={renderCustomizedLabel}

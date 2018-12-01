@@ -54,7 +54,7 @@ export default class SensorTable extends Component {
                 }
                 <Table.Cell>
                   <Label>
-                    <Link to={`/sensor-data?type=sensor&id=${sensor.id}`}>
+                    <Link to={`/dashboard?type=sensor&id=${sensor.id}`}>
                       <Icon name="chart area" />Sensor Data
                     </Link>
                   </Label>

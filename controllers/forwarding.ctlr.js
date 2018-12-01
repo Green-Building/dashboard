@@ -61,6 +61,11 @@ const getClusterFromFloor = (req, res) => {
   req.pipe(request.get(`${INFRA_MANAGER_HOST}/floors/${floor_id}`, requestOptions)).pipe(res);
 }
 
+const getRoom = (req, res) => {
+  const room_id = +req.params.room_id;
+  req.pipe(request.get(`${INFRA_MANAGER_HOST}/rooms/${room_id}`)).pipe(res);
+}
+
 const getFloorStats = (req, res) => {
   const { floor_id: floorId } = req.params;
   req.pipe(request.get(`${INFRA_MANAGER_HOST}/floors/statistics/${floorId}`)).pipe(res);
@@ -261,8 +266,31 @@ const searchSensorDataByNode = (req, res) => {
   req.pipe(request.get(`${DATA_MANAGER_HOST}/sensor_data/node/${node_id}`, requestOptions)).pipe(res);
 }
 
+const searchSensorDataByFloor = (req, res) => {
+  const { startTime, endTime } = req.query;
+  const { floor_id } = req.params;
+  let requestOptions = {};
+  requestOptions.qs = {
+    startTime,
+    endTime,
+  }
+  req.pipe(request.get(`${DATA_MANAGER_HOST}/sensor_data/floor/${floor_id}`, requestOptions)).pipe(res);
+}
+
+const searchSensorDataByRoom = (req, res) => {
+  const { startTime, endTime } = req.query;
+  const { room_id } = req.params;
+  let requestOptions = {};
+  requestOptions.qs = {
+    startTime,
+    endTime,
+  }
+  req.pipe(request.get(`${DATA_MANAGER_HOST}/sensor_data/room/${room_id}`, requestOptions)).pipe(res);
+}
+
 module.exports = {
   getBuilding,
+  getRoom,
   searchBuildingByCity,
   searchBuildingByLatLng,
   getBuildingStats,
@@ -285,4 +313,6 @@ module.exports = {
   searchSensorData,
   searchSensorDataByCluster,
   searchSensorDataByNode,
+  searchSensorDataByFloor,
+  searchSensorDataByRoom,
 };

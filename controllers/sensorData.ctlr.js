@@ -101,6 +101,48 @@ const searchSensorDataByNode = (req, res) => {
   });
 }
 
+const searchSensorDataByFloor = (req, res) => {
+  let { startTime, endTime } = req.query;
+  let { floor_id: floorId } = req.params;
+  let query = {
+    floorId,
+    date: {
+      $gte: new Date(startTime),
+      $lte: new Date(endTime),
+    }
+  };
+
+  return SensorData2.find(query).exec()
+  .then(sensorData => {
+    console.log("getting floor sensor data is>>>", sensorData);
+    res.json(sensorData);
+  })
+  .catch(err => {
+    console.log("err getting floor sensor data is>>>", err);
+  });
+}
+
+const searchSensorDataByRoom = (req, res) => {
+  let { startTime, endTime } = req.query;
+  let { room_id: roomId } = req.params;
+  let query = {
+    roomId,
+    date: {
+      $gte: new Date(startTime),
+      $lte: new Date(endTime),
+    }
+  };
+
+  return SensorData2.find(query).exec()
+  .then(sensorData => {
+    console.log("getting room sensor data is>>>", sensorData);
+    res.json(sensorData);
+  })
+  .catch(err => {
+    console.log("err getting room sensor data is>>>", err);
+  });
+}
+
 const deleteSensorData = (req, res) => {
   let { id } = req.params;
   console.log("id is>>>", id);
@@ -131,6 +173,8 @@ module.exports = {
   searchSensorData,
   searchSensorDataByCluster,
   searchSensorDataByNode,
+  searchSensorDataByFloor,
+  searchSensorDataByRoom,
   deleteSensorData,
   updateSensorData,
 }

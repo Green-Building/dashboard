@@ -16,6 +16,21 @@ const addRoom = (req, res) => {
   });
 }
 
+const getRoom = (req, res) => {
+  const room_id = req.params.room_id;
+  return db.room.findOne({
+    where: {
+      id: room_id
+    },
+  })
+  .then(room => {
+    res.json(room);
+  })
+  .catch(err => {
+    console.log("err fetching room>>>", err);
+  })
+}
+
 const getRoomStats = (req, res) => {
   const { room_id: roomId } = req.params;
   return db.sequelize.query(`
@@ -37,5 +52,6 @@ const getRoomStats = (req, res) => {
 
 module.exports = {
   addRoom,
+  getRoom,
   getRoomStats,
 }

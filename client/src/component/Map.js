@@ -18,8 +18,8 @@ import MarkerWithInfoWindow from './MarkerWithInfoWindow';
 const MapWithASearchBox = compose(
   withProps({
     googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyBR8audAZcde2CziPeIvxy5n75kvGst41k&v=3.exp&libraries=geometry,drawing,places",
-    loadingElement: <div style={{ height: `100%` }} />,
-    containerElement: <div style={{ height: `540px` }} />,
+    loadingElement: <div style={{ height: `100%`}} />,
+    containerElement: <div style={{ height: `500px`}} />,
     mapElement: <div style={{ height: `100%` }} />,
   }),
   lifecycle({
@@ -143,6 +143,7 @@ const MapWithASearchBox = compose(
 )(props =>
   <Grid>
     <Grid.Row>
+      <Grid.Column width={16}>
       <Form onSubmit={(e)=>props.onSubmitForm(e)}>
         <Form.Group >
           <Form.Field>
@@ -167,6 +168,7 @@ const MapWithASearchBox = compose(
           </Form.Field>
         </Form.Group>
       </Form>
+      </Grid.Column>
     </Grid.Row>
     <Grid.Row>
       <GoogleMap

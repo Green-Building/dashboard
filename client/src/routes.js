@@ -7,9 +7,11 @@ import sensorStats from './pages/sensorStats';
 import sensorNetwork from './pages/SensorNetwork';
 import addBuilding from './pages/configManager/addBuilding';
 import addSensorData from './pages/dataManager/addSensorData';
+import Dashboard from './views/Dashboard/Dashboard.js';
 
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+
 
 import Auth from './modules/Auth';
 
@@ -100,6 +102,16 @@ const routes = {
       getComponent: (location, callback) => {
         if (Auth.isUserAuthenticated()) {
           callback(null, addBuilding);
+        } else {
+          callback(null, Login);
+        }
+      }
+    },
+    {
+      path: '/dashboard',
+      getComponent: (location, callback) => {
+        if (Auth.isUserAuthenticated()) {
+          callback(null, Dashboard);
         } else {
           callback(null, Login);
         }

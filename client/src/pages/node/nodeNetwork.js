@@ -9,7 +9,7 @@ export default class NodeNetwork extends Component {
   handleClick = (nodeData, evt) => {
     const { router } = this.props;
     if(nodeData.sensor_id) {
-      router.push(`/sensor-data?type=sensor&id=${nodeData.sensor_id}`);
+      router.push(`/dashboard?type=sensor&id=${nodeData.sensor_id}`);
     } else if (nodeData.node_id) {
       router.push(`/node/${nodeData.node_id}`);
     }
@@ -82,7 +82,7 @@ export default class NodeNetwork extends Component {
           textLayout={{transform: 'rotate(-20 70 100)'}}
           orientation="vertical"
         />
-        {room && <Link to={`/sensor-data?type=room&id=${room.id}`}><Button>Chceck sensor data</Button></Link>}
+        {room && <Link to={`/dashboard?type=room&id=${room.id}`}><Button>Chceck sensor data</Button></Link>}
       </div>
     );
   }

@@ -61,6 +61,11 @@ const getClusterFromFloor = (req, res) => {
   req.pipe(request.get(`${INFRA_MANAGER_HOST}/floors/${floor_id}`, requestOptions)).pipe(res);
 }
 
+const getRoom = (req, res) => {
+  const room_id = +req.params.room_id;
+  req.pipe(request.get(`${INFRA_MANAGER_HOST}/rooms/${room_id}`)).pipe(res);
+}
+
 const getFloorStats = (req, res) => {
   const { floor_id: floorId } = req.params;
   req.pipe(request.get(`${INFRA_MANAGER_HOST}/floors/statistics/${floorId}`)).pipe(res);
@@ -285,6 +290,7 @@ const searchSensorDataByRoom = (req, res) => {
 
 module.exports = {
   getBuilding,
+  getRoom,
   searchBuildingByCity,
   searchBuildingByLatLng,
   getBuildingStats,

@@ -22,6 +22,7 @@ router
   .delete('/clusters/:cluster_id', clusterConfig.deleteCluster)
 
   .get('/rooms/statistics/:room_id', roomConfig.getRoomStats)
+  .get('/rooms/:room_id', roomConfig.getRoom)
   .post('/floors/add', floorConfig.addFloor)
   .post('/rooms/add', roomConfig.addRoom)
 

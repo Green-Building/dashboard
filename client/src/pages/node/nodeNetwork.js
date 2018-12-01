@@ -82,7 +82,7 @@ export default class NodeNetwork extends Component {
           textLayout={{transform: 'rotate(-20 70 100)'}}
           orientation="vertical"
         />
-        {room && <Link to={`/sensor-data?type=room&id=${room.id}`}><Button>Chceck sensor data</Button></Link>}
+        {room && <Link to={`/dashboard?type=room&id=${room.id}`}><Button>Chceck sensor data</Button></Link>}
       </div>
     );
   }

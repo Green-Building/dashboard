@@ -14,6 +14,8 @@ router
   .put('/clusters/:cluster_id', forwardingConfig.updateCluster)
   .delete('/clusters/:cluster_id', forwardingConfig.deleteCluster)
 
+  .get('/rooms/:room_id', forwardingConfig.getRoom)
+
   .get('/nodes/:node_id', forwardingConfig.getNode)
   .post('/nodes', forwardingConfig.addNode)
   .put('/nodes/:node_id', forwardingConfig.updateNode)

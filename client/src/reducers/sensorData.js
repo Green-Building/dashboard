@@ -109,7 +109,7 @@ export const fetchDevice = (type, id) => (dispatch, getState) => {
       fetchDeviceUrl = `${INFRA_MANAGER_HOST}/floors/${id}?fetch_nested=floor`;
     }
   } else if (type === "room") {
-    fetchDeviceUrl = `${INFRA_MANAGER_HOST}/rooms/${id}?fetch_nested=room,node,sensor`;
+    fetchDeviceUrl = `${INFRA_MANAGER_HOST}/rooms/${id}`;
   } else {
     fetchDeviceUrl = `${INFRA_MANAGER_HOST}/sensors/${id}`;
   }

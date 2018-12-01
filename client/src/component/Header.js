@@ -1,11 +1,17 @@
 import React, { Component, Fragment, Suspense } from 'react';
 import { Link, IndexLink } from 'react-router';
+import { Nav, NavLink, NavItem } from 'reactstrap';
+import _ from 'lodash';
+import PerfectScrollbar from 'react-perfect-scrollbar';
 import { Menu, Button } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import { ToastContainer } from 'react-toastify';
 import { Container } from 'reactstrap';
 import DefaultHeader from '../pages/dashboard/DefaultHeader';
 import DefaultAside from '../pages/dashboard/DefaultAside';
 import DefaultFooter from '../pages/dashboard/DefaultFooter';
+import navigation from '../_nav';
 
 import {
   AppAside,
@@ -22,10 +28,12 @@ import {
 
 import Auth from '../modules/Auth';
 
-export default class Header extends Component  {
+class Header extends Component  {
 
   render() {
     const { children } = this.props;
+    console.log("this.props is >>>", this.props);
+    let props = _.omit(this.props, 'children');
     return (
       <div className="app">
         <AppHeader fixed>
@@ -35,11 +43,21 @@ export default class Header extends Component  {
         </AppHeader>
         <div className="app-body">
           <ToastContainer autoClose={2000}/>
-          <AppSidebar fixed display="lg">
+          <AppSidebar fixed display="lg" style={{backgroundColor: '#88aae0'}}>
             <AppSidebarHeader />
             <AppSidebarForm />
             <Suspense>
-            {/*<AppSidebarNav navConfig={navigation} {...this.props} />*/}
+            <Nav>
+              <NavItem>
+                <NavLink tag={Link} to="/">Dashboard</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink tag={Link} to="/">Infra Manager</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink tag={Link} to="/">Data Manager</NavLink>
+              </NavItem>
+            </Nav>
             </Suspense>
             <AppSidebarFooter />
             <AppSidebarMinimizer />
@@ -95,3 +113,7 @@ export default class Header extends Component  {
     );
   }
 };
+
+Header = withRouter(Header);
+
+export default Header;

@@ -41,6 +41,8 @@ router
   .get('/sensor_data/sensor/:sensor_id', sensorDataMgmt.searchSensorData)
   .get('/sensor_data/cluster/:cluster_id', sensorDataMgmt.searchSensorDataByCluster)
   .get('/sensor_data/node/:node_id', sensorDataMgmt.searchSensorDataByNode)
+  .get('/sensor_data/floor/:floor_id', sensorDataMgmt.searchSensorDataByFloor)
+  .get('/sensor_data/room/:room_id', sensorDataMgmt.searchSensorDataByRoom)
 
 
 module.exports = router;

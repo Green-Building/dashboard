@@ -103,24 +103,34 @@ export const fetchDevice = (type, id) => (dispatch, getState) => {
   });
   let fetchDeviceUrl;
   if(type === "floor") {
-    fetchDeviceUrl = `${INFRA_MANAGER_HOST}/floors/${id}`;
+    if (INFRA_MANAGER_HOST.indexOf('v0') !== -1) {
+      fetchDeviceUrl = `${INFRA_MANAGER_HOST}/floors/${id}?fetch_nested=floor`;
+    } else {
+      fetchDeviceUrl = `${INFRA_MANAGER_HOST}/floors/${id}?fetch_nested=floor`;
+    }
   } else if (type === "room") {
-    fetchDeviceUrl = `${INFRA_MANAGER_HOST}/rooms/${id}`;
+    fetchDeviceUrl = `${INFRA_MANAGER_HOST}/rooms/${id}?fetch_nested=room,node,sensor`;
   } else {
     fetchDeviceUrl = `${INFRA_MANAGER_HOST}/sensors/${id}`;
   }
   return client.get(fetchDeviceUrl)
   .then(
     response => {
+      let device;
+      if (type === 'floor' && INFRA_MANAGER_HOST.indexOf('v0') !== -1) {
+        device = response.data.floor;
+      } else {
+        device = response.data;
+      }
       dispatch({
-        type: 'SUCCESS_DEVICE',
+        type: SUCCESS_DEVICE,
         device_type: type,
-        device: response.data,
+        device: device,
       });
     },
     error => {
       dispatch({
-        type: 'ERROR_DEVICE',
+        type: ERROR_DEVICE,
         message: error.message || 'Something went wrong.',
       });
     }

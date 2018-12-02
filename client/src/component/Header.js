@@ -36,13 +36,16 @@ class Header extends Component  {
     let props = _.omit(this.props, 'children');
     return (
       <div className="app">
-        <AppHeader fixed>
-          <Suspense>
-            <DefaultHeader onLogout={e=>this.signOut(e)}/>
-          </Suspense>
-        </AppHeader>
+        {Auth.isUserAuthenticated() &&
+          <AppHeader fixed>
+            <Suspense>
+              <DefaultHeader onLogout={e=>this.signOut(e)}/>
+            </Suspense>
+          </AppHeader>
+        }
         <div className="app-body">
           <ToastContainer autoClose={2000}/>
+          { Auth.isUserAuthenticated() &&
           <AppSidebar fixed display="lg" style={{backgroundColor: '#88aae0'}}>
             <AppSidebarHeader />
             <AppSidebarForm />
@@ -62,6 +65,7 @@ class Header extends Component  {
             <AppSidebarFooter />
             <AppSidebarMinimizer />
           </AppSidebar>
+          }
           <main className="main">
             {/*<AppBreadcrumb appRoutes={routes}/> */}
             <Container fluid>
@@ -76,11 +80,13 @@ class Header extends Component  {
             </Suspense>
           </AppAside>
         </div>
+        {Auth.isUserAuthenticated() &&
         <AppFooter>
           <Suspense >
             <DefaultFooter />
           </Suspense>
         </AppFooter>
+        }
         {/*
         <div style={{'height': '100vh'}}>
           {Auth.isUserAuthenticated() ?

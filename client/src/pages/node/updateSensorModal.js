@@ -30,6 +30,7 @@ class UpdateSensorModal extends Component {
   render() {
     return (
       <Modal
+        style={{marginLeft: 'auto', marginRight: 'auto'}}
         trigger={<Icon name="edit" onClick={this.handleOpen} />}
         open={this.state.modalOpen}
         onClose={this.handleClose}

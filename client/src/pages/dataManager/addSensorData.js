@@ -105,7 +105,7 @@ class AddSensorData extends Component {
 
   render() {
     return (
-      <Container>
+      <Container style={{marginTop: '20px'}}>
         <Segment>
           <Form onSubmit={this.handleSubmit}>
             <Form.Group widths='equal'>

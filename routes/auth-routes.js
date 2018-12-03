@@ -87,7 +87,6 @@ router.post('/signup', (req, res, next) => {
 
   return passport.authenticate('local-signup', (err, token, userData) => {
     if (err) {
-      console.log("err is >>>", err);
       return res.status(400).json({
         success: false,
         message: 'Could not process the form.'
@@ -104,11 +103,8 @@ router.post('/signup', (req, res, next) => {
 });
 
 router.post('/login', (req, res, next) => {
-  console.log("req.header>>>", req.header);
-  console.log('req.body is>>>', req.body);
   const validationResult = validateLoginForm(req.body);
   if (!validationResult.success) {
-    console.log("not a valid form>>")
     return res.status(400).json({
       success: false,
       message: validationResult.message,
@@ -119,7 +115,6 @@ router.post('/login', (req, res, next) => {
 
   return passport.authenticate('local-login', (err, token, userData) => {
     if (err) {
-      console.log("err is >>>", err);
       if (err.name === 'IncorrectCredentialsError') {
         res.status(400).json({
           success: false,

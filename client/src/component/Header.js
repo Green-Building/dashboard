@@ -52,14 +52,18 @@ class Header extends Component  {
             <Suspense>
             <Nav>
               <NavItem>
-                <NavLink tag={Link} to="/">Dashboard</NavLink>
+                <NavLink tag={Link} to="/">MapView</NavLink>
               </NavItem>
-              <NavItem>
-                <NavLink tag={Link} to="/">Infra Manager</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={Link} to="/">Data Manager</NavLink>
-              </NavItem>
+              { Auth.getUser()!=='client' &&
+                <NavItem>
+                  <NavLink tag={Link} to="/">Infra Manager</NavLink>
+                </NavItem>
+              }
+              { Auth.getUser()!=='client' &&
+                <NavItem>
+                  <NavLink tag={Link} to="/sensor-data-manager">Data Manager</NavLink>
+                </NavItem>
+              }
             </Nav>
             </Suspense>
             <AppSidebarFooter />

@@ -76,7 +76,7 @@ export default class NodeNetwork extends Component {
           <Tree
             data={treeDataWrapper}
             nodeSvgShape={{shape: 'circle', shapeProps: {r: 10}}}
-            translate={{x: 350, y: 50}}
+            translate={{x: 300, y: 50}}
             pathFunc="straight"
             onClick={this.handleClick}
             collapsible={false}

@@ -11,6 +11,7 @@ import {
   withGoogleMap,
   GoogleMap,
 } from 'react-google-maps';
+import {CardBody} from 'reactstrap';
 import { SearchBox } from 'react-google-maps/lib/components/places/SearchBox';
 
 import MarkerWithInfoWindow from './MarkerWithInfoWindow';
@@ -19,8 +20,8 @@ const MapWithASearchBox = compose(
   withProps({
     googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyBR8audAZcde2CziPeIvxy5n75kvGst41k&v=3.exp&libraries=geometry,drawing,places",
     loadingElement: <div style={{ height: `100%`}} />,
-    containerElement: <div style={{ height: `500px`}} />,
-    mapElement: <div style={{ height: `100%` }} />,
+    containerElement: <CardBody style={{ height: `500px`, marginTop: '20px'}} ></CardBody>,
+    mapElement: <div style={{ height: `100%`, border: '1px solid gray'}} />,
   }),
   lifecycle({
     componentWillMount() {
@@ -143,9 +144,9 @@ const MapWithASearchBox = compose(
 )(props =>
   <Grid>
     <Grid.Row>
-      <Grid.Column width={16}>
+      <Grid.Column width={16} style={{marginLeft: '20px'}}>
       <Form onSubmit={(e)=>props.onSubmitForm(e)}>
-        <Form.Group >
+        <Form.Group>
           <Form.Field>
             <label>City</label>
             <Input name='city' value={props.city} placeholder='City' onChange={props.onFormUpdate} />

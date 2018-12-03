@@ -27,7 +27,7 @@ export default class NodeNetwork extends Component {
           height: 20,
           x: -10,
           y: -10,
-          fill: 'cyan',
+          fill: 'black',
         },
       },
     }
@@ -39,7 +39,7 @@ export default class NodeNetwork extends Component {
           shape: 'circle',
           shapeProps: {
             r: 10,
-            fill: 'orange',
+            fill: 'gray',
           },
         },
       };
@@ -60,11 +60,13 @@ export default class NodeNetwork extends Component {
           circle: nodeAttr,
           name: nodeAttr,
           attributes: nodeAttr,
+          textLayout:{transform: 'translate(10px 10px)'}
         },
         leafNode: {
           circle: nodeAttr,
           name: nodeAttr,
           attributes: nodeAttr,
+          textLayout:{transform: 'translate(10px 10px)'}
         },
       }
     }
@@ -80,7 +82,6 @@ export default class NodeNetwork extends Component {
             collapsible={false}
             zoom={1}
             styles={styles}
-            textLayout={{transform: 'rotate(-20 70 100)'}}
             orientation="vertical"
           />
 

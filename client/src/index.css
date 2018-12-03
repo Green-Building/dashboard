@@ -28,11 +28,6 @@ code {
   justify-content: center;
 }
 
-#treeWrapper {
-  background-image: url('./assets/room_1_opaque.jpg');
-  background-size: cover;
-}
-
 .myModal {
   margin-left: auto;
   margin-right: ruto;

@@ -6,6 +6,8 @@ const db = require('../models');
  *  The Auth Checker middleware function.
  */
 module.exports = (req, res, next) => {
+  console.log("req.path is>>>", req.path);
+  console.log("req.originalUrl>>>", req.originalUrl);
   if (!req.headers.authorization) {
     return res.status(401).end();
   }

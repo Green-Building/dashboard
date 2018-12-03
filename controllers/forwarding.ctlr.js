@@ -231,6 +231,21 @@ const deleteSensorData = (req, res) => {
   req.pipe(request.delete(`${DATA_MANAGER_HOST}/sensor_data/${id}`)).pipe(res);
 }
 
+const updateSensorData = (req, res) => {
+  const { id } = req.params;
+  let sensorData = req.body;
+  const options = {
+    json: [sensorData]
+  };
+  return request.put(`${DATA_MANAGER_HOST}/sensor_data`, options)
+  .then(response => {
+    res.json(response);
+  })
+  .catch(err => {
+    console.log("error updating sensor data>>>", err);
+  })
+}
+
 const searchSensorData = (req, res) => {
   const { startTime, endTime } = req.query;
   let requestOptions = {};
@@ -310,6 +325,7 @@ module.exports = {
   deleteSensor,
   bulkInsertSensorData,
   deleteSensorData,
+  updateSensorData,
   searchSensorData,
   searchSensorDataByCluster,
   searchSensorDataByNode,

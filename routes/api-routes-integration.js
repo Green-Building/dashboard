@@ -27,6 +27,7 @@ router
   .delete('/sensors/:sensor_id', forwardingConfig.deleteSensor)
 
   .post('/sensor_data', forwardingConfig.bulkInsertSensorData)
+  .put('/sensor_data/:id', forwardingConfig.updateSensorData)
   .delete('/sensor_data/:id', forwardingConfig.deleteSensorData)
   .get('/sensor_data/sensor/:sensor_id', forwardingConfig.searchSensorData)
   .get('/sensor_data/cluster/:cluster_id', forwardingConfig.searchSensorDataByCluster)

@@ -63,7 +63,7 @@ const mainChartOpts = {
           beginAtZero: true,
           maxTicksLimit: 5,
           stepSize: Math.ceil(250 / 5),
-          max: 250,
+          max: 150,
         },
       }],
   },

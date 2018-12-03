@@ -4,7 +4,7 @@ import { Badge, DropdownItem, DropdownMenu, DropdownToggle, Nav, NavItem, NavLin
 import PropTypes from 'prop-types';
 
 import { AppAsideToggler, AppHeaderDropdown, AppNavbarBrand, AppSidebarToggler } from '@coreui/react';
-import logo from '../../assets/logo.svg';
+import logo from '../../assets/logo.jpg';
 import sygnet from '../../assets/sygnet.svg';
 import avatar from '../../assets/img/avatars/6.jpg';
 
@@ -31,13 +31,7 @@ class DefaultHeader extends Component {
 
         <Nav className="d-md-down-none" navbar>
           <NavItem className="px-3">
-            <NavLink href="/">Dashboard</NavLink>
-          </NavItem>
-          <NavItem className="px-3">
-            <Link to="/users">Users</Link>
-          </NavItem>
-          <NavItem className="px-3">
-            <NavLink href="#">Settings</NavLink>
+            <NavLink href="/">Home</NavLink>
           </NavItem>
         </Nav>
         <Nav className="ml-auto" navbar>
@@ -67,7 +61,7 @@ class DefaultHeader extends Component {
               <DropdownItem><i className="fa fa-file"></i> Projects<Badge color="primary">42</Badge></DropdownItem>
               <DropdownItem divider />
               <DropdownItem><i className="fa fa-shield"></i> Lock Account</DropdownItem>
-              <DropdownItem onClick={e => this.props.onLogout(e)}><i className="fa fa-lock"></i> Logout</DropdownItem>
+              <DropdownItem><Link to="/logout"><i className="fa fa-lock"></i> Logout</Link></DropdownItem>
             </DropdownMenu>
           </AppHeaderDropdown>
         </Nav>

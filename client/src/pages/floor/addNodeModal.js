@@ -44,6 +44,7 @@ class AddNodeModal extends Component {
     })
     return (
       <Modal
+        style={{marginLeft: 'auto', marginRight: 'auto'}}
         trigger={<Button onClick={this.handleOpen}>Add Node</Button>}
         open={this.state.modalOpen}
         onClose={this.handleClose}

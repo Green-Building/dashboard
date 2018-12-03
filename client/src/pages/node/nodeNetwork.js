@@ -69,20 +69,25 @@ export default class NodeNetwork extends Component {
       }
     }
     return (
-      <div id="treeWrapper" style={{ height: '30em', boxShadow: '2px 3px 4px #666'}}>
-        <Tree
-          data={treeDataWrapper}
-          nodeSvgShape={{shape: 'circle', shapeProps: {r: 10}}}
-          translate={{x: 350, y: 50}}
-          pathFunc="straight"
-          onClick={this.handleClick}
-          collapsible={false}
-          zoom={1}
-          styles={styles}
-          textLayout={{transform: 'rotate(-20 70 100)'}}
-          orientation="vertical"
-        />
-        {room && <Link to={`/dashboard?type=room&id=${room.id}`}><Button>Chceck sensor data</Button></Link>}
+      <div>
+        <div id="treeWrapper" style={{ height: '30em', boxShadow: '2px 3px 4px #666'}}>
+          <Tree
+            data={treeDataWrapper}
+            nodeSvgShape={{shape: 'circle', shapeProps: {r: 10}}}
+            translate={{x: 350, y: 50}}
+            pathFunc="straight"
+            onClick={this.handleClick}
+            collapsible={false}
+            zoom={1}
+            styles={styles}
+            textLayout={{transform: 'rotate(-20 70 100)'}}
+            orientation="vertical"
+          />
+
+        </div>
+        <div>
+          {room && <Link to={`/dashboard?type=room&id=${room.id}`}><Button>Chceck sensor data</Button></Link>}
+        </div>
       </div>
     );
   }

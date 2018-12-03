@@ -34,6 +34,7 @@ class AddSensorModal extends Component {
   render() {
     return (
       <Modal
+        style={{marginLeft: 'auto', marginRight: 'auto'}}
         trigger={<Button onClick={this.handleOpen}>Add Sensor</Button>}
         open={this.state.modalOpen}
         onClose={this.handleClose}

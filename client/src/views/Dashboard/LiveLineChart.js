@@ -122,7 +122,6 @@ class LiveLineChart extends Component {
       });
       let mainChart = _.cloneDeep(this.state.mainChart);
       let oldData = mainChart.datasets[0].data;
-      console.log("oldData is >>>", oldData);
       if(oldData.length >100) {
         oldData = pureData;
       } else {
@@ -141,7 +140,6 @@ class LiveLineChart extends Component {
         ],
         labels: oldData,
       }
-      console.log("now mainChart is >>>", mainChart);
       this.setState({
         currentCount: this.state.currentCount+10,
         mainChart: _.assign({}, newMainChart),
@@ -153,7 +151,6 @@ class LiveLineChart extends Component {
   }
 
   render() {
-    console.log("this.state.mainChart>>>", this.state.mainChart.datasets[0].data.length);
     return (
       <div className="chart-wrapper" style={{ height: 300 + 'px', marginTop: 40 + 'px' }}>
         <p1>{this.state.currentCount}</p1>

@@ -38,16 +38,16 @@ export default class SensorSummary extends Component {
     return (
       <Card className="centered" style={{boxShadow: '2px 3px 4px #666'}}>
         <Card.Content>
-          <Image floated='right' size='tiny' src={getDeviceImage(device, device_type)} />
+          <Image size='medium' src={getDeviceImage(device, device_type)} />
           <Card.Meta>{device.name}</Card.Meta>
+        </Card.Content>
+        <Card.Content>
           <Card.Description>
             Device Type {device_type}
           </Card.Description>
           <Card.Description>
             Install Time: <span className='date'>{device.install_time}</span>
           </Card.Description>
-        </Card.Content>
-        <Card.Content>
           {/*
             <Modal trigger={<Button>See {device_type} Network</Button>}>
               <DeviceNetwork device={device} device_type={device_type} />

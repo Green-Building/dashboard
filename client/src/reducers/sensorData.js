@@ -104,21 +104,45 @@ export const fetchDevice = (type, id) => (dispatch, getState) => {
   let fetchDeviceUrl;
   if(type === "floor") {
     if (INFRA_MANAGER_HOST.indexOf('v0') !== -1) {
-      fetchDeviceUrl = `${INFRA_MANAGER_HOST}/floors/${id}?fetch_nested=floor`;
+      fetchDeviceUrl = `${INFRA_MANAGER_HOST}/floors/${id}?fetch_nested=floor,room,node,sensor`;
     } else {
-      fetchDeviceUrl = `${INFRA_MANAGER_HOST}/floors/${id}?fetch_nested=floor`;
+      fetchDeviceUrl = `${INFRA_MANAGER_HOST}/floors/${id}?fetch_nested=room,node,sensor`;
     }
   } else if (type === "room") {
-    fetchDeviceUrl = `${INFRA_MANAGER_HOST}/rooms/${id}`;
+    fetchDeviceUrl = `${INFRA_MANAGER_HOST}/rooms/${id}?fetch_nested=node,sensor`;
   } else {
     fetchDeviceUrl = `${INFRA_MANAGER_HOST}/sensors/${id}`;
   }
   return client.get(fetchDeviceUrl)
   .then(
     response => {
-      let device;
-      if (type === 'floor' && INFRA_MANAGER_HOST.indexOf('v0') !== -1) {
-        device = response.data.floor;
+      let device, floor, rooms, nodes, sensors;
+      if (type === 'floor') {
+        if (INFRA_MANAGER_HOST.indexOf('v0') !== -1) {
+          device = response.data;
+          floor = device.floor;
+          rooms = floor.rooms;
+          nodes = device.nodes;
+        } else {
+          floor = response.data;
+          device = floor.cluster;
+          rooms = floor.rooms;//cluster.floor.rooms;
+          nodes = _.compact(floor.nodes);
+          sensors = _.compact(floor.sensors);
+          _.forEach(nodes, node => {
+            node.sensors = _.filter(sensors, {node_id: node.id}) || {};
+          });
+          device.nodes = nodes;
+        }
+      } else if (type==='room') {
+        if (INFRA_MANAGER_HOST.indexOf('v0') === -1) {
+          let room = response.data;
+          room.node = room.node || {};
+          room.node.sensors = room.sensors;
+          device = room;
+        } else {
+          device = response.data;
+        }
       } else {
         device = response.data;
       }

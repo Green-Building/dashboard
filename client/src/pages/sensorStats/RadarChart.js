@@ -6,14 +6,16 @@ import { Radar, RadarChart, PolarGrid,
 
 const formatData = ({ device_type, device }) => {
   let sensorInfos = {};
-  if (device_type === 'cluster') {
+  if (device_type === 'cluster' || device_type ==='floor') {
+    console.log("device is >>>", device);
     _.forEach(device.nodes, node => {
       _.forEach(node.sensors, sensor => {
         sensorInfos[sensor.type] = sensorInfos[sensor.type] ? sensorInfos[sensor.type] + 1 : 1;
       })
     })
-  } else if (device_type === 'node') {
-    _.forEach(device.sensors, sensor => {
+  } else if (device_type === 'room') {
+    let node = _.get(device, 'node', {});
+    _.forEach(node.sensors, sensor => {
       sensorInfos[sensor.type] = sensorInfos[sensor.type] ? sensorInfos[sensor.type] + 1 : 1;
     })
   } else {
@@ -37,7 +39,7 @@ export default class GRadarChart extends Component {
     const { sensorData } = this.props;
     const data = formatData(sensorData);
   	return (
-    	<RadarChart cx={200} cy={250} outerRadius={150} width={400} height={300} data={data}>
+    	<RadarChart cx={200} cy={200} outerRadius={150} width={400} height={300} data={data}>
         <PolarGrid />
         <PolarAngleAxis dataKey="subject" />
         <PolarRadiusAxis/>

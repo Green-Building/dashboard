@@ -1,5 +1,6 @@
 const db = require('../models');
 const _ = require('lodash');
+const { generateNest } = require('../utils');
 
 const addRoom = (req, res) => {
   console.log("request.body is>>>", req.body);
@@ -18,11 +19,16 @@ const addRoom = (req, res) => {
 
 const getRoom = (req, res) => {
   const room_id = req.params.room_id;
-  return db.room.findOne({
+  const { fetch_nested } = req.query;
+  let queryObj = {
     where: {
       id: room_id
     },
-  })
+  };
+  if(fetch_nested) {
+    queryObj.include = generateNest('room', fetch_nested, db);
+  }
+  return db.room.findOne(queryObj)
   .then(room => {
     res.json(room);
   })

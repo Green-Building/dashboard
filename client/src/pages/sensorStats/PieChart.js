@@ -20,14 +20,15 @@ const renderCustomizedLabel = (pieData) => {
 
 const formatData = ({ device_type, device }) => {
   let sensorInfos = {};
-  if (device_type === 'cluster') {
+  if (device_type === 'cluster' || device_type ==='floor') {
     _.forEach(device.nodes, node => {
       _.forEach(node.sensors, sensor => {
         sensorInfos[sensor.type] = sensorInfos[sensor.type] ? sensorInfos[sensor.type] + 1 : 1;
       })
     })
-  } else if (device_type === 'node') {
-    _.forEach(device.sensors, sensor => {
+  } else if (device_type === 'room') {
+    let node = _.get(device, 'node', {});
+    _.forEach(node.sensors, sensor => {
       sensorInfos[sensor.type] = sensorInfos[sensor.type] ? sensorInfos[sensor.type] + 1 : 1;
     })
   } else {
@@ -54,7 +55,7 @@ export default class GPieChart extends Component {
         <Pie
           data={data}
           cx={200}
-          cy={200}
+          cy={180}
           labelLine={false}
           label={renderCustomizedLabel}
           outerRadius={80}

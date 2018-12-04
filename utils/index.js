@@ -10,6 +10,8 @@ function generateNest(start, query, db) {
       return buildingCase(map, db);
     case 'floor':
       return floorCase(map, db);
+    case 'room':
+      return roomCase(map, db);
     case 'cluster':
       return clusterCase(map, db);
     case 'node':
@@ -110,6 +112,25 @@ function clusterCase(map, db) {
   }
   if(!_.isEmpty(floorMapping)) {
     result.push(floorMapping);
+  }
+  if(!_.isEmpty(nodeMapping)) {
+    result.push(nodeMapping);
+  }
+  return result;
+}
+
+function roomCase(map, db) {
+  let nodeMapping = {}, result=[];
+
+  if (map['node']) {
+    nodeMapping = {
+      model: db.node,
+    }
+    if(map['sensor']) {
+      nodeMapping.include = [
+        {model: db.sensor}
+      ]
+    }
   }
   if(!_.isEmpty(nodeMapping)) {
     result.push(nodeMapping);

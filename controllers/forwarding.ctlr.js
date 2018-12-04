@@ -63,7 +63,14 @@ const getClusterFromFloor = (req, res) => {
 
 const getRoom = (req, res) => {
   const room_id = +req.params.room_id;
-  req.pipe(request.get(`${INFRA_MANAGER_HOST}/rooms/${room_id}`)).pipe(res);
+  const { fetch_nested } = req.query;
+  let requestOptions = {};
+  if (fetch_nested) {
+    requestOptions.qs = {
+      fetch_nested: fetch_nested,
+    }
+  }
+  req.pipe(request.get(`${INFRA_MANAGER_HOST}/rooms/${room_id}`, requestOptions)).pipe(res);
 }
 
 const getFloorStats = (req, res) => {

@@ -22,7 +22,6 @@ class NodeTable extends Component {
             { Auth.getUser()!=='client' &&
               <Table.HeaderCell colSpan='2'>Operation</Table.HeaderCell>
             }
-            <Table.HeaderCell>Data</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -48,13 +47,6 @@ class NodeTable extends Component {
                     </Table.Cell>
                   </Fragment>
                 }
-                <Table.Cell>
-                  <Label>
-                    <Link to={`/sensor-data?type=node&id=${node.id}`}>
-                      <Icon name="chart area" />Sensor Data
-                    </Link>
-                  </Label>
-                </Table.Cell>
               </Table.Row>
             )
           })}

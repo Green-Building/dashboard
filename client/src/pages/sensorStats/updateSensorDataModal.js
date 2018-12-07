@@ -24,7 +24,10 @@ class UpdateSensorDataModal extends Component {
   }
   render() {
     return (
-      <Modal trigger={<Icon name="edit" />}>
+      <Modal
+        trigger={<Icon name="edit" />}
+        style={{marginLeft: 'auto', marginRight: 'auto'}}
+      >
         <Modal.Header>Update a Sensor Data</Modal.Header>
         <Modal.Content>
           <Modal.Description>

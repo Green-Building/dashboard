@@ -39,7 +39,7 @@ app.use('/api/v0', apiLocalRoutes);
 app.use('/api/v1', apiIntegrationRoutes);
 
 return Promise.all([
-  mongoose.connect('mongodb://localhost/greenBuilding'),
+  mongoose.connect('mongodb://admin1:admin1@ds127644.mlab.com:27644/greenbuilding_data'),
   db.sequelize.sync(),
 ])
 .then(() => {

@@ -1,8 +1,8 @@
 const _ = require('lodash');
 const request = require('request-promise');
 const moment = require('moment-timezone');
-const INFRA_MANAGER_HOST = 'http://localhost:3006';
-const DATA_MANAGER_HOST = 'http://localhost:8080';
+const INFRA_MANAGER_HOST = 'http://ec2-52-205-191-111.compute-1.amazonaws.com:3006';
+const DATA_MANAGER_HOST = 'http://ec2-18-208-110-56.compute-1.amazonaws.com:8080';
 const SIMULATOR_HOST = 'http://localhost:3005';
 
 const getBuilding = (req, res) => {
@@ -262,6 +262,7 @@ const searchSensorData = (req, res) => {
   }
 
   const { sensor_id } = req.params;
+  console.log("heree sensor_id is>>>", sensor_id);
   req.pipe(request.get(`${DATA_MANAGER_HOST}/sensor_data/sensor/${sensor_id}`, requestOptions)).pipe(res);
 }
 

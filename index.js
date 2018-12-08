@@ -40,7 +40,9 @@ app.get('/heartbeat', (req, res) => {
 app.use('/auth', authRoutes);
 app.use('/api/v0', apiLocalRoutes);
 app.use('/api/v1', apiIntegrationRoutes);
-
+app.get('/', (req, res) => {
+  res.status(201).json({status: 'alive'});
+})
 return Promise.all([
   mongoose.connect('mongodb://admin1:admin1@ds127644.mlab.com:27644/greenbuilding_data'),
   db.sequelize.sync(),

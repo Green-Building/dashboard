@@ -34,6 +34,9 @@ const authRoutes = require('./routes/auth-routes');
 const apiLocalRoutes = require('./routes/api-routes');
 const apiIntegrationRoutes = require('./routes/api-routes-integration');
 
+app.get('/heartbeat', (req, res) => {
+  res.status(201).json({status: 'alive'});
+})
 app.use('/auth', authRoutes);
 app.use('/api/v0', apiLocalRoutes);
 app.use('/api/v1', apiIntegrationRoutes);

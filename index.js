@@ -35,14 +35,16 @@ const apiLocalRoutes = require('./routes/api-routes');
 const apiIntegrationRoutes = require('./routes/api-routes-integration');
 
 app.get('/heartbeat', (req, res) => {
-  res.status(200).json({status: 'alive'});
-})
+  const message = "you are alive."
+  res.send(message.toString('utf-8'));// Use the encoding necessary
+});
 app.use('/auth', authRoutes);
 app.use('/api/v0', apiLocalRoutes);
 app.use('/api/v1', apiIntegrationRoutes);
 app.get('/', (req, res) => {
-  res.status(201).json({status: 'alive'});
-})
+  const message = "you are alive."
+  res.send(message.toString('utf-8'));// Use the encoding necessary
+});
 return Promise.all([
   mongoose.connect('mongodb://admin1:admin1@ds127644.mlab.com:27644/greenbuilding_data'),
   db.sequelize.sync(),

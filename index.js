@@ -16,6 +16,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.text());
 app.use(bodyParser.json());
 
+app.set('serveralias', 'server-'+Math.round(Math.random()*100));
 app.set('port', (process.env.PORT || 4001));
 app.use(passport.initialize());
 
@@ -44,6 +45,10 @@ app.use('/api/v1', apiIntegrationRoutes);
 app.get('/', (req, res) => {
   const message = "you are alive."
   res.send(message.toString('utf-8'));// Use the encoding necessary
+});
+
+app.get('/load-balance-test', (req, res) => {
+  res.send(`Server is running on  Server # ${app.get('serveralias')}`);
 });
 return Promise.all([
   mongoose.connect('mongodb://admin1:admin1@ds127644.mlab.com:27644/greenbuilding_data'),

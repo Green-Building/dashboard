@@ -105,8 +105,8 @@ class LiveLineChart extends Component {
   timer = () => {
     const { fetchLiveSensorData, device, device_type } = this.props;
     const tz = moment.tz.guess();
-    let tenSecEarly = moment().subtract(30, 'd').format("YYYY-MM-DDThh:mm:ss");
-    let nowTime =  moment().add(1, 'd').format("YYYY-MM-DDThh:mm:ss");
+    let tenSecEarly = moment().subtract(10, 'sec').format("YYYY-MM-DDThh:mm:ss");
+    let nowTime =  moment().format("YYYY-MM-DDThh:mm:ss");
     return client(`${DATA_MANAGER_HOST}/sensor_data/${device_type}/${device.id}`, {
       method: 'GET',
       params: {

@@ -56,7 +56,7 @@ export const fetchSensorData = (type, id, startTime, endTime) => (dispatch, getS
     response => {
       dispatch({
         type: SUCCESS_SENSOR_DATA,
-        result: response.data,
+        result: _.sortBy(response.data, 'date'),
       });
     },
     error => {

@@ -51,7 +51,7 @@ app.get('/load-balance-test', (req, res) => {
   res.send(`Server is running on  Server # ${app.get('serveralias')}`);
 });
 return Promise.all([
-  mongoose.connect('mongodb://admin1:admin1@ds127644.mlab.com:27644/greenbuilding_data'),
+  mongoose.connect('mongodb://localhost/greenBuilding'),
   db.sequelize.sync(),
 ])
 .then(() => {

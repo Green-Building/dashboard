@@ -2,13 +2,10 @@
   "development": {
     "username": "root",
     "password": "password",
-    "database": "greenbuildinguser",
-    "host": "greenbuildinguser.c9b3b4ppbsbf.us-east-1.rds.amazonaws.com",
+    "database": "dashboard",
+    "host": "localhost",
     "dialect": "mysql",
-    "port": 3306,
-    "dialectOptions": {
-        "ssl": "Amazon RDS"
-    }
+    "port": 3306
   },
   "test": {
     "username": "root",
